@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.system.modlues.nt.dao.NtNoticeDao" >
+  <resultMap id="BaseResultMap" type="NtNotice" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="push_date" property="pushDate" jdbcType="DATE" />
+    <result column="pusher" property="pusher" jdbcType="VARCHAR" />
+     <association property="createBy"
+                 javaType="SysUser"
+                 column="create_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="updateBy"
+                 javaType="SysUser"
+                 column="update_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="ntNoticeType"
+                 javaType="NtNoticeType"
+                 column="type_id"
+                 select="selectNtNoticeTypeBase"
+                 >
+    </association>
+  </resultMap>
+   <select id="selectSysUserBase" resultType="SysUser">
+     select id,name from sys_user where id=#{xxx}
+  </select>
+    <select id="selectNtNoticeTypeBase" resultType="NtNoticeType">
+     select id,name from nt_notice_type where id=#{xxx}
+  </select>
+ 
+  <sql id="Base_Column_List" >
+    id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date,title,
+    pusher, type_id
+  </sql>
+  
+  
+  <select id="findList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from nt_notice a
+    <where>
+			a.del_flag = #{delFlag}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<!-- '%'||#{name}||'%' -->
+					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					CONCAT('%', #{name}, '%')
+			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
+			</if>
+		</where>   
+  </select>
+  <!-- 获取一个信息 -->
+  <select id="get" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from nt_notice
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from nt_notice
+    where id = #{id,jdbcType=VARCHAR}
+  </delete> -->
+  
+   <!-- 逻辑删除 -->
+  <update id="delete">
+		UPDATE nt_notice SET 
+			del_flag = 1
+		WHERE id = #{id}
+ </update>
+ 
+  <insert id="insert" >
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
+  
+    insert into nt_notice (id, create_by, create_date, 
+      update_by, update_date, del_flag, 
+      remark, text, push_date, 
+      pusher, title,type_id)
+    values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{pushDate,jdbcType=DATE}, 
+      <!-- #{pusher,jdbcType=VARCHAR}, --> #{title,jdbcType=VARCHAR},#{ntNoticeType.id,jdbcType=VARCHAR})
+  </insert>
+  
+ 
+ 
+  <update id="update" >
+    update nt_notice
+    set create_by = #{createBy.id,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      update_by = #{updateBy.id,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=DATE},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      text = #{text,jdbcType=VARCHAR},
+      push_date = #{pushDate,jdbcType=DATE},
+    <!--   pusher = #{pusher,jdbcType=VARCHAR}, -->
+      title = #{title,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

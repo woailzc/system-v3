@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.system.modlues.sys.dao.SysMenuDao" >
+  <resultMap id="BaseResultMap" type="SysMenu" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+     <association property="createBy"
+                 javaType="SysUser"
+                 column="create_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="updateBy"
+                 javaType="SysUser"
+                 column="update_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="fatherMenu"
+                 javaType="SysMenu"
+                 column="farther_menu"
+                 select="selectSysFatherMenuBase"
+                 >
+    </association>
+ <!--  <collection property="permissions" 
+               ofType="SysPermission" 
+               select="selectSysPermissionBase"
+               column="id">
+   </collection> -->
+    <collection property="sonMenu" 
+               ofType="SysMenu" 
+               select="selectSonSysMenuBase"
+               column="id">
+   </collection>
+  </resultMap>
+   <select id="selectSysUserBase" resultType="SysUser">
+     select * from sys_user where id=#{xxx}
+  </select>
+  <select id="selectSonSysMenuBase" resultType="SysMenu">
+  select id,menu_name,url from sys_menu where farther_menu = #{xxx}
+  </select>
+  <select id="selectSysFatherMenuBase" resultType="SysMenu">
+   select id,menu_name,url from sys_menu where id = #{xxx}
+  </select>
+ <!--  <select id="selectSysPermissionBase" resultType="SysPermission">
+  select id,name from sys_permission where menu_id = #{xxxx}
+  </select> -->
+  <!-- 查找菜单信息 -->
+  <sql id="Base_Column_List" >
+    a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag, a.remark, a.menu_name,a.url,a.farther_menu
+  </sql>
+  <select id="findList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu a
+    <where>
+			a.del_flag = #{delFlag} 
+			<if test="menuName != null and menuName != ''">
+				AND a.menu_name LIKE 
+					<!-- '%'||#{name}||'%' -->
+					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					CONCAT('%', #{menuName}, '%')
+			</if>
+			<!-- 查询顶级菜单 -->
+			<if test="fatherMenu != null and fatherMenu != '' and fatherMenu != null and fatherMenu != ''">
+				AND a.farther_menu IS NULL
+			</if>
+		</where>
+  </select>
+  <select id="get" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu a
+    where a.id = #{id,jdbcType=VARCHAR} 
+  </select>
+ <select id="">
+  select * from sys_menu where 
+ </select>
+  <insert id="insert" >
+   <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
+    insert into sys_menu (id, create_by, create_date, 
+      update_by, update_date, del_flag, 
+      remark, menu_name,url,farther_menu)
+    values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{fatherMenu.id,jdbcType=VARCHAR})
+  </insert>
+ <!-- 逻辑删除 -->
+  <update id="delete">
+		UPDATE sys_menu SET 
+			"del_flag" = 1
+		WHERE "id" = #{id}
+ </update>
+  <!-- <update id="update" >
+    update sys_role
+    set create_by = #{createBy.id,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      update_by = #{updateBy.id,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=DATE},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update> -->
+</mapper>

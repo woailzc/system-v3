@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+				http://www.springframework.org/schema/context
+				 http://www.springframework.org/schema/context/spring-context-3.2.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+				 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" /> <!--加载管理器-->
+		<property name="loginUrl" value="/a/login.do" />    <!--没有登录的时候，跳转到这个页面-->
+		<property name="unauthorizedUrl" value="/a/nopermission.do" /> <!--当没有权限的时候，跳转到这个url-->
+		 
+		<property name="filterChainDefinitions">
+			<value>
+				/a/login.do = anon <!--可以不需要登录-->
+				/a/readName = authc, perms[/readName]  perms 表示需要该权限才能访问的页面
+				/a/readData = authc, perms[/readData] 
+				/a/*= authc <!-- authc 表示需要认证才能访问的页面 -->
+			</value>
+		</property>
+	</bean>
+
+	<!-- 自定义Realm -->
+	<bean id="myShiroRealm" class="com.logistics.system.common.shiro.shiroReaml.LoginReaml">
+		<!-- businessManager 用来实现用户名密码的查询 -->
+	<!-- 	<property name="shiroService" ref="accountService" /> -->
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 注入realm -->
+		<property name="realm" ref="myShiroRealm"/>
+		<property name="rememberMeManager" ref="cookieRememberMeManager"/> 
+		<!-- <property name="rememberMeManager" ref="rememberMeManager" /> -->
+	</bean>
+  
+	<!--声明一个Service 注入到自定义Realm-->
+ 	<!-- <bean id="accountService" class="com.logistics.system.modlues.shiroTest.service.ShiroServiceImpl"/> -->
+	<!-- <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"> 
+		<property name="cacheManager" ref="cacheManager" /> </bean> -->
+   <!-- 配置rememberMe -->
+    <bean id="cookieRememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+      <property name="cookie" ref="cookie"/>
+   </bean>
+   <bean id="cookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+      <constructor-arg value="rememeberMe"/>
+      <property name="maxAge" value="2000000000"/>
+   </bean> 
+   <!-- remenberMe配置 -->
+	<!-- <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe" />
+		<property name="httpOnly" value="true" />
+		默认记住7天（单位：秒）
+		<property name="maxAge" value="604800" />
+	</bean>
+	rememberMe管理器
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+	     cipherKey是加密rememberMe Cookie的密钥；默认AES算法；
+		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+		即记住我的Cookie，保存时长7天；
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>
+ -->
+</beans>
