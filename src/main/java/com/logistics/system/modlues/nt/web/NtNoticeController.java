@@ -19,7 +19,7 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
 
 @Controller
-@RequestMapping("/a/ntNtice")
+@RequestMapping("/a/ntNotice")
 public class NtNoticeController {
 	
 	@Autowired
@@ -39,7 +39,7 @@ public class NtNoticeController {
 		List<NtNoticeType> ntNoticeTypes = ntNoticeTypeService.findList(new NtNoticeType());
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("ntNoticeTypes", ntNoticeTypes);
-		return "moudlues/sys/ntNotice_add.jsp";
+		return "moudlues/nt/ntNotice_add";
 		
 	}
 	
@@ -57,7 +57,7 @@ public class NtNoticeController {
 	public String list(Model model,NtNotice ntNotice){
 		List<NtNotice> ntNotices = ntNoticeService.findList(ntNotice);
 		model.addAttribute("ntNotices", ntNotices);
-		return "moudlues/sys/ntNotice_list";
+		return "moudlues/nt/ntNotice_list";
 	}
 	
 	@RequestMapping("/update.do")
@@ -66,17 +66,17 @@ public class NtNoticeController {
 			ntNoticeService.update(ntNotice);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/sys/ntNotice_update";
+			return "moudlues/nt/ntNotice_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
-		return "moudlues/sys/ntNotice_update";
+		return "moudlues/nt/ntNotice_update";
 		
 	}
-	//信息太少，暂时没有需求
 	@RequestMapping("/show.do")
 	public String show(Model model,NtNotice ntNotice){
-	
-		return null;
+	   NtNotice ntNotice2 = ntNoticeService.get(ntNotice);
+	   model.addAttribute("ntNotice", ntNotice2);
+		return "moudlues/nt/ntNotice_show";
 		
 	}
 

@@ -30,7 +30,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 部门中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-	  <form action="<%=basePath%>a/ntNticeType/list.do" method="post">
+	  <form action="<%=basePath%>a/ntNoticeType/list.do" method="post">
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜部门名字</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加部门','<%=basePath%>a/ntNticeType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加部门</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加部门','<%=basePath%>a/ntNoticeType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加部门</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -51,13 +51,13 @@
 			</tr>
 		</thead>
 		<tbody>
-		   <c:forEach items="${ntNoticeTypes }" var="ntNticeType">
+		   <c:forEach items="${ntNoticeTypes }" var="ntNoticeType">
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
-				<td>${ntNticeType.name}</td>
-				<td><fmt:formatDate value="${ntNticeType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${ntNticeType.createBy.name}</td>
-				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ntNticeType/update.do?id=${ntNticeType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ntNticeType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td>${ntNoticeType.name}</td>
+				<td><fmt:formatDate value="${ntNoticeType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${ntNoticeType.createBy.name}</td>
+				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ntNoticeType/update.do?id=${ntNoticeType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ntNoticeType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -147,7 +147,7 @@ function member_del(obj,id){
 		$.ajax({
 			type: 'POST',
 			data:{id:id},
-			url: '<%=basePath%>a/ntNticeType/del.do',
+			url: '<%=basePath%>a/ntNoticeType/del.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

@@ -29,11 +29,11 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>添加建言建策类型 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ntNoticeType/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/adAdviceType/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	     <input type="hidden" value="004" name="id" id="id" >

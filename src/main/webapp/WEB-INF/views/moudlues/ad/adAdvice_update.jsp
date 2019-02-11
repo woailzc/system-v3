@@ -29,18 +29,20 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>更新部门</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ntNoticeType/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
-	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	     <input type="hidden" value="004" name="id" id="id" >
+	<form action="<%=basePath%>/a/adAdvice/update.do" method="post" class="form form-horizontal">
+	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
+	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
+	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" required="required">
+				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
 			</div>
 		</div>
 		<div class="row cl">

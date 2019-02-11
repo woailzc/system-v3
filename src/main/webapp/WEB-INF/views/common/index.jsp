@@ -179,8 +179,8 @@
 			<dt><i class="Hui-iconfont">&#xe622;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="评论列表" href="javascript:;">评论列表</a></li>
-					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>
+					<li><a data-href="<%=basePath%>a/ntNotice/list.do" data-title="公告管理" href="javascript:;">公告管理</a></li>
+                    <li><a data-href="<%=basePath%>a/ntNoticeType/list.do" data-title="公告类型管理" href="javascript:;">公告类型管理</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -189,9 +189,10 @@
 			<dd>
 				<ul>
 					<!-- <li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="评论列表" href="javascript:;">评论列表</a></li>
-					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li> -->
-					<li><a data-href="<%=basePath%>a/ntNtice/list.do" data-title="公告管理" href="javascript:;">公告管理</a></li>
-                    <li><a data-href="<%=basePath%>a/ntNticeType/list.do" data-title="公告类型管理" href="javascript:;">公告类型管理</a></li>
+					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>  -->
+					<li><a data-href="<%=basePath%>a/adAdvice/list.do" data-title="建言建策管理" href="javascript:;">建言建策管理</a></li>
+                    <li><a data-href="<%=basePath%>a/adAdviceType/list.do" data-title="建言建策类型管理" href="javascript:;">建言建策类型管理</a></li>
+					
 					
 			</ul>
 		</dd>

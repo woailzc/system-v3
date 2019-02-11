@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.nt.dao.NtNoticeDao" >
-  <resultMap id="BaseResultMap" type="NtNotice" >
+<mapper namespace="com.logistics.system.modlues.ad.dao.AdAdviceDao" >
+  <resultMap id="BaseResultMap" type="AdAdvice" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
@@ -11,6 +11,8 @@
      <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="push_date" property="pushDate" jdbcType="DATE" />
     <result column="pusher" property="pusher" jdbcType="VARCHAR" />
+    <result column="aduitor" property="aduitor" jdbcType="VARCHAR" />
+    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -22,32 +24,43 @@
                  column="update_by"
                  select="selectSysUserBase"
                  >
+     </association>
+     <association property="pusher"
+                 javaType="SysUser"
+                 column="aduitor"
+                 select="selectSysUserBase"
+                 >
     </association>
-     <association property="ntNoticeType"
-                 javaType="NtNoticeType"
+     <association property="aduitor"
+                 javaType="SysUser"
+                 column="pusher"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="adAdviceType"
+                 javaType="AdAdviceType"
                  column="type_id"
-                 select="selectNtNoticeTypeBase"
+                 select="selectAdAdviceTypeBase"
                  >
     </association>
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
-    <select id="selectNtNoticeTypeBase" resultType="NtNoticeType">
-     select id,name from nt_notice_type where id=#{xxx}
+   <select id="selectAdAdviceTypeBase" resultType="AdAdviceType">
+     select id,name from ad_advice_type where id=#{xxx}
   </select>
- 
+
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date,title,
-    pusher, type_id
+    id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date, 
+    pusher, aduitor, suggestion, type_id,title
   </sql>
-  
   
   <select id="findList" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from nt_notice a
-    <where>
+    from ad_advice a
+     <where>
 			a.del_flag = #{delFlag}
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
@@ -60,44 +73,38 @@
 			</if>
 		</where>   
   </select>
-  <!-- 获取一个信息 -->
-  <select id="get" resultMap="BaseResultMap"  >
+  
+  <select id="get" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from nt_notice
+    from ad_advice
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from nt_notice
+<!--   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ad_advice
     where id = #{id,jdbcType=VARCHAR}
   </delete> -->
-  
-   <!-- 逻辑删除 -->
+ <!-- 逻辑删除 -->
   <update id="delete">
-		UPDATE nt_notice SET 
+		UPDATE ad_advice SET 
 			del_flag = 1
 		WHERE id = #{id}
  </update>
- 
   <insert id="insert" >
-  <selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select  replace(uuid(),'-','')   from dual
-    </selectKey>
-  
-    insert into nt_notice (id, create_by, create_date, 
+    insert into ad_advice (id, create_by, create_date, 
       update_by, update_date, del_flag, 
       remark, text, push_date, 
-     <!--  pusher, --> title,type_id)
+      pusher, aduitor, suggestion,title, 
+      type_id)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{pushDate,jdbcType=DATE}, 
-      <!-- #{pusher,jdbcType=VARCHAR}, --> #{title,jdbcType=VARCHAR},#{ntNoticeType.id,jdbcType=VARCHAR})
+      #{pusher.id,jdbcType=VARCHAR}, #{aduitor.id,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR},  #{title,jdbcType=VARCHAR},
+      #{adAdviceType.id,jdbcType=VARCHAR})
   </insert>
-  
- 
  
   <update id="update" >
-    update nt_notice
+    update ad_advice
     set create_by = #{createBy.id,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       update_by = #{updateBy.id,jdbcType=VARCHAR},
@@ -106,9 +113,11 @@
       remark = #{remark,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},
       push_date = #{pushDate,jdbcType=DATE},
-    <!--   pusher = #{pusher,jdbcType=VARCHAR}, -->
+      pusher = #{pusher.id,jdbcType=VARCHAR},
+      aduitor = #{aduitor.id,jdbcType=VARCHAR},
+      suggestion = #{suggestion,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=VARCHAR}
+      type_id = #{adAdviceType.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
