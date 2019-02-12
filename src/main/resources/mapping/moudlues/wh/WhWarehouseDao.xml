@@ -12,6 +12,7 @@
     <result column="min_inventory" property="minInventory" jdbcType="INTEGER" />
     <result column="current_inventory" property="currentInventory" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="computing_unit" property="computingUnit" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -40,7 +41,7 @@
   
   
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id, 
+    id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id,computing_unit, 
     max_inventory, min_inventory, current_inventory, status
   </sql>
   <select id="findList" resultMap="BaseResultMap">
@@ -69,12 +70,12 @@
       update_by, update_date, del_flag, 
       remark, name, type_id, 
       max_inventory, min_inventory, current_inventory, 
-      status)
+      status,computing_unit)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{whWarehouseType.id,jdbcType=VARCHAR}, 
       #{maxInventory,jdbcType=INTEGER}, #{minInventory,jdbcType=INTEGER}, #{currentInventory,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR},#{computingUnit,jdbcType=VARCHAR})
   </insert>
  
   <update id="update"  >
@@ -90,7 +91,8 @@
       max_inventory = #{maxInventory,jdbcType=INTEGER},
       min_inventory = #{minInventory,jdbcType=INTEGER},
       current_inventory = #{currentInventory,jdbcType=INTEGER},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      computing_unit = #{computingUnit,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

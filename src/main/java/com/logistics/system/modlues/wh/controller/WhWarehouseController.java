@@ -66,6 +66,7 @@ public class WhWarehouseController {
 			model.addAttribute("msg", msg);
 			return "moudlues/wh/whWarehouse_update";
 		}
+		model.addAttribute("whWarehouse",whWarehouseService.get(whWarehouse.getId()));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/wh/whWarehouse_update";
 		

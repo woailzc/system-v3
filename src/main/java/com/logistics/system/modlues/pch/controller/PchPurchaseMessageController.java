@@ -1,0 +1,82 @@
+package com.logistics.system.modlues.pch.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.logistics.system.modlues.pch.entity.PchPurchaseMessage;
+import com.logistics.system.modlues.pch.entity.PchPurchaseType;
+import com.logistics.system.modlues.pch.service.PchPurchaseMessagService;
+import com.logistics.system.modlues.pch.service.PchPurchaseTypeService;
+import com.logistics.system.modlues.sys.entity.SysUser;
+
+@Controller
+@RequestMapping("/a/pchPurchaseMessage")
+public class PchPurchaseMessageController {
+	
+	@Autowired
+	PchPurchaseMessagService pchPurchaseMessageService;
+	
+	@Autowired
+	PchPurchaseTypeService pchPurchaseTypeService;
+	
+	@RequestMapping("/save.do")
+	public String save(Model model,PchPurchaseMessage pchPurchaseMessage){
+		
+		if (pchPurchaseMessage !=null && pchPurchaseMessage.getDelFlag().equals("0")) {
+			pchPurchaseMessageService.save(pchPurchaseMessage);
+			String msg = "添加成功!";
+			model.addAttribute("msg", msg);
+		}
+		List<PchPurchaseType> pchPurchaseTypes = pchPurchaseTypeService.findList(new PchPurchaseType());
+		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("pchPurchaseTypes", pchPurchaseTypes);
+		return "moudlues/pch/pchPurchaseMessage_add";
+		
+	}
+	
+
+
+	@RequestMapping("/del.do")
+	@ResponseBody
+	public String del(Model model,PchPurchaseMessage pchPurchaseMessage){
+		pchPurchaseMessageService.delete(pchPurchaseMessage);
+		  return "删除成功";
+		
+	}
+	
+	@RequestMapping("/list.do")
+	public String list(Model model,PchPurchaseMessage pchPurchaseMessage){
+		List<PchPurchaseMessage> pchPurchaseMessages = pchPurchaseMessageService.findList(pchPurchaseMessage);
+		model.addAttribute("pchPurchaseMessages", pchPurchaseMessages);
+		return "moudlues/pch/pchPurchaseMessage_list";
+	}
+	
+	@RequestMapping("/update.do")
+	public String update(Model model,PchPurchaseMessage pchPurchaseMessage){
+		if (pchPurchaseMessage !=null && pchPurchaseMessage.getDelFlag().equals("0")) {
+			pchPurchaseMessageService.update(pchPurchaseMessage);
+			String msg = "修改成功!";
+			model.addAttribute("msg", msg);
+			return "moudlues/pch/pchPurchaseMessage_update";
+		}
+		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		return "moudlues/pch/pchPurchaseMessage_update";
+		
+	}
+	@RequestMapping("/show.do")
+	public String show(Model model,PchPurchaseMessage pchPurchaseMessage){
+	   PchPurchaseMessage pchPurchaseMessage2 = pchPurchaseMessageService.get(pchPurchaseMessage);
+	   model.addAttribute("pchPurchaseMessage", pchPurchaseMessage2);
+		return "moudlues/pch/pchPurchaseMessage_show";
+		
+	}
+
+}
