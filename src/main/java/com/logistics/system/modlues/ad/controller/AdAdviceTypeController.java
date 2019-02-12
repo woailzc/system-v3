@@ -25,10 +25,10 @@ public class AdAdviceTypeController {
 	AdAdviceTypeService adAdviceTypeService;
 	
 	@RequestMapping("/save.do")
-	public String save(Model model,AdAdviceType noticeType){
+	public String save(Model model,AdAdviceType adAdviceType){
 		
-		if (noticeType !=null && noticeType.getDelFlag().equals("0")) {
-			adAdviceTypeService.save(noticeType);
+		if (adAdviceType !=null && adAdviceType.getDelFlag().equals("0")) {
+			adAdviceTypeService.save(adAdviceType);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
 		}
@@ -39,23 +39,23 @@ public class AdAdviceTypeController {
 	
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,AdAdviceType noticeType){
-		adAdviceTypeService.delete(noticeType);
+	public String del(Model model,AdAdviceType adAdviceType){
+		adAdviceTypeService.delete(adAdviceType);
 		  return "删除成功";
 		
 	}
 	
 	@RequestMapping("/list.do")
-	public String list(Model model,AdAdviceType noticeType){
-		List<AdAdviceType> adAdviceTypes = adAdviceTypeService.findList(noticeType);
+	public String list(Model model,AdAdviceType adAdviceType){
+		List<AdAdviceType> adAdviceTypes = adAdviceTypeService.findList(adAdviceType);
 		model.addAttribute("adAdviceTypes", adAdviceTypes);
 		return "moudlues/ad/adAdviceType_list";
 	}
 	
 	@RequestMapping("/update.do")
-	public String update(Model model,AdAdviceType noticeType){
-		if (noticeType !=null && noticeType.getDelFlag().equals("0")) {
-			adAdviceTypeService.update(noticeType);
+	public String update(Model model,AdAdviceType adAdviceType){
+		if (adAdviceType !=null && adAdviceType.getDelFlag().equals("0")) {
+			adAdviceTypeService.update(adAdviceType);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
 			return "moudlues/ad/adAdviceType_update";
@@ -66,7 +66,7 @@ public class AdAdviceTypeController {
 	}
 	//信息太少，暂时没有需求
 	@RequestMapping("/show.do")
-	public String show(Model model,AdAdviceType noticeType){
+	public String show(Model model,AdAdviceType adAdviceType){
 	
 		return null;
 		
