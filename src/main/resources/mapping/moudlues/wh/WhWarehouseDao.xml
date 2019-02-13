@@ -66,6 +66,9 @@
 		WHERE id = #{id}
  </update>
   <insert id="insert" >
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
     insert into wh_warehouse (id, create_by, create_date, 
       update_by, update_date, del_flag, 
       remark, name, type_id, 

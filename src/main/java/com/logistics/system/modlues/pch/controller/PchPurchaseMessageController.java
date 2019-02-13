@@ -16,6 +16,8 @@ import com.logistics.system.modlues.pch.entity.PchPurchaseType;
 import com.logistics.system.modlues.pch.service.PchPurchaseMessagService;
 import com.logistics.system.modlues.pch.service.PchPurchaseTypeService;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.logistics.system.modlues.wh.entity.WhWarehouse;
+import com.logistics.system.modlues.wh.service.WhWarehouseService;
 
 @Controller
 @RequestMapping("/a/pchPurchaseMessage")
@@ -27,6 +29,9 @@ public class PchPurchaseMessageController {
 	@Autowired
 	PchPurchaseTypeService pchPurchaseTypeService;
 	
+	@Autowired
+	WhWarehouseService whWarehouseService;
+	
 	@RequestMapping("/save.do")
 	public String save(Model model,PchPurchaseMessage pchPurchaseMessage){
 		
@@ -36,8 +41,10 @@ public class PchPurchaseMessageController {
 			model.addAttribute("msg", msg);
 		}
 		List<PchPurchaseType> pchPurchaseTypes = pchPurchaseTypeService.findList(new PchPurchaseType());
+		List<WhWarehouse> whWarehouses = whWarehouseService.findList(new WhWarehouse());
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("pchPurchaseTypes", pchPurchaseTypes);
+		model.addAttribute("whWarehouses", whWarehouses);
 		return "moudlues/pch/pchPurchaseMessage_add";
 		
 	}
@@ -78,5 +85,17 @@ public class PchPurchaseMessageController {
 		return "moudlues/pch/pchPurchaseMessage_show";
 		
 	}
+	//获取仓库的计量单位
+	@RequestMapping("/getWhWharehouseComputingUnit.do")
+	@ResponseBody
+	public Object getWhWharehouseComputingUnit(Model model,WhWarehouse whWarehouse){
+	   WhWarehouse warehouse = whWarehouseService.get(whWarehouse);
+	   model.addAttribute("whWarehouse", warehouse);
+	   HashMap<String, Object> date = new HashMap<>();
+	   date.put("computingUnit", warehouse.getComputingUnit());
+		return date;
+		
+	}
+	
 
 }

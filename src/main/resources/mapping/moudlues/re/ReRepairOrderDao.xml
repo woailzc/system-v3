@@ -1,124 +1,130 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.ad.dao.AdAdviceDao" >
-  <resultMap id="BaseResultMap" type="AdAdvice" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+<mapper namespace="com.logistics.system.modlues.re.dao.ReRepairOrderDao" >
+  <resultMap id="BaseResultMap" type="ReRepairOrder" >
+   <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="text" property="text" jdbcType="VARCHAR" />
-     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="push_date" property="pushDate" jdbcType="DATE" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+    <result column="apply_date" property="applyDate" jdbcType="DATE" />
+    <result column="recevie_date" property="recevieDate" jdbcType="DATE" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
                  select="selectSysUserBase"
                  >
     </association>
-     <association property="updateBy"
+    <association property="updateBy"
                  javaType="SysUser"
                  column="update_by"
                  select="selectSysUserBase"
                  >
-     </association>
-     <association property="pusher"
+    </association>
+     <association property="applyer"
                  javaType="SysUser"
-                 column="pusher"
+                 column="applyer"
                  select="selectSysUserBase"
                  >
     </association>
-     <association property="aduitor"
+        <association property="receiver"
                  javaType="SysUser"
-                 column="aduitor"
+                 column="receiver"
                  select="selectSysUserBase"
                  >
     </association>
-     <association property="adAdviceType"
-                 javaType="AdAdviceType"
+     <association property="repairOrderType"
+                 javaType="ReRepairOrderType"
                  column="type_id"
-                 select="selectAdAdviceTypeBase"
+                 select="selectReRepairOrderTypeBase"
                  >
     </association>
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
-   <select id="selectAdAdviceTypeBase" resultType="AdAdviceType">
-     select id,name from ad_advice_type where id=#{xxx}
+    <select id="selectReRepairOrderTypeBase" resultType="ReRepairOrderType">
+     select id,name from re_repair_order_type where id=#{xxx}
   </select>
-
-  <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date, 
-    pusher, aduitor, suggestion, type_id,title
+ 
+   <sql id="Base_Column_List" >
+    id, create_by, create_date, update_by, update_date, del_flag, remark, applyer, receiver, 
+    type_id, reason, suggestion, apply_date, recevie_date
   </sql>
+  
   
   <select id="findList" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from ad_advice a
-     <where>
+    from re_repair_order a
+    <where>
 			a.del_flag = #{delFlag}
-			<if test="title != null and title != ''">
-				AND a.title LIKE 
+			<if test="suggestion != null and suggestion != ''">
+				AND a.suggestion LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{title}, '%')
+					CONCAT('%', #{suggestion}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
 			</if>
 		</where>   
   </select>
-  
-  <select id="get" resultMap="BaseResultMap" >
+  <!-- 获取一个信息 -->
+  <select id="get" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
-    from ad_advice
+    from re_repair_order
     where id = #{id,jdbcType=VARCHAR}
   </select>
-<!--   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from ad_advice
+  <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from nt_notice
     where id = #{id,jdbcType=VARCHAR}
   </delete> -->
- <!-- 逻辑删除 -->
+  
+   <!-- 逻辑删除 -->
   <update id="delete">
-		UPDATE ad_advice SET 
+		UPDATE re_repair_order SET 
 			del_flag = 1
 		WHERE id = #{id}
  </update>
+ 
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
-    insert into ad_advice (id, create_by, create_date, 
+  
+      insert into re_repair_order (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, text, push_date, 
-      pusher, aduitor, suggestion,title, 
-      type_id)
+      remark, applyer, receiver, 
+      type_id, reason, suggestion, 
+      apply_date, recevie_date)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{pushDate,jdbcType=DATE}, 
-      #{pusher.id,jdbcType=VARCHAR}, #{aduitor.id,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR},  #{title,jdbcType=VARCHAR},
-      #{adAdviceType.id,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{applyer.id,jdbcType=VARCHAR}, #{receiver.id,jdbcType=VARCHAR}, 
+      #{repairOrderType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
+      #{applyDate,jdbcType=DATE}, #{recevieDate,jdbcType=DATE})
   </insert>
+  
+ 
  
   <update id="update" >
-    update ad_advice
+  update re_repair_order
     set create_by = #{createBy.id,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
       del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      text = #{text,jdbcType=VARCHAR},
-      push_date = #{pushDate,jdbcType=DATE},
-      pusher = #{pusher.id,jdbcType=VARCHAR},
-      aduitor = #{aduitor.id,jdbcType=VARCHAR},
+      applyer = #{applyer.id,jdbcType=VARCHAR},
+      receiver = #{receiver.id,jdbcType=VARCHAR},
+      type_id = #{repairOrderType.id,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
       suggestion = #{suggestion,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
-      type_id = #{adAdviceType.id,jdbcType=VARCHAR}
+      apply_date = #{applyDate,jdbcType=DATE},
+      recevie_date = #{recevieDate,jdbcType=DATE}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

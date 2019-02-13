@@ -36,23 +36,37 @@
 </head>
 <body>
 <div class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-article-add">
+	<form action="<%=basePath%>/a/pchPurchaseMessage/save.do" method="post" class="form form-horizontal" id="form-article-add">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" onclick="getComputingUnit()">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+			<select name="pchPurchaseType.id" class="select">
+			       <option>请选择</option>
 			  <c:forEach items="${pchPurchaseTypes }" var="pchPurchaseType">
-				<select name="pchPurchaseType.id" class="select">
-					<option value="${pchPurchaseType.id }">${pchPurchaseType.name }</option>
-				</select>
-			</c:forEach>
+					<option value="${pchPurchaseType.id }" >${pchPurchaseType.name }</option>
+			  </c:forEach>
+			</select>
 				</span> </div>
 		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>仓库：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="whWarehouse.id" class="select" onchange="getComputingUnit()" id="whWarehouse">
+				     <option>请选择</option>
+			      <c:forEach items="${whWarehouses }" var="whWarehouse">
+					<option value="${whWarehouse.id }" >${whWarehouse.name }</option>
+				  </c:forEach>
+				</select>
+				</span> </div>
+		</div>
+	
 		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">排序值：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -100,9 +114,10 @@
 			<label class="form-label col-xs-4 col-sm-2">购买的数量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" name="num" id="num" placeholder="" value="" class="input-text">
+				<input type="text" name="computingUnit" id="computingUnit" placeholder="" value="" class="input-text" readonly="readonly">
 			</div>
 		</div>
-		<div class="row cl">
+		 <!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">计算单位：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" id="computingUnit" name="computingUnit">
@@ -115,7 +130,7 @@
 				</select>
 				</span> </div>
 		</div>
-		
+		 -->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">花费总价：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -123,7 +138,7 @@
 				元</div>
 		</div>
 	
-		<div class="row cl">
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">采购开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:180px;">
@@ -134,7 +149,7 @@
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:180px;">
 			</div>
-		</div>
+		</div> -->
 	
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">产品摘要：</label>
@@ -182,9 +197,9 @@
 		</div> -->
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
-				<button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
-				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+<!-- 				<button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
+ -->				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
 			</div>
 		</div>
 	</form>
@@ -206,13 +221,35 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
 <script type="text/javascript" src="<%=basePath%>static/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+
+	$("#whWarehouse").change(function(){
+		var id = $("#whWarehouse").val();
+        alert(id);
+			$.ajax({
+				type: 'POST',
+				data:{id:id},
+				url: '<%=basePath%>a/pchPurchaseMessage/getWhWharehouseComputingUnit.do',
+				dataType: 'json',
+				success: function(data){
+					alert(data.computingUnit);
+					$("#computingUnit").val(data.computingUnit);
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});		
+	}); 
+});
+</script>
+<script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 	});
-	
+		
 	$list = $("#fileList"),
 	$btn = $("#btn-star"),
 	state = "pending",

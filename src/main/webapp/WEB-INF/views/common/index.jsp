@@ -95,9 +95,8 @@
 			<dt><i class="Hui-iconfont">&#xe620;</i> 采购管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>
-					<li><a data-href="product-category.html" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
-					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>
+					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/list.do" data-title="采购管理" href="javascript:void(0)">采购管理</a></li>
+					<li><a data-href="<%=basePath%>a/pchPurchaseType/list.do" data-title="采购管理类型" href="javascript:void(0)">采购管理类型</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -106,9 +105,8 @@
 			<dt><i class="Hui-iconfont">&#xe620;</i> 仓库管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>
-					<li><a data-href="product-category.html" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
-					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>
+					<li><a data-href="<%=basePath%>a/whWarehouse/list.do" data-title="仓库管理" href="javascript:void(0)">仓库管理</a></li>
+					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库管理类型管理" href="javascript:void(0)">仓库管理类型管理</a></li>
 			</ul>
 		</dd>
 	</dl>

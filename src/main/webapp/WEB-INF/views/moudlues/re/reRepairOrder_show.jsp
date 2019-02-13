@@ -23,7 +23,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>建言建策查看</title>
+<title>公告查看</title>
 </head>
 <body>
 
@@ -32,11 +32,11 @@
 		<tbody>
 			<tr>
 				<th class="text-r" width="80">标题：</th>
-				<td>${adAdvice.title }</td>
+				<td>${reRepairOrder.id }</td>
 			</tr>
 			<tr>
 				<th class="text-r">内容：</th>
-				<td>${adAdvice.text }</td>
+				<td>${reRepairOrder.id }</td>
 			</tr>
 			<%-- <tr>
 				<th class="text-r">发送时间：</th>

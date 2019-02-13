@@ -11,7 +11,7 @@
     <result column="purchase_start_date" property="purchaseStartDate" jdbcType="DATE" />
     <result column="purchase_end_date" property="purchaseEndDate" jdbcType="DATE" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
-    <result column="num" property="num" jdbcType="INT" />
+    <result column="num" property="num" jdbcType="INTEGER" />
     <result column="spend" property="spend" jdbcType="DOUBLE" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
     <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
@@ -61,7 +61,7 @@
     from pch_purchase_message a
      <where>
 			a.del_flag = #{delFlag}
-			<if test="title != null and title != ''">
+			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
@@ -90,6 +90,9 @@
 		WHERE id = #{id}
  </update>
   <insert id="insert" >
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
    insert into pch_purchase_message (id, create_by, create_date, purchase_end_date,purchase_start_date
       update_by, update_date, del_flag, 
       remark, name, 
@@ -98,7 +101,7 @@
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},  #{purchaseEndDate,jdbcType=DATE},  #{purchaseStartDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{purchaseType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{num,jdbcType=INT}, 
+      #{purchaseType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
       #{whWarehouse.id,jdbcType=VARCHAR}, #{spend,jdbcType=DOUBLE} #{supplier,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR})
   </insert>
  
@@ -115,7 +118,7 @@
       purchase_end_date = #{purchaseEndDate,jdbcType=DATE},
       type_id = #{purchaseType.id,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR},
-      num = #{num,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
       warehouse_id = #{whWarehouse.id,jdbcType=VARCHAR},
       spend = #{spend,jdbcType=DOUBLE}
     where id = #{id,jdbcType=VARCHAR}
