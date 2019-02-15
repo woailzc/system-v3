@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.system.modlues.cl.dao.ClCleanDao" >
+  <resultMap id="BaseResultMap" type="ClClean" >
+     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="clean_by" property="cleanBy" jdbcType="VARCHAR" />
+    <result column="clean_adress" property="cleanAdress" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+    <result column="auditor" property="auditor" jdbcType="VARCHAR" />
+     <association property="createBy"
+                 javaType="SysUser"
+                 column="create_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+    <association property="updateBy"
+                 javaType="SysUser"
+                 column="update_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="auditor"
+                 javaType="SysUser"
+                 column="auditor"
+                 select="selectSysUserBase"
+                 >
+    </association>
+    <association property="cleanBy"
+                 javaType="SysUser"
+                 column="clean_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+
+  </resultMap>
+   <select id="selectSysUserBase" resultType="SysUser">
+     select id,name from sys_user where id=#{xxx}
+  </select>
+  
+  <sql id="Base_Column_List" >
+    id, create_by, create_date, update_by, update_date, del_flag, remark, clean_by, clean_adress, 
+    start_date, end_date, suggestion, auditor
+  </sql>
+  
+  
+  <select id="findList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from cl_clean a
+    <where>
+			a.del_flag = #{delFlag}
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<!-- '%'||#{name}||'%' -->
+					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					CONCAT('%', #{title}, '%')
+			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
+			</if>
+		</where>   
+  </select>
+  <!-- 获取一个信息 -->
+  <select id="get" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from cl_clean
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from nt_notice
+    where id = #{id,jdbcType=VARCHAR}
+  </delete> -->
+  
+   <!-- 逻辑删除 -->
+  <update id="delete">
+		UPDATE cl_clean SET 
+			del_flag = 1
+		WHERE id = #{id}
+ </update>
+ 
+  <insert id="insert" >
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
+  
+     insert into cl_clean (id, create_by, create_date, 
+      update_by, update_date, del_flag, 
+      remark, clean_by, clean_adress, 
+      start_date, end_date, suggestion, 
+      auditor)
+    values (#{id,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{cleanBy,jdbcType=VARCHAR}, #{cleanAdress,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{suggestion,jdbcType=VARCHAR}, 
+      #{auditor,jdbcType=VARCHAR})
+  </insert>
+  
+ 
+ 
+  <update id="update" >
+   update cl_clean
+    set create_by = #{createBy.id,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      update_by = #{updateBy.id,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=DATE},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      clean_by = #{cleanBy.id,jdbcType=VARCHAR},
+      clean_adress = #{cleanAdress,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      suggestion = #{suggestion,jdbcType=VARCHAR},
+      auditor = #{auditor.id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
