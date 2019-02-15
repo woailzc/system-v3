@@ -49,11 +49,11 @@
     from ctn_food a
     <where>
 			a.del_flag = #{delFlag}
-			<if test="title != null and title != ''">
-				AND a.title LIKE 
+			<if test="remark != null and remark != ''">
+				AND a.remark LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{title}, '%')
+					CONCAT('%', #{remark}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')

@@ -108,7 +108,7 @@
       push_date = #{pushDate,jdbcType=DATE},
     <!--   pusher = #{pusher,jdbcType=VARCHAR}, -->
       title = #{title,jdbcType=VARCHAR},
-      type_id = #{typeId,jdbcType=VARCHAR}
+      type_id = #{ntNoticeType.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -5,10 +5,12 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.logistics.system.modlues.redisTest.service.RedisSendService;
 import com.logistics.system.modlues.shiroTest.entity.User;
 import com.logistics.system.modlues.sys.entity.SysUser;
 
@@ -16,6 +18,8 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 @Controller
 @RequestMapping("/a")
 public class LoginController {
+	@Autowired
+	RedisSendService redisSendService;
 	
 	@RequestMapping("/login.do")
 	public String login(Model model ,SysUser sysUser){
@@ -37,6 +41,7 @@ public class LoginController {
 	            subject.login(token);
 	            model.addAttribute("message", "登录完成");
 	            System.out.println("登录完成");
+	            redisSendService.sendMessage("channel1", "登录完成");
 	            return "redirect:" + "/a/index.do";	
 	        } catch (UnknownAccountException e) {
 	            model.addAttribute("message", "账号密码不正确");

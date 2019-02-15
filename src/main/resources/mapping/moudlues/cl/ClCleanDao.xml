@@ -3,18 +3,14 @@
 <mapper namespace="com.logistics.system.modlues.cl.dao.ClCleanDao" >
   <resultMap id="BaseResultMap" type="ClClean" >
      <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="clean_by" property="cleanBy" jdbcType="VARCHAR" />
     <result column="clean_adress" property="cleanAdress" jdbcType="VARCHAR" />
     <result column="start_date" property="startDate" jdbcType="DATE" />
     <result column="end_date" property="endDate" jdbcType="DATE" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
-    <result column="auditor" property="auditor" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -57,11 +53,11 @@
     from cl_clean a
     <where>
 			a.del_flag = #{delFlag}
-			<if test="title != null and title != ''">
-				AND a.title LIKE 
+			<if test="remark != null and remark != ''">
+				AND a.remark LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{title}, '%')
+					CONCAT('%', #{remark}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')

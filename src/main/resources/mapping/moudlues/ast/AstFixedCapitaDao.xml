@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.ctn.dao.CtnMenuDao" >
-  <resultMap id="BaseResultMap" type="CtnMenu" >
-   <id column="id" property="id" jdbcType="VARCHAR" />
+<mapper namespace="com.logistics.system.modlues.ast.dao.AstFixedCapitalDao" >
+  <resultMap id="BaseResultMap" type="AstFixedCapital" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+     <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="photo" property="photo" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -23,29 +22,29 @@
                  select="selectSysUserBase"
                  >
     </association>
- 
+
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
-  
- <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, name, describe, 
-    price, photo
+    
+ 
+  <sql id="Base_Column_List" >
+    id, create_by, create_date, update_by, update_date, del_flag, remark, amount, source,name
   </sql>
   
   
   <select id="findList" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from ctn_menu a
+    from ast_fixed_capital a
     <where>
 			a.del_flag = #{delFlag}
-			<if test="remark != null and remark != ''">
-				AND a.remark LIKE 
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{remark}, '%')
+					CONCAT('%', #{name}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
@@ -56,7 +55,7 @@
   <select id="get" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
-    from ctn_menu
+    from ast_fixed_capital
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -66,7 +65,7 @@
   
    <!-- 逻辑删除 -->
   <update id="delete">
-		UPDATE ctn_menu SET 
+		UPDATE ast_fixed_capital SET 
 			del_flag = 1
 		WHERE id = #{id}
  </update>
@@ -76,30 +75,28 @@
         select  replace(uuid(),'-','')   from dual
     </selectKey>
   
-     insert into ctn_menu (id, create_by, create_date, 
+    insert into ast_fixed_capital (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, name, describe, 
-    price,photo)
+      remark, amount, source,name)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DOUBLE}, ,#{photo,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{source,jdbcType=DATE}, 
+      <!-- #{pusher,jdbcType=VARCHAR}, --> #{name,jdbcType=VARCHAR})
   </insert>
   
  
  
   <update id="update" >
-     update ctn_menu
+    update ast_fixed_capital
     set create_by = #{createBy.id,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
       del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
-      photo = #{photo,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      source = #{source,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
