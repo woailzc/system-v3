@@ -52,12 +52,12 @@
 				<input type="password" class="input-text" value="" placeholder="" id="password" name="password">
 			</div>
 		</div>
-		<!-- <div class="row cl">
+	   <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>出生年月日：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text"  id="brithday" name="brithday" class="input-text Wdate" style="width:120px;" >
+				<input type="text"  id="brithday" name="brithday" onfocus="WdatePicker({ brithday:'#F{$dp.$D(\'brithday\')}',brithday:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" >
 			</div>
-		</div> -->
+		</div> 
 		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址：</label>

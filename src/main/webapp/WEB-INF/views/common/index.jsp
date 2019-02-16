@@ -203,7 +203,9 @@
 				<ul>
 					<li><a data-href="<%=basePath%>a/sysUser/list.do" data-title="用户管理" href="javascript:;">用户管理</a></li>
                     <li><a data-href="<%=basePath%>a/sysDepartment/list.do" data-title="部门管理" href="javascript:;">部门管理</a></li>
-                    <li><a data-href="<%=basePath%>a/sysUser/list.do" data-title="修改个人信息" href="javascript:;">修改个人信息</a></li>
+                    <li><a data-href="<%=basePath%>a/sysUser/update.do" data-title="修改个人信息" href="javascript:;">修改个人信息</a></li>
+                    <li><a data-href="<%=basePath%>a/sysUser/updatePassword.do" data-title="修改密码" href="javascript:;">修改密码</a></li>
+                    <li><a data-href="<%=basePath%>a/sysUser/updatePhoto.do" data-title="修改个人头像" href="javascript:;">修改个人头像</a></li>
                 </ul>
 		</dd>
 	</dl>

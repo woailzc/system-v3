@@ -28,17 +28,16 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>修改密码 - 会员管理 - H-ui.admin v3.1</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<title>修改密码 </title>
 </head>
 <body>
+
 <article class="page-container">
 	<form action="<%=basePath%>a/sysUser/updatePassword.do" method="post" class="form form-horizontal" id="form-change-password">
-	  <input type="hidden" value="${sysOUser.id }"name="id" id="id">
+	  <input type="hidden" value="${sysUser.id }"name="id" id="id">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>登录名：</label>
-			<div class="formControls col-xs-8 col-sm-9"> ${sysOUser.loginName } </div>
+			<div class="formControls col-xs-8 col-sm-9"> ${sysUser.loginName } </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>新密码：</label>

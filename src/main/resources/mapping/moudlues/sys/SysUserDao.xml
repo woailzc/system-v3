@@ -110,25 +110,36 @@
       #{photo,jdbcType=VARCHAR}, #{adress,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{brithday,jdbcType=DATE}, #{sysDepartment.id,jdbcType=VARCHAR})
   </insert>
- 
+ <!-- 更新用户密码 -->
+	<update id="updatePasswordById">
+		UPDATE sys_user SET 
+			password = #{password} 
+		WHERE id = #{id}
+	</update>
+	 <!-- 更新用户头像 -->
+	<update id="updatePhoto">
+		UPDATE sys_user SET 
+			photo = #{photo} 
+		WHERE id = #{id}
+	</update>
   <!-- <select id="countByExample" parameterType="com.demo.pojo.SysUserExample" resultType="java.lang.Integer" >
     select count(*) from sys_user
   </select> -->
 <!--   更新用户 -->
   <update id="update"  >
     update sys_user
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set <!-- create_by = #{createBy.id,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE}, -->
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
+     <!--  del_flag = #{delFlag,jdbcType=VARCHAR}, -->
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       loginName = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR},
+    <!--   photo = #{photo,jdbcType=VARCHAR}, -->
       adress = #{adress,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       brithday = #{brithday,jdbcType=DATE},

@@ -66,6 +66,9 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{title}, '%')
 			</if>
+		    <if test="pusher != null and pusher.id != null and pusher.id != ''">
+				OR a.pusher  = #{pusher.id}
+			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
 			</if>
@@ -106,11 +109,10 @@
  
   <update id="update" >
     update ad_advice
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
+     
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},
       push_date = #{pushDate,jdbcType=DATE},

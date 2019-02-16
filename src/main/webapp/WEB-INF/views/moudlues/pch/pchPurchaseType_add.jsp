@@ -36,7 +36,6 @@
 	<form action="<%=basePath%>/a/pchPurchaseType/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	     <input type="hidden" value="004" name="id" id="id" >
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">

@@ -10,4 +10,8 @@ import java.util.List;
 
 public interface SysUserDao extends CrudDao<SysUser> {
 
+	public void updatePasswordById(SysUser sysUser);
+	
+	public void updatePhoto(SysUser sysUser);
+
 }

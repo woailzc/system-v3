@@ -85,6 +85,11 @@ public class SysUserController {
 	public String updateForPost(Model model,SysUser sysUser){
 //		String passwordMD5 =DigestUtils.md5Hex(sysOUser.getPassword());
 //		sysOUser.setPassword(passwordMD5);
+		if(sysUser.getId()==null || sysUser.getId()==""){
+			SysUser currentUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+			sysUser.setId(currentUser.getId());
+			}
+		sysUserService.update(sysUser);
 		String msg = "修改成功!";
 		model.addAttribute("msg", msg);
 		return "moudlues/sysMsgM/sysMsgM_SysOUserUpdate";
@@ -93,26 +98,53 @@ public class SysUserController {
 	@RequestMapping(value="/update.do",method=RequestMethod.GET)
 	public String updateForGet(Model model,SysUser sysUser){
 		model.addAttribute("currentSysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		if(sysUser.getId() == null || sysUser.getId() == ""){
+			model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+			return "moudlues/sys/sysUser_update";
+		}
+		sysUserService.get(sysUser);
+		model.addAttribute("sysUser", sysUser);
 		return "moudlues/sys/sysUser_update";
 	}
 	//post更新密码
 	@RequestMapping(value="/updatePassword.do",method=RequestMethod.POST)
 	public String updatePasswordForPost(Model model,SysUser sysUser){
 //		String passwordMD5 =DigestUtils.md5Hex(sysOUser.getPassword());
-		
-		return "moudlues/sysMsgM/sysMsgM_SysOUserUpdatePassword";
+		sysUserService.updatePasswordById(sysUser);
+		return "moudlues/sys/sysUser_updatePassword";
 	}
 	//get更新密码
 	@RequestMapping(value="/updatePassword.do",method=RequestMethod.GET)
 	public String updatePasswordForGet(Model model,SysUser sysUser){
-	
-		return "moudlues/sysMsgM/sysMsgM_SysOUserUpdatePassword";
+		 model.addAttribute("currentSysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+	     if(sysUser.getId() == null || sysUser.getId() == ""){
+	    	 model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+			 return "moudlues/sys/sysUser_updatePassword";
+	     }
+	     SysUser sysUser2 = sysUserService.get(sysUser);
+	     model.addAttribute("sysUser", sysUser2);
+		return "moudlues/sys/sysUser_updatePassword";
+	}
+	//更新头像
+	@RequestMapping(value="/updatePhoto.do",method=RequestMethod.POST)
+	public String updatePhotoForPost(Model model,@RequestParam MultipartFile Mphoto,SysUser sysUser,HttpSession session) throws IllegalStateException, IOException{
+		 model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		 sysUserService.updatePhoto(sysUser, Mphoto, session);
+		return "moudlues/sys/sysUser_updatePhoto";
+		
+	}
+	@RequestMapping(value="/updatePhoto.do",method=RequestMethod.GET)
+	public String updatePhotoForGet(Model model,SysUser sysUser){
+		 model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		return "moudlues/sys/sysUser_updatePhoto";
+		
 	}
 	//逻辑上删除
 	@RequestMapping("/del.do")
 	@ResponseBody
 	public String del(Model model,SysUser sysUser){
-	    return null;
+		sysUserService.delete(sysUser);
+	    return "删除成功";
 	}
 	//查询个人信息
 	@RequestMapping("/show.do")

@@ -8,7 +8,7 @@
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="text" property="describe" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
      <association property="createBy"
@@ -30,7 +30,7 @@
   </select>
   
  <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, name, describe, 
+    id, create_by, create_date, update_by, update_date, del_flag, remark, name, text, 
     price, photo
   </sql>
   
@@ -78,7 +78,7 @@
   
      insert into ctn_menu (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, name, describe, 
+      remark, name, text, 
     price,photo)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
@@ -90,14 +90,12 @@
  
   <update id="update" >
      update ctn_menu
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      text = #{describe,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
       photo = #{photo,jdbcType=VARCHAR},
     where id = #{id,jdbcType=VARCHAR}

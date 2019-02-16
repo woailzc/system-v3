@@ -19,7 +19,7 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
 
 @Controller
-@RequestMapping("/a/astWorkingCapital")
+@RequestMapping("/a/astSpecialCapital")
 public class AstSpecialController {
 	
 	@Autowired

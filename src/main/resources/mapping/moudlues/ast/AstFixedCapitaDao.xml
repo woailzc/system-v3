@@ -88,11 +88,9 @@
  
   <update id="update" >
     update ast_fixed_capital
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=DOUBLE},
       source = #{source,jdbcType=VARCHAR},

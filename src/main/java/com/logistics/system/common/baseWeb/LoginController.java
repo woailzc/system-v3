@@ -2,6 +2,7 @@ package com.logistics.system.common.baseWeb;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -30,7 +31,7 @@ public class LoginController {
 	        	return "common/login";
 	        }
 	        // 登录后存放进shiro token
-	        UsernamePasswordToken token=new UsernamePasswordToken(sysUser.getLoginName(),sysUser.getPassword());
+	        UsernamePasswordToken token=new UsernamePasswordToken(sysUser.getLoginName(),sysUser.getPassword(),sysUser.isRememberMe());
 	        //登录方法（认证是否通过）
 	        //使用subject调用securityManager,安全管理器调用Realm
 	        try {
@@ -44,6 +45,10 @@ public class LoginController {
 	            redisSendService.sendMessage("channel1", "登录完成");
 	            return "redirect:" + "/a/index.do";	
 	        } catch (UnknownAccountException e) {
+	            model.addAttribute("message", "账号密码不正确");
+	            return "common/login";
+	        }
+	        catch (IncorrectCredentialsException e) {
 	            model.addAttribute("message", "账号密码不正确");
 	            return "common/login";
 	        }

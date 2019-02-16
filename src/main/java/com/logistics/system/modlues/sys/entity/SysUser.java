@@ -3,6 +3,8 @@ package com.logistics.system.modlues.sys.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 
 public class SysUser extends DataEntity<SysUser> implements Serializable {
@@ -22,7 +24,8 @@ public class SysUser extends DataEntity<SysUser> implements Serializable {
     private String adress;
 
     private String sex;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date brithday;
     
     private boolean rememberMe;
