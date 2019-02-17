@@ -40,8 +40,10 @@ public class PchPurchaseMessageController {
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
 		}
+		WhWarehouse whWarehouse = new WhWarehouse();
+		whWarehouse.setStatus("启用中");
 		List<PchPurchaseType> pchPurchaseTypes = pchPurchaseTypeService.findList(new PchPurchaseType());
-		List<WhWarehouse> whWarehouses = whWarehouseService.findList(new WhWarehouse());
+		List<WhWarehouse> whWarehouses = whWarehouseService.findList(whWarehouse);
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("pchPurchaseTypes", pchPurchaseTypes);
 		model.addAttribute("whWarehouses", whWarehouses);
@@ -96,6 +98,15 @@ public class PchPurchaseMessageController {
 		return date;
 		
 	}
-	
+	//限制物品的大小
+	@RequestMapping("/getWhWharehouseComputingUnit.do")
+	@ResponseBody
+	public Object limitNum(Model model,WhWarehouse whWarehouse){
+	  
+	   HashMap<String, Object> date = new HashMap<>();
+	   date.put("computingUnit", warehouse.getComputingUnit());
+		return date;
+		
+	}
 
 }

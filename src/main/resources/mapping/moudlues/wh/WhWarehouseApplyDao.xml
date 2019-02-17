@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.wh.dao.WhWarehouseDao" >
-  <resultMap id="BaseResultMap" type="WhWarehouse" >
+<mapper namespace="com.logistics.system.modlues.wh.dao.WhWarehouseApplyDao" >
+  <resultMap id="BaseResultMap" type="WhWarehouseApply" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="max_inventory" property="maxInventory" jdbcType="INTEGER" />
-    <result column="min_inventory" property="minInventory" jdbcType="INTEGER" />
-    <result column="current_inventory" property="currentInventory" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="computing_unit" property="computingUnit" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -25,38 +21,40 @@
                  select="selectSysUserBase"
                  >
      </association>
-      <association property="whWarehouseType"
-                 javaType="WhWarehouseType"
-                 column="type_id"
-                 select="selectWhWarehouseTypeBase"
+      <association property="auditor"
+                 javaType="SysUser"
+                 column="auditor"
+                 select="selectSysUserBase"
+                 >
+     </association>
+      <association property="whWarehouse"
+                 javaType="WhWarehouse"
+                 column="auditor"
+                 select="selectSysUserBase"
                  >
      </association>
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
-   <select id="selectWhWarehouseTypeBase" resultType="WhWarehouseType">
-     select id,name from wh_warehouse_type where id=#{xxx}
+   <select id="selectWhWarehouseBase" resultType="WhWarehouse">
+     select id,name from wh_warehouse where id=#{xxx}
   </select>
   
-  
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id,computing_unit, 
-    max_inventory, min_inventory, current_inventory, status
+    id, create_by, create_date, update_by, update_date, del_flag, remark, reason,suggestion, auditor,whWarehouse
   </sql>
   <select id="findList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from wh_warehouse a
+    from wh_warehouse_apply a
      <where>
 			a.del_flag = #{delFlag}
-			<if test="name != null and name != ''">
-				AND a.name LIKE 
+			<if test="reason != null and reason != ''">
+				AND a.reason LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{name}, '%')
-			</if><if test="status != null and status != ''">
-				AND a.status =  #{status}
+					CONCAT('%', #{reason}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
@@ -66,7 +64,7 @@
   <select id="get" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from wh_warehouse
+    from wh_warehouse_apply
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -75,34 +73,31 @@
   </delete> -->
    <!-- 逻辑删除 -->
   <update id="delete">
-		UPDATE wh_warehouse SET 
+		UPDATE wh_warehouse_apply SET 
 			del_flag = 1
 		WHERE id = #{id}
  </update>
-<!--  更新状态 -->
- <update id="updateStatus">
-		UPDATE wh_warehouse SET 
-			status = #{status}
+<!--  更新建议 -->
+  <update id="updateSuggestion">
+		UPDATE wh_warehouse_apply SET 
+			suggestion = #{suggestion}
 		WHERE id = #{id}
  </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
-    insert into wh_warehouse (id, create_by, create_date, 
+    insert into wh_warehouse_apply (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, name, type_id, 
-      max_inventory, min_inventory, current_inventory, 
-      status,computing_unit)
+      remark,  reason,suggestion, auditor,whWarehouse)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{whWarehouseType.id,jdbcType=VARCHAR}, 
-      #{maxInventory,jdbcType=INTEGER}, #{minInventory,jdbcType=INTEGER}, #{currentInventory,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR},#{computingUnit,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
+      #{auditor.id,jdbcType=VARCHAR}, #{whWarehouse.id,jdbcType=VARCHAR})
   </insert>
  
-  <update id="update"  >
-    update wh_warehouse
+<!--   <update id="update"  >
+    update wh_warehouse_apply
     set create_by = #{createBy.id,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       update_by = #{updateBy.id,jdbcType=VARCHAR},
@@ -117,5 +112,5 @@
       status = #{status,jdbcType=VARCHAR},
       computing_unit = #{computingUnit,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
-  </update>
+  </update> -->
 </mapper>

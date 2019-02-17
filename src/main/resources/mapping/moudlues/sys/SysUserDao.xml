@@ -68,6 +68,12 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{name}, '%')
 			</if>
+			<if test="id != null and id != ''">
+				AND a.id =#{id}
+					<!-- '%'||#{name}||'%' -->
+					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					
+			</if>
 		</where>
   </select>
  <!--  获取一个用户信息 -->
@@ -89,8 +95,8 @@
    <!-- 逻辑删除用户 -->
   <update id="delete">
 		UPDATE sys_user SET 
-			"del_flag" = 1
-		WHERE "id" = #{id}
+			del_flag = 1
+		WHERE id = #{id}
  </update>
  <!-- 插入一个用户 -->
   <insert id="insert"  >

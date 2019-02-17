@@ -16,6 +16,7 @@ import com.logistics.system.modlues.ad.entity.AdAdviceType;
 import com.logistics.system.modlues.ad.service.AdAdviceService;
 import com.logistics.system.modlues.ad.service.AdAdviceTypeService;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.logistics.system.modlues.sys.service.SysUserService;
 
 @Controller
 @RequestMapping("/a/adAdvice")
@@ -27,6 +28,9 @@ public class AdAdviceController {
 	@Autowired
 	AdAdviceTypeService adAdviceTypeService;
 	
+	@Autowired
+	SysUserService sysUserService;
+	
 	@RequestMapping("/save.do")
 	public String save(Model model,AdAdvice adAdvice){
 		
@@ -36,7 +40,9 @@ public class AdAdviceController {
 			model.addAttribute("msg", msg);
 		}
 		List<AdAdviceType> adAdviceTypes = adAdviceTypeService.findList(new AdAdviceType());
+		List<SysUser> aduitors = sysUserService.findList(new SysUser(null,"000"));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("aduitors", aduitors);
 		model.addAttribute("adAdviceTypes", adAdviceTypes);
 		return "moudlues/ad/adAdvice_add";
 		
@@ -46,15 +52,21 @@ public class AdAdviceController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,AdAdvice adAdvice){
+	public Object del(Model model,AdAdvice adAdvice){
 		adAdviceService.delete(adAdvice);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	
 	@RequestMapping("/list.do")
 	public String list(Model model,AdAdvice adAdvice){
+		SysUser currentUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+		adAdvice.setAduitor(currentUser);
+		adAdvice.setPusher(currentUser);
 		List<AdAdvice> adAdvices = adAdviceService.findList(adAdvice);
+		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("adAdvices", adAdvices);
 		return "moudlues/ad/adAdvice_list";
 	}
@@ -78,5 +90,17 @@ public class AdAdviceController {
 		return "moudlues/ad/adAdvice_show";
 		
 	}
-
+	//审核
+	@RequestMapping("/aduit.do")
+	public String aduit(Model model,AdAdvice adAdvice){
+		if (adAdvice !=null && adAdvice.getDelFlag().equals("0")) {
+			adAdviceService.aduit(adAdvice);
+			String msg = "已审核!";
+			model.addAttribute("msg", msg);
+			return "moudlues/ad/adAdvice_aduit";
+		}
+	   model.addAttribute("adAdvice", adAdviceService.get(adAdvice));
+		return "moudlues/ad/adAdvice_aduit";
+		
+	}
 }

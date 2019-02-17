@@ -24,43 +24,40 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>建言建策管理</title>
+<title>申请列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 建言建策中心 <span class="c-gray en">&gt;</span> 公告管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 申请列表中心 <span class="c-gray en">&gt;</span> 申请列表<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-	  <form action="<%=basePath%>a/adAdvice/list.do" method="post">
+	  <form action="<%=basePath%>a/whWarehouseApply/list.do" method="post">
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入标题" id="title" name="title">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入原因" id="reason" name="reason">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/adAdvice/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 建言建策</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/whWarehouseApply/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
 				<th width="100">创建时间</th>
 				<th width="40">创建人</th>
-				<th width="40">状态</th>
+				<th width="40">意见</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		   <c:forEach items="${adAdvices }" var="adAdvice">
+		   <c:forEach items="${whWarehouseApplys }" var="whWarehouseApply">
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${adAdvice.title}','<%=basePath%>a/adAdvice/show.do?id=${adAdvice.id}','10001','360','400')">${adAdvice.title}</u></td>
-				<td><fmt:formatDate value="${adAdvice.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${adAdvice.createBy.name}</td>
-				<td class="td-status"><span class="label label-success radius">${adAdvice.status}</span></td>
-				<td class="td-manage"><a title="审核" href="javascript:;" onclick="member_edit('审核','<%=basePath%>a/adAdvice/aduit.do?id=${adAdvice.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${adAdvice.id }','${currentUser.id == adAdvice.pusher.id? '1':'0' }','${currentUser.id == adAdvice.aduitor.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-				
+				<td><fmt:formatDate value="${whWarehouseApply.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${whWarehouseApply.createBy.name}</td>
+				<td>${whWarehouseApply.suggestion}</td>
+				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouseApply/update.do?id=${whWarehouseApply.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${whWarehouseApply.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -145,12 +142,12 @@ function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);	
 }
 /*用户-删除*/
-function member_del(obj,id,pusherDelFlag,aduitDelFlag){
+function member_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{pusherDelFlag:pusherDelFlag,aduitorDelFlag:aduitDelFlag,id:id},
-			url: '<%=basePath%>a/adAdvice/del.do',
+			data:{id:id},
+			url: '<%=basePath%>a/whWarehouseApply/del.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

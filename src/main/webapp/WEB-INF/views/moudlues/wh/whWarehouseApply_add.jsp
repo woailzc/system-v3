@@ -29,54 +29,33 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>建言建策 </title>
+<title>添加部门 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/adAdvice/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/whWarehouseApply/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	    <input type="hidden" value="${sysUser.id}" name="pusher.id" id="pusher.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	     <input type="hidden" value="${nowDate}" name="pushDate" id="pushDate">
-	     <input type="hidden" value="未查看" name="status" id="status">
+		<input type="hidden" value="申请中" name="suggestion" id="suggestion">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+			<label class="form-label col-xs-4 col-sm-3">申请原因：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">内容：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="text" name="text"></textarea>
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="reason" name="reason"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>申请的仓库：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="type.id" id="type.id" required="required">
-					<option value="" selected>请选择公告的类型</option>
-					<c:forEach items="${adAdviceTypes}" var="adAdviceType">
-					<option value="${adAdviceType.id }">${adAdviceType.name }</option>
+				<select class="select" size="1" name="whWarehouse.id" id="whWarehouse.id" required="required">
+					<option value="" selected>请选择空闲的仓库</option>
+					<c:forEach items="${whWarehouses}" var="whWarehouse">
+					<option value="${whWarehouse.id }">${whWarehouse.name }</option>
 					</c:forEach>
 				</select>
 				</span> 
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>提交的对象：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="aduitor.id" id="aduitor.id" required="required">
-					<option value="" selected>请选择提交的对象</option>
-					<c:forEach items="${aduitors}" var="aduitor">
-					<option value="${aduitor.id }">${aduitor.name }</option>
-					</c:forEach>
-				</select>
-				</span> 
-			</div>
-		</div>
-	
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">

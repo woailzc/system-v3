@@ -137,19 +137,21 @@
 				<input type="text" name="spend" id="spend" placeholder="" value="" class="input-text" style="width:90%">
 				元</div>
 		</div>
-	
-		<!-- <div class="row cl">
+	 <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">采购开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:180px;">
+				<!-- <input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:180px;"> -->
+				<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'purchaseEndDate\')||\'%y-%M-%d\'}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:120px;" >
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">采购结束时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:180px;">
+				<!-- <input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:180px;"> -->
+				<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'purchaseStartDate\')}',maxDate:'%y-%M-%d' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:120px;" >
+				
 			</div>
-		</div> -->
+		</div>
 	
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">产品摘要：</label>
@@ -222,24 +224,39 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-
+  /**获取仓库的计算单位**/
 	$("#whWarehouse").change(function(){
 		var id = $("#whWarehouse").val();
-        alert(id);
 			$.ajax({
 				type: 'POST',
 				data:{id:id},
 				url: '<%=basePath%>a/pchPurchaseMessage/getWhWharehouseComputingUnit.do',
 				dataType: 'json',
 				success: function(data){
-					alert(data.computingUnit);
 					$("#computingUnit").val(data.computingUnit);
 				},
 				error:function(data) {
 					console.log(data.msg);
 				},
 			});		
-	}); 
+	});
+	 /**限制数量的大小**/
+	 $("input").blur(function(){
+				var num = $("#num").val();
+				var id = $("#whWarehouse").val();
+					$.ajax({
+						type: 'POST',
+						data:{num:num},
+						url: '<%=basePath%>a/pchPurchaseMessage/getWhWharehouseComputingUnit.do',
+						dataType: 'json',
+						success: function(data){
+							$("#computingUnit").val(data.computingUnit);
+						},
+						error:function(data) {
+							console.log(data.msg);
+						},
+					});		
+			});
 });
 </script>
 <script type="text/javascript">

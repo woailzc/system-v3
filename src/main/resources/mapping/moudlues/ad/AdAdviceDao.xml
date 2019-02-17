@@ -11,6 +11,9 @@
      <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="push_date" property="pushDate" jdbcType="DATE" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+     <result column="status" property="status" jdbcType="VARCHAR" />
+     <result column="pusher_del_flag" property="pusherDelFlag" jdbcType="VARCHAR" />
+     <result column="aduitor_del_flag" property="aduitorDelFlag" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -51,7 +54,7 @@
 
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date, 
-    pusher, aduitor, suggestion, type_id,title
+    pusher, aduitor, suggestion, type_id,title,status,pusher_del_flag,aduitor_del_flag
   </sql>
   
   <select id="findList" resultMap="BaseResultMap" >
@@ -66,8 +69,8 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{title}, '%')
 			</if>
-		    <if test="pusher != null and pusher.id != null and pusher.id != ''">
-				OR a.pusher  = #{pusher.id}
+		    <if test="pusher != null and pusher.id != null and pusher.id != ''or(aduitor != null and aduitor.id != '')" >
+				and ((a.pusher  = #{pusher.id} and pusher_del_flag ='0') or (a.aduitor = #{pusher.id} and aduitor_del_flag =0))
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
@@ -86,9 +89,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete> -->
  <!-- 逻辑删除 -->
-  <update id="delete">
+<!--   <update id="delete">
 		UPDATE ad_advice SET 
 			del_flag = 1
+		WHERE id = #{id}
+ </update> -->
+ <update id="delete">
+		UPDATE ad_advice SET 
+			pusher_del_flag = #{pusherDelFlag},aduitor_del_flag = #{aduitorDelFlag}
 		WHERE id = #{id}
  </update>
   <insert id="insert" >
@@ -99,18 +107,23 @@
       update_by, update_date, del_flag, 
       remark, text, push_date, 
       pusher, aduitor, suggestion,title, 
-      type_id)
+      type_id,status,pusher_del_flag,aduitor_del_flag)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{pushDate,jdbcType=DATE}, 
       #{pusher.id,jdbcType=VARCHAR}, #{aduitor.id,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR},  #{title,jdbcType=VARCHAR},
-      #{adAdviceType.id,jdbcType=VARCHAR})
+      #{adAdviceType.id,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},#{pusherDelFlag,jdbcType=VARCHAR},#{aduitorDelFlag,jdbcType=VARCHAR})
   </insert>
- 
+  <!-- 审核 -->
+  <update id="aduit">
+  update ad_advice
+    set suggestion = #{suggestion,jdbcType=VARCHAR},
+    status = #{status,jdbcType=VARCHAR}
+     where id = #{id,jdbcType=VARCHAR}
+  </update>
   <update id="update" >
     update ad_advice
     set 
-     
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR},
@@ -118,8 +131,8 @@
       push_date = #{pushDate,jdbcType=DATE},
       pusher = #{pusher.id,jdbcType=VARCHAR},
       aduitor = #{aduitor.id,jdbcType=VARCHAR},
-      suggestion = #{suggestion,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
+<!--       suggestion = #{suggestion,jdbcType=VARCHAR},
+ -->      title = #{title,jdbcType=VARCHAR},
       type_id = #{adAdviceType.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

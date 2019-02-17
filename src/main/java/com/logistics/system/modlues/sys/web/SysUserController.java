@@ -92,7 +92,7 @@ public class SysUserController {
 		sysUserService.update(sysUser);
 		String msg = "修改成功!";
 		model.addAttribute("msg", msg);
-		return "moudlues/sysMsgM/sysMsgM_SysOUserUpdate";
+		return "moudlues/sys/sysUser_update";
 	}
 	//get请求的更新，不做更新，只负责跳转页面
 	@RequestMapping(value="/update.do",method=RequestMethod.GET)
@@ -102,8 +102,8 @@ public class SysUserController {
 			model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 			return "moudlues/sys/sysUser_update";
 		}
-		sysUserService.get(sysUser);
-		model.addAttribute("sysUser", sysUser);
+		SysUser sysUser2 = sysUserService.get(sysUser);
+		model.addAttribute("sysUser", sysUser2);
 		return "moudlues/sys/sysUser_update";
 	}
 	//post更新密码
@@ -142,9 +142,11 @@ public class SysUserController {
 	//逻辑上删除
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,SysUser sysUser){
+	public Object del(Model model,SysUser sysUser){
 		sysUserService.delete(sysUser);
-	    return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 	}
 	//查询个人信息
 	@RequestMapping("/show.do")

@@ -93,7 +93,7 @@
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
-   insert into pch_purchase_message (id, create_by, create_date, purchase_end_date,purchase_start_date
+   insert into pch_purchase_message (id, create_by, create_date, purchase_end_date,purchase_start_date,
       update_by, update_date, del_flag, 
       remark, name, 
       type_id, reason, num, 

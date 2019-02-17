@@ -39,6 +39,10 @@ public class SysUser extends DataEntity<SysUser> implements Serializable {
     public SysUser(String loginName){
     	this.loginName = loginName;
     }
+    public SysUser(String loginName,String id){
+    	this.loginName = loginName;
+    	this.id = id;
+    }
 
     public String getName() {
         return name;

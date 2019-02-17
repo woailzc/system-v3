@@ -17,16 +17,28 @@ public class AdAdvice extends DataEntity<AdAdvice>{
     private SysUser aduitor;
 
     private String suggestion;
+    
+    private String status;
+    
+    private String pusherDelFlag;
+    
+    private String aduitorDelFlag;
 
     private AdAdviceType adAdviceType;
     
-    public AdAdvice(){};
+    public AdAdvice() {
+		super();
+		this.pusherDelFlag = "0";
+		this.aduitorDelFlag = "0";
+	}
     
     public AdAdvice(String id){
     	this.id = id;
     }
 
-    public String getText() {
+   
+
+	public String getText() {
         return text;
     }
 
@@ -80,6 +92,30 @@ public class AdAdvice extends DataEntity<AdAdvice>{
 
 	public void setAdAdviceType(AdAdviceType adAdviceType) {
 		this.adAdviceType = adAdviceType;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPusherDelFlag() {
+		return pusherDelFlag;
+	}
+
+	public void setPusherDelFlag(String pusherDelFlag) {
+		this.pusherDelFlag = pusherDelFlag;
+	}
+
+	public String getAduitorDelFlag() {
+		return aduitorDelFlag;
+	}
+
+	public void setAduitorDelFlag(String aduitorDelFlag) {
+		this.aduitorDelFlag = aduitorDelFlag;
 	}
 
 }

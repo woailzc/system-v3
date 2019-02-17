@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.wh.entity.WhWarehouse;
+import com.logistics.system.modlues.wh.entity.WhWarehouseApply;
 import com.logistics.system.modlues.wh.entity.WhWarehouseType;
 import com.logistics.system.modlues.wh.service.WhWarehouseService;
 import com.logistics.system.modlues.wh.service.WhWarehouseTypeService;
@@ -76,6 +77,20 @@ public class WhWarehouseController {
 	   WhWarehouse whWarehouse2 = whWarehouseService.get(whWarehouse);
 	   model.addAttribute("WhWarehouse", whWarehouse2);
 		return "moudlues/wh/whWarehouse_show";
+		
+	}
+	//审核
+	@RequestMapping("/audit.do")
+	@ResponseBody
+	public Object audit(Model model,WhWarehouse whWarehouse){
+		WhWarehouseApply whWarehouseApply = new WhWarehouseApply();
+		if(whWarehouse.getStatus().equals("空闲")) whWarehouseApply.setSuggestion("不通过！");
+		if(whWarehouse.getStatus().equals("启用中")) whWarehouseApply.setSuggestion("通过！");
+	    whWarehouseService.aduit(whWarehouse, whWarehouseApply);
+	   model.addAttribute("WhWarehouse", whWarehouseApply);
+	   HashMap<String, Object> data = new HashMap<>();
+	   data.put("status", whWarehouse.getStatus());
+		return data;
 		
 	}
 

@@ -107,7 +107,7 @@
 				<ul>
 					<li><a data-href="<%=basePath%>a/whWarehouse/list.do" data-title="仓库管理" href="javascript:void(0)">仓库管理</a></li>
 					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库管理类型管理" href="javascript:void(0)">仓库管理类型管理</a></li>
-					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
+					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
 			</ul>
 		</dd>
 	</dl>

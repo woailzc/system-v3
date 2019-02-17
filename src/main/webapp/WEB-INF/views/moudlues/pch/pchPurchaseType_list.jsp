@@ -159,6 +159,24 @@ function member_del(obj,id){
 		});		
 	});
 }
+/*限制数量的多少*/
+ function limit_num(obj,id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				type: 'POST',
+				data:{id:id},
+				url: '<%=basePath%>a/pchPurchaseType/del.do',
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});		
+		});
+	}
 </script> 
 </body>
 </html>

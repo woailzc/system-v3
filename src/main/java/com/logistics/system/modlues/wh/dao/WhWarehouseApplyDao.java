@@ -1,4 +1,4 @@
-package com.logistics.system.modlues.ad.dao;
+package com.logistics.system.modlues.wh.dao;
 
 
 import org.apache.ibatis.annotations.Param;
@@ -8,11 +8,13 @@ import com.logistics.system.modlues.ad.entity.AdAdvice;
 import com.logistics.system.modlues.nt.entity.NtNotice;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.logistics.system.modlues.wh.entity.WhWarehouse;
+import com.logistics.system.modlues.wh.entity.WhWarehouseApply;
 
 import java.util.List;
 
-public interface AdAdviceDao extends CrudDao<AdAdvice> {
+public interface WhWarehouseApplyDao extends CrudDao<WhWarehouseApply> {
 	
-	public void aduit(AdAdvice adAdvice);
+	public void updateSuggestion(WhWarehouseApply warehouseApply);
 
 }

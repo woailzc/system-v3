@@ -18,8 +18,14 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class AdAdviceService extends CrudService<AdAdviceDao, AdAdvice>{
+	@Autowired
+	AdAdviceDao adAdviceDao;
+	
+	public void aduit(AdAdvice adAdvice){
+		adAdviceDao.aduit(adAdvice);
+	}
 	
 
 }

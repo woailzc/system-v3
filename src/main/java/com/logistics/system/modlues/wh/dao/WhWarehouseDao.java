@@ -13,5 +13,7 @@ import com.logistics.system.modlues.wh.entity.WhWarehouse;
 import java.util.List;
 
 public interface WhWarehouseDao extends CrudDao<WhWarehouse> {
+	
+	public void updateStatus(WhWarehouse warehouse);
 
 }
