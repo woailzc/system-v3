@@ -47,9 +47,11 @@ public class WhWarehouseApplyController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,WhWarehouseApply warehouseApply){
+	public Object del(Model model,WhWarehouseApply warehouseApply){
 		whWarehouseApplyService.delete(warehouseApply);
-		  return "删除成功";
+		 HashMap<String, Object> data = new HashMap<>();
+		   data.put("del","删除成功" );
+			return data;
 		
 	}
 	

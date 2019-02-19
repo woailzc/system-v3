@@ -19,6 +19,8 @@ public class WhWarehouse extends DataEntity<WhWarehouse> {
 
     private String status;
     
+    private WhWarehouseAndApplyCode whWarehouseAndApplyCode;//申请表和仓库表之间的一次申请记录的申请码
+    
     public WhWarehouse(){};
     
     public WhWarehouse(String id){
@@ -80,6 +82,14 @@ public class WhWarehouse extends DataEntity<WhWarehouse> {
 
 	public void setComputingUnit(String computingUnit) {
 		this.computingUnit = computingUnit;
+	}
+
+	public WhWarehouseAndApplyCode getWhWarehouseAndApplyCode() {
+		return whWarehouseAndApplyCode;
+	}
+
+	public void setWhWarehouseAndApplyCode(WhWarehouseAndApplyCode whWarehouseAndApplyCode) {
+		this.whWarehouseAndApplyCode = whWarehouseAndApplyCode;
 	}
     
 }

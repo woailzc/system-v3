@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.wh.entity.WhWarehouse;
+import com.logistics.system.modlues.wh.entity.WhWarehouseAndApplyCode;
 import com.logistics.system.modlues.wh.entity.WhWarehouseApply;
 import com.logistics.system.modlues.wh.entity.WhWarehouseType;
+import com.logistics.system.modlues.wh.service.WhWarehouseAndApplyCodeService;
 import com.logistics.system.modlues.wh.service.WhWarehouseService;
 import com.logistics.system.modlues.wh.service.WhWarehouseTypeService;
 
@@ -26,6 +28,9 @@ public class WhWarehouseController {
 	
 	@Autowired
 	WhWarehouseTypeService whWarehouseTypeService;
+	
+	@Autowired
+	WhWarehouseAndApplyCodeService whWarehouseAndApplyCodeService;
 	
 	@RequestMapping("/save.do")
 	public String save(Model model,WhWarehouse whWarehouse){
@@ -47,9 +52,11 @@ public class WhWarehouseController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,WhWarehouse whWarehouse){
+	public Object del(Model model,WhWarehouse whWarehouse){
 		whWarehouseService.delete(whWarehouse);
-		  return "删除成功";
+		   HashMap<String, Object> data = new HashMap<>();
+		   data.put("del","删除成功" );
+			return data;
 		
 	}
 	
@@ -84,9 +91,21 @@ public class WhWarehouseController {
 	@RequestMapping("/audit.do")
 	@ResponseBody
 	public Object audit(Model model,WhWarehouse whWarehouse){
-		WhWarehouseApply whWarehouseApply = new WhWarehouseApply();
-		if(whWarehouse.getStatus().equals("空闲")) whWarehouseApply.setSuggestion("不通过！");
-		if(whWarehouse.getStatus().equals("启用中")) whWarehouseApply.setSuggestion("通过！");
+		WhWarehouse whWarehouse2 =  whWarehouseService.get(whWarehouse);
+		if(whWarehouse2 == null) return null;
+		WhWarehouseAndApplyCode whWarehouseAndApplyCode = whWarehouseAndApplyCodeService.get(whWarehouse2.getWhWarehouseAndApplyCode());
+		if(whWarehouseAndApplyCode == null) return null;
+		WhWarehouseApply whWarehouseApply = whWarehouseAndApplyCode.getWhWarehouseApply();
+		if(whWarehouseApply == null) return null;
+		if(whWarehouse.getStatus().equals("空闲")) {
+			
+			whWarehouseApply.setSuggestion("不通过！");
+			
+		}
+		if(whWarehouse.getStatus().equals("启用中")){ 
+			whWarehouseApply.setSuggestion("通过！");
+		
+		}
 	    whWarehouseService.aduit(whWarehouse, whWarehouseApply);
 	   model.addAttribute("WhWarehouse", whWarehouseApply);
 	   HashMap<String, Object> data = new HashMap<>();
@@ -94,5 +113,24 @@ public class WhWarehouseController {
 		return data;
 		
 	}
+//停用
+	@RequestMapping("/stop.do")
+	@ResponseBody
+	public Object stop(Model model,WhWarehouse whWarehouse){
+	   whWarehouseService.stop(whWarehouse);
+	   HashMap<String, Object> data = new HashMap<>();
+	   data.put("status", whWarehouse.getStatus());
+		return data;
+		
+	}
+	//删除多条
+	@RequestMapping("/dels.do")
+	@ResponseBody
+	public Object dels(Model model,int[] ids){
+		   HashMap<String, Object> data = new HashMap<>();
+		   data.put("data", "删除");
+			return data;
+			
+		}
 
 }

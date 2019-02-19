@@ -27,26 +27,26 @@
                  select="selectSysUserBase"
                  >
      </association>
-     <association property="whWarehouse"
+      <association property="whWarehouse"
                  javaType="WhWarehouse"
                  column="warehouse_id"
                  select="selectWhWharehouseBase"
                  >
-    </association>
+    </association> 
      <association property="purchaseType"
                  javaType="PchPurchaseType"
                  column="type_id"
                  select="selectPchPurchaseTypeBase"
                  >
-    </association>
+    </association> 
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
    <select id="selectPchPurchaseTypeBase" resultType="PchPurchaseType">
      select id,name from pch_purchase_type where id=#{xxx}
-  </select>
-  <select id="selectWhWharehouseBase" resultType="PchPurchaseType">
+  </select> 
+  <select id="selectWhWharehouseBase" resultType="WhWarehouse">
      select id,name from wh_warehouse where id=#{xxx}
   </select>
 
@@ -102,7 +102,7 @@
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{purchaseType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
-      #{whWarehouse.id,jdbcType=VARCHAR}, #{spend,jdbcType=DOUBLE} #{supplier,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR})
+      #{whWarehouse.id,jdbcType=VARCHAR}, #{spend,jdbcType=DOUBLE} ,#{supplier,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR})
   </insert>
  
   <update id="update" >

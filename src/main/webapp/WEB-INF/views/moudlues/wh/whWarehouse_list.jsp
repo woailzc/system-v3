@@ -54,7 +54,7 @@
 		<tbody>
 		   <c:forEach items="${whWarehouses }" var="whWarehouse">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="${whWarehouse.id}" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.name}','<%=basePath%>a/whWarehouse/show.do?id=${whWarehouse.id}','10001','360','400')">${whWarehouse.name}</u></td>
 				<td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${whWarehouse.createBy.name}</td>
@@ -112,8 +112,8 @@ function member_stop(obj,id){
 	layer.confirm('确认要停用吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{status:'空闲'},
-			url: '<%=basePath%>a/whWarehouse/audit.do',
+			data:{status:'空闲',id:id},
+			url: '<%=basePath%>a/whWarehouse/stop.do',
 			dataType: 'json',
 			success: function(data){
 /* 				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
@@ -133,7 +133,8 @@ function member_start(obj,id){
 	layer.confirm('确认要启用吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'启用中'},
+			url: '<%=basePath%>a/whWarehouse/audit.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
@@ -173,6 +174,28 @@ function member_del(obj,id){
 		});		
 	});
 }
+/*仓库-多条删除*/
+function datadel(){
+	var ids = $("#ids").val();
+	alert(ids);
+	return false;
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			url: '<%=basePath%>a/whWarehouse/dels.do',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
 /*仓库-审核*/
 function article_shenhe(obj,id){
 	layer.confirm('审核？', {
@@ -201,7 +224,7 @@ function article_shenhe(obj,id){
 	function(){
 		$.ajax({
 			type: 'POST',
-			data:{status:'空闲'},
+			data:{status:'空闲',id:id},
 			url: '<%=basePath%>a/whWarehouse/audit.do',
 			dataType: 'json',
 			success: function(data){

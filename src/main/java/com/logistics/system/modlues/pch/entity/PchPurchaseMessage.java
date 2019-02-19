@@ -2,15 +2,17 @@ package com.logistics.system.modlues.pch.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 import com.logistics.system.modlues.wh.entity.WhWarehouse;
 
 public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
 
     private String name;//采购产品的名称
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date purchaseEndDate;//采购的结束时间
-    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date purchaseStartDate;//采购的开始时间
 
     private String reason;//原因
@@ -34,6 +36,7 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
     public PchPurchaseMessage(String id){
     	this.id = id;
     }
+
 
     public String getName() {
         return name;

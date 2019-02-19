@@ -103,7 +103,7 @@ public class ReRepairOrderController {
 	  if(reRepairOrder.getStatus().equals("已完成")) reRepairOrder.setUpdateDate(new Date());
 	  reRepairOrderService.acceptAndFinish(reRepairOrder);
 	   HashMap<String, Object> data = new HashMap<>();
-	   data.put("status", data);
+	   data.put("status",reRepairOrder.getStatus() );
 		return data;
 		
 	}

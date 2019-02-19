@@ -87,5 +87,13 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	public void delete(T entity) {
 		dao.delete(entity);
 	}
+	/**
+	 * 删除多条数据
+	 * @param entity
+	 */
+	@Transactional(readOnly = false)
+	public void deletes(int ids) {
+		dao.deletes(ids);
+	}
 
 }

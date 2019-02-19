@@ -75,5 +75,11 @@ public interface CrudDao<T> {
 	 * @return
 	 */
 	public int delete(T entity);
+	/**
+	 * 删除多条数据（一般为逻辑删除，更新del_flag字段为1）
+	 * @param entity
+	 * @return
+	 */
+	public int deletes(int ids);
 	
 }

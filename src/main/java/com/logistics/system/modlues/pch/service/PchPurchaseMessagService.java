@@ -22,7 +22,7 @@ import com.logistics.system.modlues.wh.entity.WhWarehouse;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class PchPurchaseMessagService extends CrudService<PchPurchaseMessageDao, PchPurchaseMessage>{
 	@Autowired
 	WhWarehouseDao whWarehouseDao;

@@ -46,7 +46,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-			<select name="pchPurchaseType.id" class="select">
+			<select name="purchaseType.id" class="select">
 			       <option>请选择</option>
 			  <c:forEach items="${pchPurchaseTypes }" var="pchPurchaseType">
 					<option value="${pchPurchaseType.id }" >${pchPurchaseType.name }</option>
@@ -59,7 +59,7 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>仓库：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select name="whWarehouse.id" class="select" onchange="getComputingUnit()" id="whWarehouse">
-				     <option>请选择</option>
+				     <option value=''>请选择</option>
 			      <c:forEach items="${whWarehouses }" var="whWarehouse">
 					<option value="${whWarehouse.id }" >${whWarehouse.name }</option>
 				  </c:forEach>
@@ -143,21 +143,19 @@
 				<input type="text" name="spend" id="spend" placeholder="" value="" class="input-text" style="width:90%">
 				元</div>
 		</div>
-	 <div class="row cl">
+	    <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">采购开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<!-- <input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:180px;"> -->
 				<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'purchaseEndDate\')||\'%y-%M-%d\'}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:120px;" >
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">采购结束时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<!-- <input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'datemin\')}' })" id="purchaseStartDate" name="purchaseStartDate" class="input-text Wdate" style="width:180px;"> -->
 				<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'purchaseStartDate\')}',maxDate:'%y-%M-%d' })" id="purchaseEndDate" name="purchaseEndDate" class="input-text Wdate" style="width:120px;" >
 				
 			</div>
-		</div>
+		</div> 
 	
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">产品摘要：</label>
@@ -247,12 +245,12 @@ $(document).ready(function() {
 			});		
 	});
 	/**限制购买的数量**/
-  $("input").blur(function(){
-	  var num = $("#num").val();
-	  var cuttentInventory = $("#cuttentInventory").val();
-	  var whWarehouseId = $("#whWarehouse").val();
-	    if(whWarehouseId=='' || whWarehouseId== null ){alert("请选择仓库");$("#num").val("");}
-		if(num>cuttentInventory) {alert("所选的仓库的现存量不足");$("#num").val("");}
+  $("#num").blur(function(){
+	  var num = parseInt($("#num").val());
+	  var cuttentInventory = parseInt($("#cuttentInventory").val());
+	  var whWarehouseId = parseInt($("#whWarehouse").val());
+	    if($("#whWarehouse").val()=='' || $("#whWarehouse").val()== null ){alert("请选择仓库");$("#num").val("");return false}
+		if(num>cuttentInventory) {alert("所选的仓库的现存量不足");$("#num").val("");return false}
 	});
 });
 </script>

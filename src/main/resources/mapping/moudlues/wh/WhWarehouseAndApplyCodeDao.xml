@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.wh.dao.WhWarehouseApplyDao" >
-  <resultMap id="BaseResultMap" type="WhWarehouseApply" >
+<mapper namespace="com.logistics.system.modlues.wh.dao.WhWarehouseAndApplyCodeDao" >
+  <resultMap id="BaseResultMap" type="WhWarehouseAndApplyCode" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
-    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -21,51 +19,50 @@
                  select="selectSysUserBase"
                  >
      </association>
-      <association property="auditor"
-                 javaType="SysUser"
-                 column="auditor"
-                 select="selectSysUserBase"
-                 >
-     </association>
       <association property="whWarehouse"
                  javaType="WhWarehouse"
-                 column="whWarehouse"
+                 column="warehouse_id"
                  select="selectWhWarehouseBase"
                  >
      </association>
-
-  </resultMap>
+      <association property="whWarehouseApply"
+                 javaType="WhWarehouseApply"
+                 column="warehouse_apply_id"
+                 select="selectWhWarehouseApplyBase"
+                 >
+    </association>
+    </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
    <select id="selectWhWarehouseBase" resultType="WhWarehouse">
      select id,name from wh_warehouse where id=#{xxx}
   </select>
+  <select id="selectWhWarehouseApplyBase" resultType="WhWarehouseApply">
+     select * from wh_warehouse_apply where id=#{xxx}
+  </select>
   
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, reason,suggestion, auditor,whWarehouse
+    id, create_by, create_date, update_by, update_date, del_flag, remark, warehouse_id,warehouse_apply_id
   </sql>
   <select id="findList" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from wh_warehouse_apply a
+    from wh_warehouse_apply_code a
      <where>
 			a.del_flag = #{delFlag}
-			<if test="reason != null and reason != ''">
+			<!-- <if test="reason != null and reason != ''">
 				AND a.reason LIKE 
-					<!-- '%'||#{name}||'%' -->
-					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					'%'||#{name}||'%'
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
 					CONCAT('%', #{reason}, '%')
-			</if>
-			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
-				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
-			</if>
+			</if> -->
 		</where>   
   </select>
   <select id="get" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from wh_warehouse_apply
+    from wh_warehouse_apply_code
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -74,27 +71,20 @@
   </delete> -->
    <!-- 逻辑删除 -->
   <update id="delete">
-		UPDATE wh_warehouse_apply SET 
+		UPDATE wh_warehouse_apply_code SET 
 			del_flag = 1
-		WHERE id = #{id}
- </update>
-<!--  更新建议 -->
-  <update id="updateSuggestion">
-		UPDATE wh_warehouse_apply SET 
-			suggestion = #{suggestion}
 		WHERE id = #{id}
  </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
-    insert into wh_warehouse_apply (id, create_by, create_date, 
+    insert into wh_warehouse_apply_code (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark,  reason,suggestion, auditor,whWarehouse)
+      remark,  warehouse_id,warehouse_apply_id)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
-      #{auditor.id,jdbcType=VARCHAR}, #{whWarehouse.id,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{whWarehouse.id,jdbcType=VARCHAR}, #{whWarehouseApply.id,jdbcType=VARCHAR})
   </insert>
  
 <!--   <update id="update"  >

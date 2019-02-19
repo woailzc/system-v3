@@ -35,4 +35,8 @@ public class WhWarehouseService extends CrudService<WhWarehouseDao, WhWarehouse>
 		whWarehouseApplyDao.updateSuggestion(whWarehouseApply);
 	}
 
+	public void stop(WhWarehouse whWarehouse) {
+		whWarehouseDao.updateStatus(whWarehouse);
+	}
+
 }

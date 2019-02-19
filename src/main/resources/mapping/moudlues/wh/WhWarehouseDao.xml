@@ -31,6 +31,18 @@
                  select="selectWhWarehouseTypeBase"
                  >
      </association>
+         <association property="whWarehouseAndApplyCode"
+                 javaType="WhWarehouseAndApplyCode"
+                 column="whWarehouse_and_apply_code"
+                 select="selectWhWarehouseAndApplyCodeBase">
+                <!-- <id column="id" property="id" jdbcType="VARCHAR"/> 
+                 <association property="whWarehouseApply"
+			                 javaType="WhWarehouseApply"
+			                 column="warehouse_apply_id"
+			                 select="selectWhWarehouseApplyBase">
+			               <id column="wp_id" property="id" jdbcType="VARCHAR" />
+                 </association> -->
+     </association>
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
@@ -38,11 +50,16 @@
    <select id="selectWhWarehouseTypeBase" resultType="WhWarehouseType">
      select id,name from wh_warehouse_type where id=#{xxx}
   </select>
-  
+   <select id="selectWhWarehouseAndApplyCodeBase" resultType="WhWarehouseAndApplyCode">
+     select id,warehouse_id,warehouse_apply_id from wh_warehouse_apply_code where id=#{xxx}
+  </select>
+ <!--   <select id="selectWhWarehouseApplyBase" resultType="WhWarehouseApply">
+     select id As wp_id from wh_warehouse_apply where id=#{xxx}
+  </select> -->
   
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id,computing_unit, 
-    max_inventory, min_inventory, current_inventory, status
+    max_inventory, min_inventory, current_inventory, status,whWarehouse_and_apply_code
   </sql>
   <select id="findList" resultMap="BaseResultMap">
     select
@@ -91,6 +108,12 @@
 			current_inventory = #{currentInventory}
 		WHERE id = #{id}
  </update>
+ <!-- 更新申请码 -->
+ <update id="updateWhWarehouseAndApplyCode">
+		UPDATE wh_warehouse SET 
+			whWarehouse_and_apply_code = #{whWarehouseAndApplyCode.id}
+		WHERE id = #{id}
+ </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
@@ -99,12 +122,12 @@
       update_by, update_date, del_flag, 
       remark, name, type_id, 
       max_inventory, min_inventory, current_inventory, 
-      status,computing_unit)
+      status,computing_unit,whWarehouse_and_apply_code)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{whWarehouseType.id,jdbcType=VARCHAR}, 
       #{maxInventory,jdbcType=INTEGER}, #{minInventory,jdbcType=INTEGER}, #{currentInventory,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR},#{computingUnit,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR},#{computingUnit,jdbcType=VARCHAR},#{whWarehouseAndApplyCode.id,jdbcType=VARCHAR})
   </insert>
  
   <update id="update"  >

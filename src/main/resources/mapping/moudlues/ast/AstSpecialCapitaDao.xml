@@ -39,11 +39,11 @@
     from ast_special_capital a
     <where>
 			a.del_flag = #{delFlag}
-			<if test="project年ame != null and project年ame != ''">
+			<if test="projectName != null and projectName != ''">
 				AND a.project_name LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
-					CONCAT('%', #{project_name}, '%')
+					CONCAT('%', #{projectNname}, '%')
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')

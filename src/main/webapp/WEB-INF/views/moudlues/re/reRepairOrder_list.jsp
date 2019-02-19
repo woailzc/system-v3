@@ -63,7 +63,7 @@
 				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
 				<td class="td-manage"> 
 					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.pusher.id? '1':'0' }','${reRepairOrder.id == adAdvice.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${reRepairOrder.id == adAdvice.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 					<c:if test="${reRepairOrder.status=='申请'}">
 					 <a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a>
 					</c:if>
