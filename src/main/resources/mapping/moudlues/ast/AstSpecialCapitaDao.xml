@@ -39,7 +39,7 @@
     from ast_special_capital a
     <where>
 			a.del_flag = #{delFlag}
-			<if test="project_name != null and project_name != ''">
+			<if test="project年ame != null and project年ame != ''">
 				AND a.project_name LIKE 
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
@@ -83,7 +83,10 @@
       <!-- #{pusher,jdbcType=VARCHAR}, --> #{projectName,jdbcType=VARCHAR})
   </insert>
   
- 
+ <!-- 统计金额 -->
+  <select id="statistics">
+   SELECT COUNT("amount") FROM ast_special_capital
+  </select>
  
   <update id="update" >
     update ast_special_capital

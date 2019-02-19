@@ -29,23 +29,21 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>申请 </title>
 </head>
 <body>
 <article class="page-container">
 	<form action="<%=basePath%>/a/reRepairOrder/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
+	       <input type="hidden" value="${sysUser.id}" name="applyer.id" id="applyer.id" >
+	     <input type="hidden" value="${nowDate}" name="applyDate" id="applyDate">
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
+	      <input type="hidden" value="申请" name="status" id="status">
+		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+			<label class="form-label col-xs-4 col-sm-3">原因：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">内容：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="text" name="text"></textarea>
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="reason" name="reason"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
@@ -56,6 +54,18 @@
 					<option value="" selected>请选择维修的类型</option>
 					<c:forEach items="${reRepairOrderTypes}" var="reRepairOrderType">
 					<option value="${reRepairOrderType.id }">${reRepairOrderType.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>维修人：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="receiver.id" id="receiver.id" required="required">
+					<option value="" selected>请选择维修人员</option>
+					<c:forEach items="${reRepairOrderUsers}" var="reRepairOrderUsers">
+					<option value="${reRepairOrderUser.id }">${reRepairOrderUser.name }</option>
 					</c:forEach>
 				</select>
 				</span> 

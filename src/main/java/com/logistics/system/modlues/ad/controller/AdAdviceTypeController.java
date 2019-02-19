@@ -39,9 +39,11 @@ public class AdAdviceTypeController {
 	
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,AdAdviceType adAdviceType){
+	public Object del(Model model,AdAdviceType adAdviceType){
 		adAdviceTypeService.delete(adAdviceType);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	

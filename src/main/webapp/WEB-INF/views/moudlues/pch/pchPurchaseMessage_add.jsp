@@ -117,6 +117,12 @@
 				<input type="text" name="computingUnit" id="computingUnit" placeholder="" value="" class="input-text" readonly="readonly">
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">现仓库的库存量：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  id="cuttentInventory" placeholder="" value="" class="input-text" readonly="readonly">
+			</div>
+		</div>
 		 <!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">计算单位：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -206,7 +212,6 @@
 		</div>
 	</form>
 </div>
-
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/layer/2.4/layer.js"></script>
@@ -224,7 +229,7 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-  /**获取仓库的计算单位**/
+  /**获取仓库的计算单位和现库存量**/
 	$("#whWarehouse").change(function(){
 		var id = $("#whWarehouse").val();
 			$.ajax({
@@ -234,29 +239,21 @@ $(document).ready(function() {
 				dataType: 'json',
 				success: function(data){
 					$("#computingUnit").val(data.computingUnit);
+					$("#cuttentInventory").val(data.cuttentInventory);
 				},
 				error:function(data) {
 					console.log(data.msg);
 				},
 			});		
 	});
-	 /**限制数量的大小**/
-	 $("input").blur(function(){
-				var num = $("#num").val();
-				var id = $("#whWarehouse").val();
-					$.ajax({
-						type: 'POST',
-						data:{num:num},
-						url: '<%=basePath%>a/pchPurchaseMessage/getWhWharehouseComputingUnit.do',
-						dataType: 'json',
-						success: function(data){
-							$("#computingUnit").val(data.computingUnit);
-						},
-						error:function(data) {
-							console.log(data.msg);
-						},
-					});		
-			});
+	/**限制购买的数量**/
+  $("input").blur(function(){
+	  var num = $("#num").val();
+	  var cuttentInventory = $("#cuttentInventory").val();
+	  var whWarehouseId = $("#whWarehouse").val();
+	    if(whWarehouseId=='' || whWarehouseId== null ){alert("请选择仓库");$("#num").val("");}
+		if(num>cuttentInventory) {alert("所选的仓库的现存量不足");$("#num").val("");}
+	});
 });
 </script>
 <script type="text/javascript">

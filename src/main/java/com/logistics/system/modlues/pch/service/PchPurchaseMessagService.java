@@ -15,6 +15,8 @@ import com.logistics.system.modlues.sys.dao.SysDepartmentDao;
 import com.logistics.system.modlues.sys.dao.SysUserDao;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.logistics.system.modlues.wh.dao.WhWarehouseDao;
+import com.logistics.system.modlues.wh.entity.WhWarehouse;
 
 
 
@@ -22,6 +24,15 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 @Service
 @Transactional(readOnly = true)
 public class PchPurchaseMessagService extends CrudService<PchPurchaseMessageDao, PchPurchaseMessage>{
+	@Autowired
+	WhWarehouseDao whWarehouseDao;
+	
+	public void save(PchPurchaseMessage pchPurchaseMessage){
+		super.save(pchPurchaseMessage);
+		WhWarehouse whWarehouse = whWarehouseDao.get(pchPurchaseMessage.getWhWarehouse());
+		whWarehouse.setCurrentInventory(whWarehouse.getCurrentInventory()-pchPurchaseMessage.getNum());
+		whWarehouseDao.updateCurrentInventory(whWarehouse);
+	}
 	
 
 }

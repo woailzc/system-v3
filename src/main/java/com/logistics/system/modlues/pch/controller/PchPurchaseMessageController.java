@@ -36,6 +36,7 @@ public class PchPurchaseMessageController {
 	public String save(Model model,PchPurchaseMessage pchPurchaseMessage){
 		
 		if (pchPurchaseMessage !=null && pchPurchaseMessage.getDelFlag().equals("0")) {
+			
 			pchPurchaseMessageService.save(pchPurchaseMessage);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
@@ -55,9 +56,11 @@ public class PchPurchaseMessageController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,PchPurchaseMessage pchPurchaseMessage){
+	public Object del(Model model,PchPurchaseMessage pchPurchaseMessage){
 		pchPurchaseMessageService.delete(pchPurchaseMessage);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	
@@ -87,25 +90,26 @@ public class PchPurchaseMessageController {
 		return "moudlues/pch/pchPurchaseMessage_show";
 		
 	}
-	//获取仓库的计量单位
+	//获取仓库的计量单位和现库存量
 	@RequestMapping("/getWhWharehouseComputingUnit.do")
 	@ResponseBody
-	public Object getWhWharehouseComputingUnit(Model model,WhWarehouse whWarehouse){
+	public Object getWhWharehouseComputingUnitAndCuttentInventory(Model model,WhWarehouse whWarehouse){
 	   WhWarehouse warehouse = whWarehouseService.get(whWarehouse);
 	   model.addAttribute("whWarehouse", warehouse);
 	   HashMap<String, Object> date = new HashMap<>();
 	   date.put("computingUnit", warehouse.getComputingUnit());
+	   date.put("cuttentInventory", warehouse.getCurrentInventory());
 		return date;
 		
 	}
 	//限制物品的大小
-	@RequestMapping("/getWhWharehouseComputingUnit.do")
+	@RequestMapping("/limitNum.do")
 	@ResponseBody
 	public Object limitNum(Model model,WhWarehouse whWarehouse){
 	  
-	   HashMap<String, Object> date = new HashMap<>();
-	   date.put("computingUnit", warehouse.getComputingUnit());
-		return date;
+//	   HashMap<String, Object> date = new HashMap<>();
+//	   date.put("computingUnit", warehouse.getComputingUnit());
+		return null;
 		
 	}
 

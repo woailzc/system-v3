@@ -12,5 +12,9 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import java.util.List;
 
 public interface ReRepairOrderDao extends CrudDao<ReRepairOrder> {
+	
+	public void updateStatus(ReRepairOrder repairOrder);
+	
+	public void updateDate(ReRepairOrder repairOrder);
 
 }

@@ -12,5 +12,7 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import java.util.List;
 
 public interface AstFixedCapitalDao extends CrudDao<AstFixedCapital> {
+	
+	public int statistics();
 
 }

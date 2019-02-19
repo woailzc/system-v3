@@ -84,7 +84,10 @@
       <!-- #{pusher,jdbcType=VARCHAR}, --> #{objective,jdbcType=VARCHAR})
   </insert>
   
- 
+ <!-- 统计金额 -->
+  <select id="statistics">
+   SELECT COUNT("amount") FROM ast_special_capital
+  </select>
  
   <update id="update" >
     update ast_working_capital

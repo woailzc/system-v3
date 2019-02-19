@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 发布公告</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -46,7 +46,9 @@
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">标题</th>
 				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<th width="40">申请人</th>
+				<th width="40">接收人</th>
+				<th width="60">状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -56,8 +58,21 @@
 				<td><input type="checkbox" value="1" name=""></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${reRepairOrder.id}','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','10001','360','400')">${reRepairOrder.id}</u></td>
 				<td><fmt:formatDate value="${reRepairOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${reRepairOrder.createBy.name}</td>
-				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${reRepairOrder.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td>${reRepairOrder.applyer.name}</td>
+				<td>${reRepairOrder.receiver.name}</td>
+				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
+				<td class="td-manage"> 
+					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.pusher.id? '1':'0' }','${reRepairOrder.id == adAdvice.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<c:if test="${reRepairOrder.status=='申请'}">
+					 <a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a>
+					</c:if>
+					<c:if test="${reRepairOrder.status=='已接受'}">
+					  <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id}')" href="javascript:;" title="确认完成">确认完成</a>
+					</c:if>
+
+			
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -94,18 +109,19 @@ function member_add(title,url,w,h){
 function member_show(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
-/*用户-停用*/
-function member_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
+/*用户-完成*/
+function confirm_finish(obj,id){
+	layer.confirm('确认要完成吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'已完成'},
+			url: '<%=basePath%>a/reRepairOrder/acceptAndFinish.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>'); */
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已完成</span>');
 				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
+				layer.msg('已完成!',{icon: 5,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -114,18 +130,19 @@ function member_stop(obj,id){
 	});
 }
 
-/*用户-启用*/
-function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
+/*用户-接受*/
+function accept(obj,id){
+	layer.confirm('确认要接受吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'已接受'},
+			url: '<%=basePath%>a/reRepairOrder/acceptAndFinish.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>'); */
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已接受</span>');
 				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
+				layer.msg('已接受!',{icon: 6,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -142,12 +159,12 @@ function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);	
 }
 /*用户-删除*/
-function member_del(obj,id){
+function member_del(obj,id,applyerDelFlag,receiverDelFlag){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
 			data:{id:id},
-			url: '<%=basePath%>a/reRepairOrder/del.do',
+			data:{applyerDelFlag:applyerDelFlag,receiverDelFlag:receiverDelFlag,id:id},
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

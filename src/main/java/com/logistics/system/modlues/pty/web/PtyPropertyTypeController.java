@@ -48,9 +48,11 @@ public class PtyPropertyTypeController {
 //	}
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,PtyPropertyType ptyPropertyType){
+	public Object del(Model model,PtyPropertyType ptyPropertyType){
 		ptyPropertyTypeService.delete(ptyPropertyType);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	

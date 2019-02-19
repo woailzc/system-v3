@@ -83,7 +83,10 @@
       #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{source,jdbcType=DATE}, 
       <!-- #{pusher,jdbcType=VARCHAR}, --> #{name,jdbcType=VARCHAR})
   </insert>
-  
+  <!-- 统计金额 -->
+  <select id="statistics">
+   SELECT COUNT("amount") FROM ast_fixed_capital
+  </select>
  
  
   <update id="update" >

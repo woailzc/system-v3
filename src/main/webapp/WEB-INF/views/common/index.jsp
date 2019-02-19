@@ -53,7 +53,7 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
 						<!--<li><a href="#">切换账户</a></li>-->
-						<li><a href="#">退出</a></li>
+						<li><a href="<%=basePath%>a/logout.do">退出</a></li>
 				</ul>
 			</li>
 				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
@@ -78,7 +78,10 @@
 			<dt><i class="Hui-iconfont">&#xe616;</i> 资产管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="article-list.html" data-title="资产管理" href="javascript:void(0)">资产管理</a></li>
+					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="固定资产管理" href="javascript:void(0)">固定资产管理</a></li>
+					<li><a data-href="<%=basePath%>a/astWorkingCapital/list.do" data-title="流动资产管理" href="javascript:void(0)">流动资产管理</a></li>
+					<li><a data-href="<%=basePath%>a/astSpecialCapital/list.do" data-title="专项资产管理" href="javascript:void(0)">专项资产管理</a></li>
+					<li><a data-href="<%=basePath%>a/astCapitalStatistics/list.do" data-title="资产统计" href="javascript:void(0)">资产统计</a></li>
 			</ul>
 		</dd>
 	</dl>
@@ -115,9 +118,11 @@
 			<dt><i class="Hui-iconfont">&#xe620;</i> 物业管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>
+					<!-- <li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>
 					<li><a data-href="product-category.html" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
-					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>
+					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li> -->
+					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业管理" href="javascript:void(0)">物业管理</a></li>
+					<li><a data-href="<%=basePath%>a/ptyPropertyType/list.do" data-title="物业管理类型" href="javascript:void(0)">物业管理类型</a></li>
 			</ul>
 		</dd>
 	</dl>

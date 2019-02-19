@@ -85,6 +85,12 @@
 			status = #{status}
 		WHERE id = #{id}
  </update>
+<!--  更新现存库量 -->
+<update id="updateCurrentInventory">
+		UPDATE wh_warehouse SET 
+			current_inventory = #{currentInventory}
+		WHERE id = #{id}
+ </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual

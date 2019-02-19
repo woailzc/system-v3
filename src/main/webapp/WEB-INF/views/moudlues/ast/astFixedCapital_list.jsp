@@ -24,10 +24,10 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>公告管理</title>
+<title>固定资金管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 公告中心 <span class="c-gray en">&gt;</span> 公告管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 固定资金中心 <span class="c-gray en">&gt;</span> 固定资金管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
 	  <form action="<%=basePath%>a/astFixedCapital/list.do" method="post">
@@ -44,7 +44,9 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
+				<th width="100">固定资产的名称</th>
+				<th width="100">来源</th>
+					<th width="100">金额</th>
 				<th width="100">创建时间</th>
 				<th width="40">创建人</th>
 				<th width="100">操作</th>
@@ -54,7 +56,9 @@
 		   <c:forEach items="${astFixedCapitals }" var="astFixedCapital">
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.id}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.id}</u></td>
+				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.name}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.name}</u></td>
+				<td>${astFixedCapital.source}</td>
+				<td>${astFixedCapital.amount}</td>
 				<td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${astFixedCapital.createBy.name}</td>
 				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/astFixedCapital/update.do?id=${astFixedCapital.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${astFixedCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>

@@ -36,32 +36,44 @@
 	<form action="<%=basePath%>/a/astWorkingCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+			<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>流动资金的目的：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
+				<input type="text" class="input-text" value="" placeholder="" id="objective" name="objective" >
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">内容：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>金额：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="text" name="text"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+				<input type="text" class="input-text" value="" placeholder="" id="amount" name="amount">
 			</div>
 		</div>
-		<%-- <div class="row cl">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>来源：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="source" name="source">
+			</div>
+		</div>
+			 <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="type.id" id="type.id" required="required">
-					<option value="" selected>请选择公告的类型</option>
-					<c:forEach items="${ntNoticeTypes}" var="ntNoticeType">
-					<option value="${ntNoticeType.id }">${ntNoticeType.name }</option>
-					</c:forEach>
+				<select class="select" size="1" name="typ" id="type" required="required">
+					<option value="" selected>请选择流动资金的类型</option>
+					<option value="收入">收入</option>
+					<option value="支出">支出</option>
 				</select>
 				</span> 
 			</div>
 		</div>
-	 --%>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+	
+	 
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">

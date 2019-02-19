@@ -65,10 +65,10 @@
 					<c:if test="${whWarehouse.status=='空闲'}">
 					</c:if>
 					<c:if test="${whWarehouse.status=='审核'}">
-					  <a style="text-decoration:none" onClick="article_shenhe(this,'10001')" href="javascript:;" title="审核">审核</a>
+					  <a style="text-decoration:none" onClick="article_shenhe(this,'${whWarehouse.id}')" href="javascript:;" title="审核">审核</a>
 					</c:if>
 					<c:if test="${whWarehouse.status=='启用中'}">
-					  <a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+					  <a style="text-decoration:none" onClick="member_stop(this,'${whWarehouse.id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
 					</c:if>
 				</td>
 			</tr>
@@ -183,7 +183,7 @@ function article_shenhe(obj,id){
 	function(){
 		$.ajax({
 			type: 'POST',
-			data:{status:'启用中'},
+			data:{id:id,status:'启用中'},
 			url: '<%=basePath%>a/whWarehouse/audit.do',
 			dataType: 'json',
 			success: function(data){

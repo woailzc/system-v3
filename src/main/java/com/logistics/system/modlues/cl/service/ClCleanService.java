@@ -9,6 +9,8 @@ import com.logistics.system.modlues.cl.dao.ClCleanDao;
 import com.logistics.system.modlues.cl.entity.ClClean;
 import com.logistics.system.modlues.nt.dao.NtNoticeDao;
 import com.logistics.system.modlues.nt.entity.NtNotice;
+import com.logistics.system.modlues.re.dao.ReRepairOrderDao;
+import com.logistics.system.modlues.re.entity.ReRepairOrder;
 import com.logistics.system.modlues.sys.dao.SysDepartmentDao;
 import com.logistics.system.modlues.sys.dao.SysUserDao;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
@@ -20,6 +22,13 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 @Service
 @Transactional(readOnly = true)
 public class ClCleanService extends CrudService<ClCleanDao, ClClean>{
+	@Autowired
+	ClCleanDao clCleanDao;
+	
+	public void acceptAndFinish(ClClean clClean){
+		clCleanDao.updateStatus(clClean);
+		if(clClean.getUpdateDate() != null)clCleanDao.updateDate(clClean);
+	}
 	
 
 }

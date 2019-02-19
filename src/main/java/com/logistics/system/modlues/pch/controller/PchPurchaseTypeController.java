@@ -41,9 +41,11 @@ public class PchPurchaseTypeController {
 	
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,PchPurchaseType pchPurchaseType){
+	public Object del(Model model,PchPurchaseType pchPurchaseType){
 		pchPurchaseTypeService.delete(pchPurchaseType);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	

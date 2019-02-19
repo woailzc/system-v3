@@ -1,5 +1,6 @@
 package com.logistics.system.modlues.cl.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.logistics.system.modlues.cl.entity.ClClean;
 import com.logistics.system.modlues.cl.service.ClCleanService;
+import com.logistics.system.modlues.re.entity.ReRepairOrder;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
 
@@ -40,9 +42,11 @@ public class ClCleanController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,ClClean clClean){
+	public Object del(Model model,ClClean clClean){
 		clCleanService.delete(clClean);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	
@@ -72,5 +76,17 @@ public class ClCleanController {
 		return "moudlues/cl/clClean_show";
 		
 	}
+	//接受
+		@RequestMapping("/acceptAndFinish.do")
+		@ResponseBody
+		public Object accept(Model model,ClClean clClean){
+			 if(clClean.getStatus().equals("已完成")) clClean.setUpdateDate(new Date());
+		   clCleanService.acceptAndFinish(clClean);
+		   HashMap<String, Object> data = new HashMap<>();
+		   data.put("status", data);
+			return data;
+		}
+			
+		
 
 }

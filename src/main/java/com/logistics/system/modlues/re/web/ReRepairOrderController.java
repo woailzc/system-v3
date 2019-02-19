@@ -1,5 +1,6 @@
 package com.logistics.system.modlues.re.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,10 @@ import com.logistics.system.modlues.re.entity.ReRepairOrder;
 import com.logistics.system.modlues.re.entity.ReRepairOrderType;
 import com.logistics.system.modlues.re.service.ReRepairOrderService;
 import com.logistics.system.modlues.re.service.ReRepairOrderTypeService;
+import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
+import com.logistics.system.modlues.sys.service.SysUserService;
 
 @Controller
 @RequestMapping("/a/reRepairOrder")
@@ -29,6 +32,12 @@ public class ReRepairOrderController {
 	@Autowired
 	ReRepairOrderTypeService reRepairOrderTypeService;
 	
+	@Autowired
+	SysDepartmentService sysDepartmentService;
+	
+	@Autowired
+	SysUserService sysUserService;
+	
 	@RequestMapping("/save.do")
 	public String save(Model model,ReRepairOrder reRepairOrder){
 		
@@ -37,9 +46,14 @@ public class ReRepairOrderController {
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
 		}
+		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
+		SysUser sysUser = new SysUser();
+		sysUser.setSysDepartment(sysDepartment);
+		List<SysUser> reRepairOrderUsers = sysUserService.findList(sysUser);
 		List<ReRepairOrderType> reRepairOrderTypes = reRepairOrderTypeService.findList(new ReRepairOrderType());
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("reRepairOrderTypes", reRepairOrderTypes);
+		model.addAttribute("reRepairOrderUsers", reRepairOrderUsers);
 		return "moudlues/re/reRepairOrder_add";
 		
 	}
@@ -48,9 +62,11 @@ public class ReRepairOrderController {
 
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,ReRepairOrder reRepairOrder){
+	public Object del(Model model,ReRepairOrder reRepairOrder){
 		reRepairOrderService.delete(reRepairOrder);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("删除成功", hashMap);
+	    return hashMap;
 		
 	}
 	
@@ -80,5 +96,16 @@ public class ReRepairOrderController {
 		return "moudlues/re/reRepairOrder_show";
 		
 	}
-
+//接受
+	@RequestMapping("/acceptAndFinish.do")
+	@ResponseBody
+	public Object accept(Model model,ReRepairOrder reRepairOrder){
+	  if(reRepairOrder.getStatus().equals("已完成")) reRepairOrder.setUpdateDate(new Date());
+	  reRepairOrderService.acceptAndFinish(reRepairOrder);
+	   HashMap<String, Object> data = new HashMap<>();
+	   data.put("status", data);
+		return data;
+		
+	}
+	
 }

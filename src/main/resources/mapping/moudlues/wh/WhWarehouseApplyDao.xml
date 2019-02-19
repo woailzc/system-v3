@@ -29,8 +29,8 @@
      </association>
       <association property="whWarehouse"
                  javaType="WhWarehouse"
-                 column="auditor"
-                 select="selectSysUserBase"
+                 column="whWarehouse"
+                 select="selectWhWarehouseBase"
                  >
      </association>
   </resultMap>

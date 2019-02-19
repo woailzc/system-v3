@@ -74,6 +74,12 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					
 			</if>
+			<if test="sysDepartment != null and sysDepartment.id != '' and sysDepartment.id != null">
+				AND a.department_id =#{sysDepartment.id}
+					<!-- '%'||#{name}||'%' -->
+					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
+					
+			</if>
 		</where>
   </select>
  <!--  获取一个用户信息 -->

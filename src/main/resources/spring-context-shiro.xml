@@ -12,17 +12,28 @@
 		<property name="securityManager" ref="securityManager" /> <!--加载管理器-->
 		<property name="loginUrl" value="/a/login.do" />    <!--没有登录的时候，跳转到这个页面-->
 		<property name="unauthorizedUrl" value="/a/nopermission.do" /> <!--当没有权限的时候，跳转到这个url-->
-		 
+		 <!--自定义的filter-->
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="logoutFilter"/>
+            </map>
+        </property>
+        <!-- 过虑器链定义，从上向下顺序执行，一般将/**放在最下边 -->
 		<property name="filterChainDefinitions">
 			<value>
 				/a/login.do = anon <!--可以不需要登录-->
 				/a/readName = authc, perms[/readName]  perms 表示需要该权限才能访问的页面
 				/a/readData = authc, perms[/readData] 
-				/a/*= authc <!-- authc 表示需要认证才能访问的页面 -->
+                /a/logout.do=logout  <!-- 请求logout.do地址，shiro去清除session -->
+                /a/*= authc <!-- authc 表示需要认证才能访问的页面 -->
 			</value>
 		</property>
 	</bean>
-
+	
+	<!--自定义LogoutFilter,退出-->
+    <bean id="logoutFilter" class="com.logistics.system.common.shiro.shiroFilter.SystemLogoutFilter">
+        <property name="redirectUrl" value="/a/login.do"/>
+    </bean>
 	<!-- 自定义Realm -->
 	<bean id="myShiroRealm" class="com.logistics.system.common.shiro.shiroReaml.LoginReaml">
 		<!-- businessManager 用来实现用户名密码的查询 -->

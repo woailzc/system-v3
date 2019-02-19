@@ -11,6 +11,7 @@
     <result column="start_date" property="startDate" jdbcType="DATE" />
     <result column="end_date" property="endDate" jdbcType="DATE" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+     <result column="status" property="status" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -23,7 +24,7 @@
                  select="selectSysUserBase"
                  >
     </association>
-     <association property="auditor"
+     <association property="applicant"
                  javaType="SysUser"
                  column="auditor"
                  select="selectSysUserBase"
@@ -43,7 +44,7 @@
   
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, clean_by, clean_adress, 
-    start_date, end_date, suggestion, auditor
+    start_date, end_date, suggestion, applicant,status
   </sql>
   
   
@@ -92,23 +93,29 @@
       update_by, update_date, del_flag, 
       remark, clean_by, clean_adress, 
       start_date, end_date, suggestion, 
-      auditor)
+      applicant,status)
     values (#{id,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{cleanBy,jdbcType=VARCHAR}, #{cleanAdress,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{suggestion,jdbcType=VARCHAR}, 
-      #{auditor,jdbcType=VARCHAR})
+      #{applicant,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},)
   </insert>
   
- 
- 
-  <update id="update" >
+ <!--  更新状态 -->
+<update id="updateStatus">
+  update cl_clean set
+       status = #{status,jdbcType=VARCHAR}
+</update>
+ <!--  更新日期 -->
+<update id="updateDate">
+  update cl_clean set
+        update_date = #{updateDate,jdbcType=DATE}
+</update>
+  <!-- <update id="update" >
    update cl_clean
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       clean_by = #{cleanBy.id,jdbcType=VARCHAR},
       clean_adress = #{cleanAdress,jdbcType=VARCHAR},
@@ -117,5 +124,5 @@
       suggestion = #{suggestion,jdbcType=VARCHAR},
       auditor = #{auditor.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
-  </update>
+  </update> -->
 </mapper>

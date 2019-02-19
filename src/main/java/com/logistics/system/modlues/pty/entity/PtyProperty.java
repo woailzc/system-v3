@@ -7,6 +7,8 @@ public class PtyProperty extends DataEntity<PtyProperty> {
 	private String name;
 	
 	private PtyPropertyType ptyPropertyType;
+	
+	public PtyProperty(){};
 
 	public PtyProperty(String name, PtyPropertyType ptyPropertyType) {
 		super();

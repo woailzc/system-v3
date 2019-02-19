@@ -21,7 +21,22 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
 
     private Date recevieDate;
     
+    private String status;
     
+     private String applyerDelFlag;
+    
+    private String receiverDelFlag;
+    
+    public ReRepairOrder() {
+		super();
+		this.applyerDelFlag = "0";
+		this.applyerDelFlag = "0";
+	}
+    
+    public ReRepairOrder(String id){
+    	this.id = id;
+    }
+
 
     public SysUser getApplyer() {
 		return applyer;
@@ -78,4 +93,29 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
     public void setRecevieDate(Date recevieDate) {
         this.recevieDate = recevieDate;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getApplyerDelFlag() {
+		return applyerDelFlag;
+	}
+
+	public void setApplyerDelFlag(String applyerDelFlag) {
+		this.applyerDelFlag = applyerDelFlag;
+	}
+
+	public String getReceiverDelFlag() {
+		return receiverDelFlag;
+	}
+
+	public void setReceiverDelFlag(String receiverDelFlag) {
+		this.receiverDelFlag = receiverDelFlag;
+	}
+    
 }

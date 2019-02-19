@@ -18,11 +18,21 @@ public class ClClean extends DataEntity<ClClean> {
 
     private String suggestion;
 
-    private SysUser auditor;
+    private SysUser applicant;
+    
+    private String status;
 
    
 
-    public String getCleanAdress() {
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getCleanAdress() {
         return cleanAdress;
     }
 
@@ -62,13 +72,14 @@ public class ClClean extends DataEntity<ClClean> {
 		this.cleanBy = cleanBy;
 	}
 
-	public SysUser getAuditor() {
-		return auditor;
+	public SysUser getApplicant() {
+		return applicant;
 	}
 
-	public void setAuditor(SysUser auditor) {
-		this.auditor = auditor;
+	public void setApplicant(SysUser applicant) {
+		this.applicant = applicant;
 	}
+
     
     
 }

@@ -13,13 +13,23 @@ import com.logistics.system.modlues.sys.dao.SysDepartmentDao;
 import com.logistics.system.modlues.sys.dao.SysUserDao;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.sun.org.apache.xpath.internal.operations.And;
 
 
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ReRepairOrderService extends CrudService<ReRepairOrderDao, ReRepairOrder>{
+	
+	@Autowired
+	ReRepairOrderDao repairOrderDao;
+	
+	public void acceptAndFinish(ReRepairOrder reRepairOrder){
+		repairOrderDao.updateStatus(reRepairOrder);
+		if(reRepairOrder.getUpdateDate() != null)repairOrderDao.updateDate(reRepairOrder);
+		
+	}
 	
 
 }

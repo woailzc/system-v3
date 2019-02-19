@@ -31,6 +31,7 @@ public class WhWarehouseController {
 	public String save(Model model,WhWarehouse whWarehouse){
 		
 		if (whWarehouse !=null && whWarehouse.getDelFlag().equals("0")) {
+			whWarehouse.setCurrentInventory(whWarehouse.getMaxInventory());
 			whWarehouseService.save(whWarehouse);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
