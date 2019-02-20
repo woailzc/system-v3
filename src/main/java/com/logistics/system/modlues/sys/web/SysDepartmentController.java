@@ -46,9 +46,11 @@ public class SysDepartmentController {
 //	}
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,SysDepartment sysDepartment){
+	public Object del(Model model,SysDepartment sysDepartment){
 		sysDepartmentService.delete(sysDepartment);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("del", "删除成功");
+	    return hashMap;
 		
 	}
 	

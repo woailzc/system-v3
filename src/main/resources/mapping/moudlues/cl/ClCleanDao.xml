@@ -44,7 +44,7 @@
   
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, clean_by, clean_adress, 
-    start_date, end_date, suggestion, applicant,status
+    start_date, end_date, suggestion, applicant,status,clean_by_del_flag,applicant_del_flag,clean_by_del_flag
   </sql>
   
   
@@ -60,8 +60,11 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{remark}, '%')
 			</if>
+			<if test="applicant != null and applicant.id != null and applyer.id != ''or(cleanBy != null and cleanBy.id != '' and cleanBy.id != null)" >
+				and ((a.applicant  = #{applicant.id} and applicant_del_flag ='0') or (a.clean_by = #{cleanBy.id} and clean_by_del_flag =0))
+			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
-				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
+				AND a.create_date between #{datemin} and #{datemax}
 			</if>
 		</where>   
   </select>
@@ -83,7 +86,11 @@
 			del_flag = 1
 		WHERE id = #{id}
  </update>
- 
+   <update id="delete">
+		UPDATE cl_clean SET 
+			applicant_del_flag = #{applicantDelFlag},clean_by_del_flag = #{cleanByDelFlag}
+		WHERE id = #{id}
+ </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
@@ -93,12 +100,12 @@
       update_by, update_date, del_flag, 
       remark, clean_by, clean_adress, 
       start_date, end_date, suggestion, 
-      applicant,status)
+      applicant,status,applicant_del_flag,clean_by_del_flag)
     values (#{id,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{cleanBy,jdbcType=VARCHAR}, #{cleanAdress,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{suggestion,jdbcType=VARCHAR}, 
-      #{applicant,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},)
+      #{applicant,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{applicantDelFlag,jdbcType=VARCHAR},#{cleanByDelFlag,jdbcType=VARCHAR})
   </insert>
   
  <!--  更新状态 -->

@@ -42,7 +42,7 @@ public class AdAdviceTypeController {
 	public Object del(Model model,AdAdviceType adAdviceType){
 		adAdviceTypeService.delete(adAdviceType);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

@@ -67,9 +67,11 @@ public class SysRoleController {
 //	}
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,SysRole sysRole){
+	public Object del(Model model,SysRole sysRole){
 		sysRoleService.delete(sysRole);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("del", "删除成功");
+	    return hashMap;
 		
 	}
 	

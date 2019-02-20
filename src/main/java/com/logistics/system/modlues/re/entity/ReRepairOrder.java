@@ -2,6 +2,8 @@ package com.logistics.system.modlues.re.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 import com.logistics.system.modlues.sys.entity.SysUser;
 
@@ -16,8 +18,8 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
     private String reason;
 
     private String suggestion;
-
-    private Date applyDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date applyDate;//开始的申请时间
 
     private Date recevieDate;
     

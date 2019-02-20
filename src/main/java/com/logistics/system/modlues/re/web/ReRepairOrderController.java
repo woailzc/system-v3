@@ -65,14 +65,18 @@ public class ReRepairOrderController {
 	public Object del(Model model,ReRepairOrder reRepairOrder){
 		reRepairOrderService.delete(reRepairOrder);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}
 	
 	@RequestMapping("/list.do")
 	public String list(Model model,ReRepairOrder reRepairOrder){
+		SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+		reRepairOrder.setApplyer(sysUser);
+		reRepairOrder.setReceiver(sysUser);
 		List<ReRepairOrder> reRepairOrders = reRepairOrderService.findList(reRepairOrder);
+		model.addAttribute("currentUser", sysUser);
 		model.addAttribute("reRepairOrders", reRepairOrders);
 		return "moudlues/re/reRepairOrder_list";
 	}

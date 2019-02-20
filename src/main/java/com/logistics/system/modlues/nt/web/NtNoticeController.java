@@ -50,7 +50,7 @@ public class NtNoticeController {
 	public Object del(Model model,NtNotice ntNotice){
 		ntNoticeService.delete(ntNotice);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

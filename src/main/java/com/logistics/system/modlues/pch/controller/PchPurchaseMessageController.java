@@ -59,7 +59,7 @@ public class PchPurchaseMessageController {
 	public Object del(Model model,PchPurchaseMessage pchPurchaseMessage){
 		pchPurchaseMessageService.delete(pchPurchaseMessage);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

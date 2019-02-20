@@ -52,9 +52,10 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>出生年月日：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysUser.brithday }" placeholder="" id="brithday" name="brithday" >
+				<input type="text" class="input-text" value="${sysUser.brithday }" placeholder="" id="brithday" name="brithday" readonly="readonly">
 			</div>
 		</div>
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址：</label>
 			<div class="formControls col-xs-8 col-sm-9">

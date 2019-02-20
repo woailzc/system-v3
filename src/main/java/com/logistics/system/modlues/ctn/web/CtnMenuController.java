@@ -43,7 +43,7 @@ public class CtnMenuController {
 	public Object del(Model model,CtnMenu ctnMenu){
 		ctnMenuService.delete(ctnMenu);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

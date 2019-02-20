@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.logistics.system.modlues.cl.entity.ClClean;
 import com.logistics.system.modlues.cl.service.ClCleanService;
 import com.logistics.system.modlues.re.entity.ReRepairOrder;
+import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
+import com.logistics.system.modlues.sys.service.SysUserService;
 
 @Controller
 @RequestMapping("/a/clClean")
@@ -24,6 +26,12 @@ public class ClCleanController {
 	
 	@Autowired
 	ClCleanService clCleanService;
+	
+	@Autowired
+	SysDepartmentService sysDepartmentService;
+	
+	@Autowired
+	SysUserService sysUserService;
 
 	@RequestMapping("/save.do")
 	public String save(Model model,ClClean clClean){
@@ -32,8 +40,14 @@ public class ClCleanController {
 			clCleanService.save(clClean);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
+			return "moudlues/cl/clClean_add";
 		}
+		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
+		SysUser sysUser = new SysUser();
+		sysUser.setSysDepartment(sysDepartment);
+		List<SysUser> clCleanUsers = sysUserService.findList(sysUser);
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("clCleanUsers", clCleanUsers);
 		return "moudlues/cl/clClean_add";
 		
 	}
@@ -45,13 +59,17 @@ public class ClCleanController {
 	public Object del(Model model,ClClean clClean){
 		clCleanService.delete(clClean);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}
 	
 	@RequestMapping("/list.do")
 	public String list(Model model,ClClean clClean){
+		SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+		model.addAttribute("currentUser", sysUser);
+		clClean.setApplicant(sysUser);
+		clClean.setCleanBy(sysUser);
 		List<ClClean> clCleans = clCleanService.findList(clClean);
 		model.addAttribute("clCleans", clCleans);
 		return "moudlues/cl/clClean_list";

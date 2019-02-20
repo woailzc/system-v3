@@ -46,7 +46,7 @@ public class AstSpecialController {
 	public Object del(Model model,AstSpecialCapital astSpecialCapital){
 		astSpecialCapitalService.delete(astSpecialCapital);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

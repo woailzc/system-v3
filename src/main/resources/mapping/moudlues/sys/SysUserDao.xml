@@ -68,6 +68,9 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{name}, '%')
 			</if>
+			<if test="loginName != null and loginName != ''">
+				AND a.loginName = #{loginName}
+			</if>
 			<if test="id != null and id != ''">
 				AND a.id =#{id}
 					<!-- '%'||#{name}||'%' -->
@@ -79,6 +82,9 @@
 					<!-- '%'||#{name}||'%' -->
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					
+			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a.create_date between #{datemin} and #{datemax}
 			</if>
 		</where>
   </select>
@@ -114,13 +120,13 @@
       remark, name, loginName, 
       password, phone, email, 
       photo, adress, sex, 
-      brithday, department_id)
+      brithday, department_id,role_id)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{photo,jdbcType=VARCHAR}, #{adress,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{brithday,jdbcType=DATE}, #{sysDepartment.id,jdbcType=VARCHAR})
+      #{brithday,jdbcType=DATE}, #{sysDepartment.id,jdbcType=VARCHAR},#{sysRole.id,jdbcType=VARCHAR})
   </insert>
  <!-- 更新用户密码 -->
 	<update id="updatePasswordById">
@@ -148,14 +154,15 @@
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       loginName = #{loginName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
+<!--       password = #{password,jdbcType=VARCHAR},
+ -->    <!--   phone = #{phone,jdbcType=VARCHAR}, -->
       email = #{email,jdbcType=VARCHAR},
     <!--   photo = #{photo,jdbcType=VARCHAR}, -->
       adress = #{adress,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       brithday = #{brithday,jdbcType=DATE},
-      department_id = #{sysDepartment.id,jdbcType=VARCHAR}
+      department_id = #{sysDepartment.id,jdbcType=VARCHAR},
+      role_id = #{sysRole.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

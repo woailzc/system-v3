@@ -51,6 +51,9 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{name}, '%')
 			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a.create_date between #{datemin} and #{datemax}
+			</if>
 		</where>
   </select>
   <select id="get" resultMap="BaseResultMap" >
@@ -76,10 +79,10 @@
     </selectKey>
     insert into sys_permission (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, name)
+      remark, name,menu_id)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sysMenu.id,jdbcType=VARCHAR})
   </insert>
   <update id="update" >
     update sys_permission

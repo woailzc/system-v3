@@ -48,9 +48,11 @@ public class ReRepairOrderTypeController {
 //	}
 	@RequestMapping("/del.do")
 	@ResponseBody
-	public String del(Model model,ReRepairOrderType reRepairOrderType){
+	public Object del(Model model,ReRepairOrderType reRepairOrderType){
 		reRepairOrderTypeService.delete(reRepairOrderType);
-		  return "删除成功";
+		HashMap<String,Object> hashMap = new HashMap<>();
+		hashMap.put("del", "删除成功");
+	    return hashMap;
 		
 	}
 	

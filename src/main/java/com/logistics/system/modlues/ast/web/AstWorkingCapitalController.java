@@ -44,7 +44,7 @@ public class AstWorkingCapitalController {
 	public Object del(Model model,AstWorkingCapital astWorkingCapital){
 		astWorkingCapitalService.delete(astWorkingCapital);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

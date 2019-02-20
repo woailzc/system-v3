@@ -45,6 +45,9 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{name}, '%')
 			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a.create_date between #{datemin} and #{datemax}
+			</if>
 		</where>
   </select>
   <select id="get" resultMap="BaseResultMap" >

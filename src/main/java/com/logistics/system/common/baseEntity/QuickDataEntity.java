@@ -1,6 +1,9 @@
 package com.logistics.system.common.baseEntity;
 
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,28 +13,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  */
 public abstract class QuickDataEntity<T> {
-
-	protected String datemin;//搜索的开始时间
-	
-	protected String datemax;//搜索的结束时间
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	protected Date datemin;//搜索的开始时间
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	protected Date datemax;//搜索的结束时间
 	
 	protected String conditionText;//输入框的内容，可能是文本框，字段可能是name，text，title等等
 
-	
-
-	public String getDatemin() {
+	public Date getDatemin() {
 		return datemin;
 	}
 
-	public void setDatemin(String datemin) {
+	public void setDatemin(Date datemin) {
 		this.datemin = datemin;
 	}
 
-	public String getDatemax() {
+	public Date getDatemax() {
 		return datemax;
 	}
 
-	public void setDatemax(String datemax) {
+	public void setDatemax(Date datemax) {
 		this.datemax = datemax;
 	}
 

@@ -35,10 +35,12 @@
 <article class="page-container">
 	<form action="<%=basePath%>/a/reRepairOrder/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	       <input type="hidden" value="${sysUser.id}" name="applyer.id" id="applyer.id" >
-	     <input type="hidden" value="${nowDate}" name="applyDate" id="applyDate">
-	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	      <input type="hidden" value="申请" name="status" id="status">
+	    <input type="hidden" value="${sysUser.id}" name="applyer.id" id="applyer.id" >
+	    <input type="hidden" value="${nowDate}" name="applyDate" id="applyDate">
+	    <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
+	    <input type="hidden" value="申请" name="status" id="status">
+	    <input type="hidden" value="0" name="applyerDelFlag" id="applyerDelFlag">
+	    <input type="hidden" value="0" name="receiverDelFlag" id="receiverDelFlag">
 		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">原因：</label>
@@ -47,6 +49,13 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
+		 <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始的时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  id="applyDate" name="applyDate" onfocus="WdatePicker({ applyDate:'#F{$dp.$D(\'brithday\')}',applyDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div> 
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
@@ -64,7 +73,7 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="receiver.id" id="receiver.id" required="required">
 					<option value="" selected>请选择维修人员</option>
-					<c:forEach items="${reRepairOrderUsers}" var="reRepairOrderUsers">
+					<c:forEach items="${reRepairOrderUsers}" var="reRepairOrderUser">
 					<option value="${reRepairOrderUser.id }">${reRepairOrderUser.name }</option>
 					</c:forEach>
 				</select>

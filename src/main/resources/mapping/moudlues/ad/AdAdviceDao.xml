@@ -73,7 +73,7 @@
 				and ((a.pusher  = #{pusher.id} and pusher_del_flag ='0') or (a.aduitor = #{aduitor.id} and aduitor_del_flag =0))
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
-				AND a."create_date" between to_date(#{datemin},'yyyy-MM-dd') and to_date(#{datemax},'yyyy-MM-dd')
+				AND a.create_date between #{datemin} and #{datemax}
 			</if>
 		</where>   
   </select>

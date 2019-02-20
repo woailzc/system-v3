@@ -26,6 +26,7 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
 import com.logistics.system.modlues.sys.service.SysRoleService;
 import com.logistics.system.modlues.sys.service.SysUserService;
+import com.sun.org.apache.xpath.internal.operations.And;
 
 /**
  * 个人信息和用户的所有信息模块
@@ -162,5 +163,20 @@ public class SysUserController {
 		model.addAttribute("sysUserList", sysUserList);
 		return "moudlues/sys/sysUser_list";
 	}
+	//检查是否重复名
+	//逻辑上删除
+		@RequestMapping("/check.do")
+		@ResponseBody
+		public Object check(Model model,SysUser sysUser){
+			HashMap<String,Object> hashMap = new HashMap<>();
+			if(sysUser.getLoginName() == null || sysUser.getLoginName()==""){ hashMap.put("check", "true");  return hashMap;}
+			List<SysUser> sysUsers = sysUserService.findList(sysUser);
+			if(sysUsers != null && sysUsers.size()>0 ){
+			hashMap.put("check", "false");//证明存在重复的登录名
+			}else{
+				hashMap.put("check", "true");
+			}
+		    return hashMap;
+		}
 
 }

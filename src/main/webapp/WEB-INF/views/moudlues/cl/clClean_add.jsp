@@ -46,10 +46,16 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+		 <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
+				<input type="text"  id="startDate" name="startDate" onfocus="WdatePicker({ startDate:'#F{$dp.$D(\'startDate\')}',startDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div> 
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="cleanAdress" name="cleanAdress">
 			</div>
 		</div>
 		<div class="row cl">
@@ -57,8 +63,8 @@
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="cleanBy.id" id="cleanBy.id" required="required">
 					<option value="" selected>请选择清洁的人</option>
-					<c:forEach items="${clCleanBys}" var="clCleanBy">
-					<option value="${clCleanBy.id }">${clCleanBy.name }</option>
+					<c:forEach items="${clCleanUsers}" var="clCleanUser">
+					<option value="${clCleanUser.id }">${clCleanUser.name }</option>
 					</c:forEach>
 				</select>
 				</span> 

@@ -34,7 +34,7 @@
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入部门名" id="name" name="name">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入名" id="name" name="name">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
@@ -58,12 +58,12 @@
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ctnMenu.name}','<%=basePath%>a/ctnMenu/show.do?id=${ctnMenu.id}','10001','360','400')">${ctnMenu.name}</u></td>
 				<td><fmt:formatDate value="${ctnMenu.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${ctnMenu.createBy.name}</td>
-				<td class="td-status"><span class="label label-success radius">${ctnMenu.status}</span></td>
+				<td class="td-status"><span class="label ${ctnMenu.status=='已停用'?'label-defaunt':'label-success'} radius">${ctnMenu.status}</span></td>
 <%-- 				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnMenu/update.do?id=${ctnMenu.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ctnMenu.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
  --%>				<td class="td-manage">
-					   <a style="text-decoration:none" onClick="${ctnMenu.status=='已停用'?'member_start':'member_stop'}(this,'${ctnFood.id}')" href="javascript:;" title="${ctnMenu.status=='已停用'?'启用':'停用'}"><i class="Hui-iconfont">&#xe631;</i></a>
+					   <a style="text-decoration:none" onClick="${ctnMenu.status=='已停用'?'member_start':'member_stop'}(this,'${ctnMenu.id}')" href="javascript:;" title="${ctnMenu.status=='已停用'?'启用':'停用'}"><i class="Hui-iconfont">&#xe631;</i></a>
 					   <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnMenu/update.do?id=${ctnMenu.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					   <a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					   <a title="删除"  onClick="member_del(this,'${ctnMenu.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 			     </td>
 			</tr>
 			</c:forEach>

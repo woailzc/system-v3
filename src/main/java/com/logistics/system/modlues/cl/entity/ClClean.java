@@ -2,6 +2,8 @@ package com.logistics.system.modlues.cl.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 import com.logistics.system.modlues.sys.entity.SysUser;
 
@@ -11,9 +13,9 @@ public class ClClean extends DataEntity<ClClean> {
     private SysUser cleanBy;
 
     private String cleanAdress;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startDate;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date endDate;
 
     private String suggestion;
@@ -21,10 +23,28 @@ public class ClClean extends DataEntity<ClClean> {
     private SysUser applicant;
     
     private String status;
-
+    
+    private String cleanByDelFlag;
+    
+    private String applicantDelFlag;
    
+    public String getCleanByDelFlag() {
+		return cleanByDelFlag;
+	}
 
-    public String getStatus() {
+	public void setCleanByDelFlag(String cleanByDelFlag) {
+		this.cleanByDelFlag = cleanByDelFlag;
+	}
+
+	public String getApplicantDelFlag() {
+		return applicantDelFlag;
+	}
+
+	public void setApplicantDelFlag(String applicantDelFlag) {
+		this.applicantDelFlag = applicantDelFlag;
+	}
+
+	public String getStatus() {
 		return status;
 	}
 

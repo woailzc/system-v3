@@ -55,7 +55,7 @@ public class AdAdviceController {
 	public Object del(Model model,AdAdvice adAdvice){
 		adAdviceService.delete(adAdvice);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

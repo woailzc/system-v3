@@ -45,7 +45,7 @@
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">标题</th>
-				<th width="100">创建时间</th>
+				<th width="100">开始时间</th>
 				<th width="40">申请人</th>
 				<th width="40">接收人</th>
 				<th width="60">状态</th>
@@ -57,13 +57,13 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${reRepairOrder.id}','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','10001','360','400')">${reRepairOrder.id}</u></td>
-				<td><fmt:formatDate value="${reRepairOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${reRepairOrder.applyDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${reRepairOrder.applyer.name}</td>
 				<td>${reRepairOrder.receiver.name}</td>
 				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
 				<td class="td-manage"> 
 					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${reRepairOrder.id == adAdvice.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${currentUser.id == reRepairOrder.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 					<c:if test="${reRepairOrder.status=='申请'}">
 					 <a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a>
 					</c:if>
@@ -160,11 +160,12 @@ function change_password(title,url,id,w,h){
 }
 /*用户-删除*/
 function member_del(obj,id,applyerDelFlag,receiverDelFlag){
+
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{id:id},
 			data:{applyerDelFlag:applyerDelFlag,receiverDelFlag:receiverDelFlag,id:id},
+			url: '<%=basePath%>a/reRepairOrder/del.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

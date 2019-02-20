@@ -46,7 +46,7 @@ public class AstFixedCapitalController {
 	public Object del(Model model,AstFixedCapital astFixedCapital){
 		astFixedCapitalService.delete(astFixedCapital);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("del", "删除成功");
 	    return hashMap;
 		
 	}

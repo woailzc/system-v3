@@ -45,7 +45,7 @@
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">标题</th>
-				<th width="100">创建时间</th>
+				<th width="100">开始时间</th>
 				<th width="40">申请人</th>
 				<th width="40">接收人</th>
 				<th width="60">状态</th>
@@ -57,12 +57,13 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${clClean.id}','<%=basePath%>a/clClean/show.do?id=${clClean.id}','10001','360','400')">${clClean.id}</u></td>
-				<td><fmt:formatDate value="${clClean.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${clClean.createBy.name}</td>
+				<td><fmt:formatDate value="${clClean.startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${clClean.applicant.name}</td>
+				<td>${clClean.cleanBy.name}</td>
 				<td class="td-status"><span class="label label-success radius">${clClean.status}</span></td>
 				<td class="td-manage"> 
 					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/clClean/update.do?id=${clClean.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除"  onClick="member_del(this,'${clClean.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<a title="删除"  onClick="member_del(this,'${clClean.id }','${currentUser.id == clClean.applicant.id? '1':'0' }','${currentUser.id == clClean.cleanBy.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 					<c:if test="${clClean.status=='申请'}">
 					 <a style="text-decoration:none" onClick="accept(this,'${clClean.id}')" href="javascript:;" title="接受">接受</a>
 					</c:if>
@@ -156,11 +157,11 @@ function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);	
 }
 /*用户-删除*/
-function member_del(obj,id){
+function member_del(obj,id,applicantDelFlag,cleanByDelFlag){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{id:id},
+			data:{id:id,applicantDelFlag:applicantDelFlag,cleanByDelFlag:cleanByDelFlag},
 			url: '<%=basePath%>a/clClean/del.do',
 			dataType: 'json',
 			success: function(data){

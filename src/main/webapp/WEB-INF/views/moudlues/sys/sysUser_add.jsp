@@ -70,11 +70,11 @@
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input name="sex" type="radio" id="sex" checked>
+					<input name="sex" value="男" type="radio" id="sex" checked>
 					<label for="sex-1">男</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex" name="sex">
+					<input type="radio" id="sex" name="sex" value="女">
 					<label for="sex-2">女</label>
 				</div>
 				<div class="radio-box">
@@ -154,6 +154,27 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	/**检查登录名**/
+  $("#loginName").blur(function(){
+	  var loginName = $("#loginName").val();
+	  $.ajax({
+			type: 'POST',
+			data:{loginName:loginName},
+			url: '<%=basePath%>a/sysUser/check.do',
+			dataType: 'json',
+			success: function(data){
+			    if(data.check == 'true') return;
+			    if(data.check == 'false') {layer.msg('登录名已存在！',{icon:1,time:1000}); var loginName = $("#loginName").val('');}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+});
+</script>
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
