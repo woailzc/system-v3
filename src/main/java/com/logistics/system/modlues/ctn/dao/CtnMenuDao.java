@@ -13,5 +13,5 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import java.util.List;
 
 public interface CtnMenuDao extends CrudDao<CtnMenu> {
-
+	public void updateStatus(CtnMenu ctnMenu);
 }

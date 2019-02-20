@@ -24,21 +24,21 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>公告管理</title>
+<title>食物管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 公告中心 <span class="c-gray en">&gt;</span> 公告管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 食物中心 <span class="c-gray en">&gt;</span> 食物管理列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
 	  <form action="<%=basePath%>a/ctnFood/list.do" method="post">
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入部门名" id="name" name="name">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入名称" id="name" name="name">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ctnFood/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 发布公告</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加食物','<%=basePath%>a/ctnFood/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加食物</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -58,8 +58,21 @@
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ctnFood.name}','<%=basePath%>a/ctnFood/show.do?id=${ctnFood.id}','10001','360','400')">${ctnFood.name}</u></td>
 				<td><fmt:formatDate value="${ctnFood.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${ctnFood.createBy.name}</td>
-				<td class="td-status"><span class="label label-success radius">已启用</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFood/update.do?id=${ctnFood.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-status"><span class="label label-success radius">${ctnFood.status}</span></td>
+<%-- 				<c:if test="${whWarehouse.status=='正常'}">
+ --%>			<td class="td-manage">
+					   <a style="text-decoration:none" onClick="${whWarehouse.status=='正常'?'member_start':'member_stop'}(this,'${ctnFood.id}')" href="javascript:;" title="${whWarehouse.status=='正常'?'恢复':'确认过期'}"><i class="Hui-iconfont">&#xe631;</i></a>
+					   <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFood/update.do?id=${ctnFood.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					   <a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+			     </td>
+<%-- 				</c:if>
+ --%>				<%-- <c:if test="${whWarehouse.status=='过期'}">
+				   <td class="td-manage">
+					   <a style="text-decoration:none" onClick="member_start(this,'${ctnFood.id}')" href="javascript:;" title="恢复"><i class="Hui-iconfont">&#xe631;</i></a>
+					   <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFood/update.do?id=${ctnFood.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					   <a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+				   </td>
+				</c:if> --%>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -96,18 +109,19 @@ function member_add(title,url,w,h){
 function member_show(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
-/*用户-停用*/
+/*用户-过期*/
 function member_stop(obj,id){
-	layer.confirm('确认要停用吗？',function(index){
+	layer.confirm('确认要过期吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'过期'},
+			url: '<%=basePath%>a/ctnFood/dateOutAndRecovery.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="恢复"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已过期</span>');
 				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
+				layer.msg('已过期!',{icon: 5,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -116,18 +130,19 @@ function member_stop(obj,id){
 	});
 }
 
-/*用户-启用*/
+/*用户-恢复*/
 function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
+	layer.confirm('确认要恢复吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			url: '<%=basePath%>a/ctnFood/dateOutAndRecovery.do',
+			data:{id:id,status:'过期'},
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="确认过期"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已恢复</span>');
 				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
+				layer.msg('已恢复!',{icon: 6,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);

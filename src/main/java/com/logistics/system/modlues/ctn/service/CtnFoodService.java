@@ -18,8 +18,16 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class CtnFoodService extends CrudService<CtnFoodDao, CtnFood>{
+	
+	@Autowired
+	CtnFoodDao ctnFoodDao;
+	
+	public void dateOutAndRecovery(CtnFood ctnFood){
+		ctnFoodDao.updateStatus(ctnFood);
+	}
+	
 	
 
 }

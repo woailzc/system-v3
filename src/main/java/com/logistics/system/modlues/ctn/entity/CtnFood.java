@@ -2,14 +2,16 @@ package com.logistics.system.modlues.ctn.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 
 public class CtnFood extends DataEntity<CtnFood>{
    
     private String name;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date productDate;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date guarunceeDate;
 
     private String status;

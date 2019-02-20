@@ -50,7 +50,7 @@ public class CtnFoodController {
 	public Object del(Model model,CtnFood ctnFood){
 		ctnFoodService.delete(ctnFood);
 		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("删除成功", hashMap);
+		hashMap.put("删除", "删除成功");
 	    return hashMap;
 		
 	}
@@ -79,6 +79,16 @@ public class CtnFoodController {
 	   CtnFood ctnFood2 = ctnFoodService.get(ctnFood);
 	   model.addAttribute("ctnFood", ctnFood2);
 		return "moudlues/ctn/ctnFood_show";
+		
+	}
+	//过期
+	@RequestMapping("/dateOutAndRecovery.do")
+    @ResponseBody
+	public Object dateOutAndRecovery(Model model,CtnFood ctnFood){
+		ctnFoodService.dateOutAndRecovery(ctnFood);
+		HashMap<String,Object> data = new HashMap<>();
+		data.put("过期", "过期");
+		return data;
 		
 	}
 

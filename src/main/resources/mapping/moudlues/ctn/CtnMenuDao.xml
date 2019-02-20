@@ -11,6 +11,7 @@
     <result column="text" property="describe" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
+     <result column="status" property="status" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -31,7 +32,7 @@
   
  <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, name, text, 
-    price, photo
+    price, photo,status
   </sql>
   
   
@@ -79,14 +80,19 @@
      insert into ctn_menu (id, create_by, create_date, 
       update_by, update_date, del_flag, 
       remark, name, text, 
-    price,photo)
+    price,photo,status)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DOUBLE}, ,#{photo,jdbcType=VARCHAR})
+      #{price,jdbcType=DOUBLE},#{photo,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
   </insert>
   
- 
+   <!--  更新状态 -->
+ <update id="updateStatus">
+		UPDATE ctn_menu SET 
+			status = #{status}
+		WHERE id = #{id}
+ </update>
  
   <update id="update" >
      update ctn_menu

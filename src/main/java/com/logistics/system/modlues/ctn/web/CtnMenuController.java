@@ -11,14 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.logistics.system.modlues.ctn.entity.CtnFood;
-import com.logistics.system.modlues.ctn.entity.CtnFoodType;
 import com.logistics.system.modlues.ctn.entity.CtnMenu;
-import com.logistics.system.modlues.ctn.service.CtnFoodService;
-import com.logistics.system.modlues.ctn.service.CtnFoodTypeService;
 import com.logistics.system.modlues.ctn.service.CtnMenuService;
 import com.logistics.system.modlues.sys.entity.SysUser;
-import com.logistics.system.modlues.sys.service.SysDepartmentService;
+
 
 @Controller
 @RequestMapping("/a/ctnMenu")
@@ -78,5 +74,15 @@ public class CtnMenuController {
 		return "moudlues/ctn/ctnMenu_show";
 		
 	}
-
+	//过期
+	@RequestMapping("/stopAndStart.do")
+    @ResponseBody
+	public Object stopAndStart(Model model,CtnMenu ctnMenu){
+		ctnMenuService.stopAndStart(ctnMenu);
+		HashMap<String,Object> data = new HashMap<>();
+		data.put("过期", "停用");
+		return data;
+	}
+		
+	
 }

@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.wh.entity.WhWarehouse;
@@ -126,7 +129,7 @@ public class WhWarehouseController {
 	//删除多条
 	@RequestMapping("/dels.do")
 	@ResponseBody
-	public Object dels(Model model,int[] ids){
+	public Object dels(Model model,@RequestParam(value = "ids[]") String[] ids){
 		   HashMap<String, Object> data = new HashMap<>();
 		   data.put("data", "删除");
 			return data;

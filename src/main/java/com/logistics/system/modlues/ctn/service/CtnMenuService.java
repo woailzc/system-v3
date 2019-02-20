@@ -20,8 +20,15 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class CtnMenuService extends CrudService<CtnMenuDao, CtnMenu>{
+   
+	@Autowired
+	CtnMenuDao ctnMenuDao;
+	
+	public void stopAndStart(CtnMenu ctnMenu) {
+		ctnMenuDao.updateStatus(ctnMenu);
+	}
 	
 
 }

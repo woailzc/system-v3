@@ -80,6 +80,6 @@ public interface CrudDao<T> {
 	 * @param entity
 	 * @return
 	 */
-	public int deletes(int ids);
+	public int deletes(String[] ids);
 	
 }

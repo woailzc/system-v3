@@ -29,31 +29,38 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>添加食物 </title>
 </head>
 <body>
 <article class="page-container">
 	<form action="<%=basePath%>/a/ctnFood/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
+	     <input type="hidden" value="正常" name="status" id="status">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>食物的名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">内容：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="text" name="text"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+				<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'guarunceeDate\')||\'%y-%M-%d\'}' })" id="productDate" name="productDate" class="input-text Wdate" style="width:120px;" >
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>过期时间:</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'productDate\')}',maxDate:'%y-%M-%d' })" id="guarunceeDate" name="guarunceeDate" class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div>
+		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="type.id" id="type.id" required="required">
-					<option value="" selected>请选择公告的类型</option>
+					<option value="" selected>请选择食物的类型</option>
 					<c:forEach items="${ctnFoodTypes}" var="ctnFoodType">
 					<option value="${ctnFoodType.id }">${ctnFoodType.name }</option>
 					</c:forEach>

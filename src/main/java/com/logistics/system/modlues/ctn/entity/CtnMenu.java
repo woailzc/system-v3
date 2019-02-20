@@ -11,6 +11,8 @@ public class CtnMenu extends DataEntity<CtnMenu> {
 	private String price;
 	
 	private String photo;
+	
+	private String status;
 
 	public String getName() {
 		return name;
@@ -42,6 +44,14 @@ public class CtnMenu extends DataEntity<CtnMenu> {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	
