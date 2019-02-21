@@ -81,11 +81,11 @@
   </delete> -->
   
    <!-- 逻辑删除 -->
-  <update id="delete">
+  <!-- <update id="delete">
 		UPDATE cl_clean SET 
 			del_flag = 1
 		WHERE id = #{id}
- </update>
+ </update> -->
    <update id="delete">
 		UPDATE cl_clean SET 
 			applicant_del_flag = #{applicantDelFlag},clean_by_del_flag = #{cleanByDelFlag}

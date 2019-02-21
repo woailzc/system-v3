@@ -66,6 +66,9 @@
 					CONCAT('%', #{menuName}, '%')
 			</if>
 			<!-- 查询顶级菜单 -->
+			<if test="fatherMenu != null and fatherMenu != '' and fatherMenu != null and fatherMenu != ''">
+				AND a.farther_menu IS NULL
+			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a.create_date between #{datemin} and #{datemax}
 			</if>

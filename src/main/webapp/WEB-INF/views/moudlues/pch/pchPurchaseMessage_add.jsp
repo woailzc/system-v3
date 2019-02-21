@@ -40,7 +40,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" onclick="getComputingUnit()">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" >
 			</div>
 		</div>
 		<div class="row cl">

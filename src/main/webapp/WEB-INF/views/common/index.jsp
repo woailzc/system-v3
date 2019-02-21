@@ -93,7 +93,7 @@
 			</ul>
 		</dd>
 	</dl>
-	<shiro:hasPermission name="sys:user:save">
+	<%-- <shiro:hasPermission name="sys:user:save"> --%>
 	<dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 采购管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -103,7 +103,7 @@
 			</ul>
 		</dd>
 	</dl>
-	</shiro:hasPermission>
+<%-- 	</shiro:hasPermission> --%>
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 仓库管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -158,7 +158,7 @@
 			<dd>
 				<ul>
 					<li><a data-href="<%=basePath%>a/sysRole/list.do" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
-					<li><a data-href="admin-permission.html" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
+					<li><a data-href="<%=basePath%>a/sysPermission/list.do" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
 					<!--<li><a data-href="admin-list.html" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>-->
 			</ul>
 		</dd>
