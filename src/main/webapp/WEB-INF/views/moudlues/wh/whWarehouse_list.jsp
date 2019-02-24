@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加仓库','<%=basePath%>a/whWarehouse/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加仓库</a></span> <span class="r">共有数据：<strong>${fn:length(whWarehouses)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="wh:whWarehouse:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="wh:whWarehouse:save"> <a href="javascript:;" onclick="member_add('添加仓库','<%=basePath%>a/whWarehouse/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加仓库</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(whWarehouses)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort" id="table">
 		<thead>
@@ -47,6 +47,7 @@
 				<th width="100">标题</th>
 				<th width="100">创建时间</th>
 				<th width="40">创建人</th>
+				<th width="100">申请码</th>
 				<th width="60">仓库的状态</th>
 				<th width="100">操作</th>
 			</tr>
@@ -58,17 +59,18 @@
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.name}','<%=basePath%>a/whWarehouse/show.do?id=${whWarehouse.id}','10001','360','400')">${whWarehouse.name}</u></td>
 				<td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${whWarehouse.createBy.name}</td>
+				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.whWarehouseAndApplyCode.id}','<%=basePath%>a/whWarehouse/showApply.do?id=${whWarehouse.whWarehouseAndApplyCode.id}','10001','360','400')">${whWarehouse.whWarehouseAndApplyCode.id}</u></td>
 				<td class="td-status"><span class="label label-success radius">${whWarehouse.status}</span></td>
 				<td class="td-manage"> 
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouse/update.do?id=${whWarehouse.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					<a title="删除"  onClick="member_del(this,'${whWarehouse.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<shiro:hasPermission name="wh:whWarehouse:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouse/update.do?id=${whWarehouse.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+					<shiro:hasPermission name="wh:whWarehouse:del"><a title="删除"  onClick="member_del(this,'${whWarehouse.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 					<c:if test="${whWarehouse.status=='空闲'}">
 					</c:if>
 					<c:if test="${whWarehouse.status=='审核'}">
-					  <a style="text-decoration:none" onClick="article_shenhe(this,'${whWarehouse.id}')" href="javascript:;" title="审核">审核</a>
+					  <shiro:hasPermission name="wh:whWarehouse:aduit"><a style="text-decoration:none" onClick="article_shenhe(this,'${whWarehouse.id}')" href="javascript:;" title="审核">审核</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${whWarehouse.status=='启用中'}">
-					  <a style="text-decoration:none" onClick="member_stop(this,'${whWarehouse.id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+					  <shiro:hasPermission name="wh:whWarehouse:stop"><a style="text-decoration:none" onClick="member_stop(this,'${whWarehouse.id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
 					</c:if>
 				</td>
 			</tr>

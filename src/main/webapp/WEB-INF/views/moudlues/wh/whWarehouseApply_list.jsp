@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/whWarehouseApply/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></span> <span class="r">共有数据：<strong>${fn:length(whWarehouseApplys)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="wh:whWarehouseApply:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="wh:whWarehouseApply:save"><a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/whWarehouseApply/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(whWarehouseApplys)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -57,7 +57,10 @@
 				<td><fmt:formatDate value="${whWarehouseApply.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${whWarehouseApply.createBy.name}</td>
 				<td>${whWarehouseApply.suggestion}</td>
-				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouseApply/update.do?id=${whWarehouseApply.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${whWarehouseApply.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage"> 
+				 <shiro:hasPermission name="wh:whWarehouseApply:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouseApply/update.do?id=${whWarehouseApply.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+				 <shiro:hasPermission name="wh:whWarehouseApply:del"><a title="删除"  onClick="member_del(this,'${whWarehouseApply.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				 </td>
 			</tr>
 			</c:forEach>
 		</tbody>

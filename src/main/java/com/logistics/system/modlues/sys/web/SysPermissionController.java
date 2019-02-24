@@ -73,6 +73,7 @@ public class SysPermissionController {
 			model.addAttribute("msg", msg);
 			return "moudlues/sys/sysPermission_update";
 		}
+		model.addAttribute("sysPermission", sysPermissionService.get(sysPermission));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/sys/sysPermission_update";
 		

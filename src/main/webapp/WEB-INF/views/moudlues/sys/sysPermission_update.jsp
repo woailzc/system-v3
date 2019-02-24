@@ -29,91 +29,39 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>更新角色</title>
+<title>添加部门 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/sysRole/update.do" method="post" class="form form-horizontal">
-	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
+	<form action="<%=basePath%>/a/sysPermission/update.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	    <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
+	   
+	   <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>模块名称</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text"  placeholder="" id="name" name="name" value="${sysRole.name }">
+				<input type="text" class="input-text" value="${sysPermission.sysMenu.menuName }" placeholder="" id="" name= required="required" readonly="readonly">
+				<input type="hidden" value="${sysPermission.sysMenu.id }" name="sysMenu.id">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text"  placeholder="" id="remark" name="remark" value="${sysRole.remark }">
+				<input type="text" class="input-text" value="${sysPermission.name }" placeholder="" id="name" name="name" required="required">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">网站角色：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述</label>
 			<div class="formControls col-xs-8 col-sm-9">
-			<c:forEach items="${sysMenus }" var="sysMenu">
-				<dl class="permission-list">
-					<dt>
-						<label>
-							<input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
-							${sysMenu.menuName }</label>
-					</dt>
-					
-					<dd>
-					  
-					  <c:forEach items="${sysMenu.sonMenu}" var="sMenu">
-						<dl class="cl permission-list2">
-							<dt>
-								<label class="">
-									<input type="checkbox" value="" name="user-Character-0-0" id="user-Character-0-0" >
-									${sMenu.menuName }</label>
-							</dt>
-							<dd>
-								 
-								  <c:forEach items="${permissions }" var="permission">
-								    
-								   <c:if test="${permission.sysMenu.id == sMenu.id}">
-								   <c:set var="flag" value="0" scope="page"></c:set>
-								    <c:forEach items="${rolePermissions }" var="rolePermission">
-								    
-								     <c:if test="${permission.id == rolePermission.id  }">
-							             <label class="">
-									      <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds" checked >
-									       ${permission.remark}</label>
-									       <c:set var="flag" value="1" scope="page"></c:set>
-									    </c:if>  
-									    <%-- <c:if test="${ rolePermission.sysMenuId == sMenu.id && permission.id != rolePermission.id    }">
-							             <label class="">
-									      <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds"  >
-									       ${permission.remark} ${sMenu.id} ${ rolePermission.sysMenuId}</label>${permission.id } ${rolePermission.id }
-									    </c:if>  --%>
-									  </c:forEach>
-									  <c:if test="${flag == '0' }">
-									     <label class="">
-									     <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds"  >
-									       ${permission.remark}</label>
-									        <c:set var="flag" value="0" scope="page"></c:set>
-									  </c:if>
-								   </c:if>
-								  </c:forEach>
-								  
-								
-							</dd>
-						</dl>
-						</c:forEach>
-					</dd>
-					</dl>	
-				</c:forEach>
-	
+				<input type="text" class="input-text" value="${sysPermission.remark }" placeholder="" id="remark" name="remark" required="required">
 			</div>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
-	</form>
 	</form>
 </article>
 <input type="hidden" value="${msg }" name="msg" id="msg">
@@ -128,6 +76,37 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  /**获取一级菜单的子菜单**/
+	$("#fatherMenu").change(function(){
+		var id = $("#fatherMenu").val();
+	/* 	alert(id);return false; */
+			$.ajax({
+				type: 'POST',
+				data:{id:id},
+				url: '<%=basePath%>a/sysPermission/getSonMenu.do',
+				dataType: 'json',
+				success: function(data){
+/* 				  alert(data.sonMenu[0].menuName);return false;
+ */					for (var i = 0; i < data.sonMenu.length; i++) {
+						//创建一个option
+						var opt=document.createElement("option");
+						var select1=document.getElementById("sysMenu");
+						//给option的value属性和具体内容赋值
+						opt.value=data.sonMenu[i].id;
+						opt.innerHTML=data.sonMenu[i].menuName;
+						//将option添加到select中
+						select1.append(opt);
+					} 
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});		
+	});
+});
+</script>
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
@@ -176,8 +155,7 @@ $(function(){
 window.onload=function(){
 	var msg = document.getElementById('msg').value;
 	if(msg != null && msg != '') {layer.msg(msg,{icon: 1,time:2000});}
-	
-} 
+}
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

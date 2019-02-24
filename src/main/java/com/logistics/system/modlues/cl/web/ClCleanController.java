@@ -42,7 +42,7 @@ public class ClCleanController {
 			model.addAttribute("msg", msg);
 			return "moudlues/cl/clClean_add";
 		}
-		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
+		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"保洁部"));//保洁部
 		SysUser sysUser = new SysUser();
 		sysUser.setSysDepartment(sysDepartment);
 		List<SysUser> clCleanUsers = sysUserService.findList(sysUser);

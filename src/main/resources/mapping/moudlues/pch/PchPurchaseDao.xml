@@ -118,17 +118,17 @@
  
   <update id="update" >
     update pch_purchase_message
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      purchase_start_date = #{purchaseStartDate,jdbcType=DATE},
-      purchase_end_date = #{purchaseEndDate,jdbcType=DATE},
+    <!--   purchase_start_date = #{purchaseStartDate,jdbcType=DATE},
+      purchase_end_date = #{purchaseEndDate,jdbcType=DATE}, -->
       type_id = #{purchaseType.id,jdbcType=VARCHAR},
-      reason = #{reason,jdbcType=VARCHAR},
+      spend = #{spend,jdbcType=DOUBLE},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       warehouse_id = #{whWarehouse.id,jdbcType=VARCHAR},
       spend = #{spend,jdbcType=DOUBLE}

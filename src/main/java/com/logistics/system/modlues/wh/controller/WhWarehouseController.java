@@ -116,6 +116,16 @@ public class WhWarehouseController {
 		return data;
 		
 	}
+//查看申请记录详情
+	@RequestMapping("showApply")
+	public String showApply(WhWarehouseAndApplyCode whWarehouseAndApplyCode,Model model){
+		WhWarehouseAndApplyCode whWarehouseAndApplyCode2 = whWarehouseAndApplyCodeService.get(whWarehouseAndApplyCode);
+		WhWarehouseApply whWarehouseApply = whWarehouseAndApplyCode2.getWhWarehouseApply();
+		model.addAttribute("whWarehouseApply", whWarehouseApply);
+	
+		return "moudlues/wh/whWarehouse_apply_show";
+		
+	}
 //停用
 	@RequestMapping("/stop.do")
 	@ResponseBody

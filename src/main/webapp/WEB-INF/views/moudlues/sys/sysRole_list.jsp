@@ -29,7 +29,7 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<div class="cl pd-5 bg-1 bk-gray"> <span class="l"><shiro:hasPermission name="sys:sysRole:del"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="sys:sysRole:save"> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','<%=basePath%>a/sysRole/save.do?id=${sysRole.id}&delFlag=1','800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a></shiro:hasPermission> </span> <span class="r">共有数据：<strong>：${fn:length(sysRoles)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray"> <span class="l"><shiro:hasPermission name="sys:sysPermission:del"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="sys:sysPermission:save"> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','<%=basePath%>a/sysRole/save.do?id=${sysRole.id}&delFlag=1','800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </shiro:hasPermission></span> <span class="r">共有数据：<strong>：${fn:length(sysRoles)}</strong> 条</span> </div>
 	<table class="table table-border table-bordered table-hover table-bg">
 		<thead>
 			<tr>
@@ -53,9 +53,9 @@
 				<%-- <td><a href="#">${sysRole.id }</a></td> --%>
 				<td>${sysRole.remark }</td>
 				<td class="f-14">
-					<shiro:hasPermission name="sys:sysRole:edit"><a title="编辑" href="<%=basePath%>a/sysRole/update.do?id=${sysRole.id}&delFlag=1'"  style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
-					<shiro:hasPermission name="sys:sysRole:del"><a title="删除" href="javascript:;" onclick="admin_role_del(this,'${sysRole.id }')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
-				</td>
+				<shiro:hasPermission name="sys:sysPermission:edit"><a title="编辑" href="<%=basePath%>a/sysRole/update.do?id=${sysRole.id}&delFlag=1'"  style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+				 <shiro:hasPermission name="sys:sysPermission:del"><a title="删除" href="javascript:;" onclick="admin_role_del(this,'${sysRole.id }')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				 </td>
 			</tr>
 		</c:forEach>
 		</tbody>

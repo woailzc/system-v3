@@ -80,6 +80,7 @@ public class PchPurchaseMessageController {
 			model.addAttribute("msg", msg);
 			return "moudlues/pch/pchPurchaseMessage_update";
 		}
+		model.addAttribute("pchPurchaseMessage", pchPurchaseMessageService.get(pchPurchaseMessage));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/pch/pchPurchaseMessage_update";
 		

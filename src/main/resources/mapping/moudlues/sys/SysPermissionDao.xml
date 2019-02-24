@@ -74,7 +74,7 @@
  </update>
    <!-- 逻辑删除多个 -->
   <update id="deletes">
-    UPDATE wh_warehouse_apply SET 
+    UPDATE sys_permission SET 
 			del_flag = 1
     <if test="array.length>0">
       where id in
@@ -96,11 +96,9 @@
   </insert>
   <update id="update" >
     update sys_permission
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set menu_id = #{sysMenu.id,jdbcType=VARCHAR},
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
