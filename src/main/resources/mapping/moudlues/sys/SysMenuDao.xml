@@ -100,6 +100,17 @@
 			"del_flag" = 1
 		WHERE "id" = #{id}
  </update>
+    <!-- 逻辑删除多个 -->
+  <update id="deletes">
+    UPDATE sys_menu SET 
+			del_flag = 1
+    <if test="array.length>0">
+      where id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+          #{id}
+       </foreach>
+     </if> 
+  </update>
   <!-- <update id="update" >
     update sys_role
     set create_by = #{createBy.id,jdbcType=VARCHAR},

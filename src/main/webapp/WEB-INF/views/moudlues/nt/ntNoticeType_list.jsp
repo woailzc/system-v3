@@ -27,7 +27,7 @@
 <title>公告类型管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 部门中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
 	  <form action="<%=basePath%>a/ntNoticeType/list.do" method="post">
@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜名字</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加类型','<%=basePath%>a/ntNoticeType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加类型</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="nt:ntNoticeType:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="nt:ntNoticeType:save"><a href="javascript:;" onclick="member_add('添加类型','<%=basePath%>a/ntNoticeType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加类型</a></shiro:hasPermission></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -53,11 +53,14 @@
 		<tbody>
 		   <c:forEach items="${ntNoticeTypes }" var="ntNoticeType">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="${ntNoticeType.id }" name="ids" id="ids"></td>
 				<td>${ntNoticeType.name}</td>
 				<td><fmt:formatDate value="${ntNoticeType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${ntNoticeType.createBy.name}</td>
-				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ntNoticeType/update.do?id=${ntNoticeType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ntNoticeType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage"> 
+				<shiro:hasPermission name="nt:ntNoticeType:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ntNoticeType/update.do?id=${ntNoticeType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+				<shiro:hasPermission name="nt:ntNoticeType:del"><a title="删除"  onClick="member_del(this,'${ntNoticeType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -153,6 +156,32 @@ function member_del(obj,id){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});
 			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/ntNoticeType/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
 			error:function(data) {
 				console.log(data.msg);
 			},

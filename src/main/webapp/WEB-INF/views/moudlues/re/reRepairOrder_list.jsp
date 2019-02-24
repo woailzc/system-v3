@@ -27,7 +27,7 @@
 <title>维修管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 维修中心 <span class="c-gray en">&gt;</span> 公告管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 维修中心 <span class="c-gray en">&gt;</span> 维修管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
 	  <form action="<%=basePath%>a/reRepairOrder/list.do" method="post">
@@ -38,13 +38,13 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="re:reRepairOrder:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="re:reRepairOrder:save"><a href="javascript:;" onclick="member_add('申请','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></shiro:hasPermission></span><span class="r">共有数据：<strong>${fn:length(reRepairOrders)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
-			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
+<!-- 			    <th width="25"><input type="checkbox" name="" value=""></th>
+ -->				<th width="100">标题</th>
 				<th width="100">开始时间</th>
 				<th width="40">申请人</th>
 				<th width="40">接收人</th>
@@ -55,20 +55,20 @@
 		<tbody>
 		   <c:forEach items="${reRepairOrders }" var="reRepairOrder">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${reRepairOrder.id}','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','10001','360','400')">${reRepairOrder.id}</u></td>
+<!-- 				<td><input type="checkbox" value="1" name=""></td>
+ -->				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${reRepairOrder.id}','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','10001','360','400')">${reRepairOrder.id}</u></td>
 				<td><fmt:formatDate value="${reRepairOrder.applyDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${reRepairOrder.applyer.name}</td>
 				<td>${reRepairOrder.receiver.name}</td>
 				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
 				<td class="td-manage"> 
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${currentUser.id == reRepairOrder.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<shiro:hasPermission name="re:reRepairOrder:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+					<shiro:hasPermission name="re:reRepairOrder:del"><a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${currentUser.id == reRepairOrder.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 					<c:if test="${reRepairOrder.status=='申请'}">
-					 <a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a>
+					 <shiro:hasPermission name="re:reRepairOrder:accept"><a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${reRepairOrder.status=='已接受'}">
-					  <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id}')" href="javascript:;" title="确认完成">确认完成</a>
+					 <shiro:hasPermission name="re:reRepairOrder:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id}')" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
 					</c:if>
 
 			
@@ -96,7 +96,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,6,6]}// 制定列不参与排序
 		]
 	});
 	

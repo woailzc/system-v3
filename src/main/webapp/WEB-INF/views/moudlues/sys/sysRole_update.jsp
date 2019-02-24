@@ -4,7 +4,6 @@
 <%@ page isELIgnored="false" %>
 <% Date nowDate = new Date(); request.setAttribute("nowDate", nowDate); %>
 <!--_meta 作为公共模版分离出去-->
-<!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -30,24 +29,24 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>新建网站角色 - 管理员管理</title>
+<title>更新角色</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/sysRole/save.do" method="post" class="form form-horizontal" id="form-admin-role-add">
-	<input type="hidden" value="${sysUser.id }" name="createBy.id" id="createBy.id">
-	   <input type="hidden" value="${nowDate}" name="createDate" id="updateDate">
+	<form action="<%=basePath%>/a/sysRole/update.do" method="post" class="form form-horizontal">
+	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
+	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text"  placeholder="" id="name" name="name" value="${sysRole.name }">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="remark" name="remark">
+				<input type="text" class="input-text"  placeholder="" id="remark" name="remark" value="${sysRole.remark }">
 			</div>
 		</div>
 		<div class="row cl">
@@ -71,14 +70,33 @@
 									${sMenu.menuName }</label>
 							</dt>
 							<dd>
-								
+								 <c:set var="flag" value="0" scope="page"></c:set>
 								  <c:forEach items="${permissions }" var="permission">
+								    
 								   <c:if test="${permission.sysMenu.id == sMenu.id}">
-							    <label class="">
-									      <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds" >
+								    <c:forEach items="${rolePermissions }" var="rolePermission">
+								    
+								     <c:if test="${permission.id == rolePermission.id  }">
+							             <label class="">
+									      <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds" checked >
 									       ${permission.remark}</label>
+									       <c:set var="flag" value="1" scope="page"></c:set>
+									    </c:if>  
+									    <%-- <c:if test="${ rolePermission.sysMenuId == sMenu.id && permission.id != rolePermission.id    }">
+							             <label class="">
+									      <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds"  >
+									       ${permission.remark} ${sMenu.id} ${ rolePermission.sysMenuId}</label>${permission.id } ${rolePermission.id }
+									    </c:if>  --%>
+									  </c:forEach>
+									  <c:if test="${flag == '0' }">
+									     <label class="">
+									     <input type="checkbox" value="${permission.id}" name="premissionIds" id="premissionIds"  >
+									       ${permission.remark}</label>
+									        <c:set var="flag" value="0" scope="page"></c:set>
+									  </c:if>
 								   </c:if>
 								  </c:forEach>
+								  
 								
 							</dd>
 						</dl>
@@ -95,65 +113,71 @@
 			</div>
 		</div>
 	</form>
+	</form>
 </article>
-
+<input type="hidden" value="${msg }" name="msg" id="msg">
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>static/static/h-ui/js/H-ui.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
-<!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-<script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="<%=basePath%>static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
 $(function(){
-	$(".permission-list dt input:checkbox").click(function(){
-		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
-	});
-	$(".permission-list2 dd input:checkbox").click(function(){
-		var l =$(this).parent().parent().find("input:checked").length;
-		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
-		if($(this).prop("checked")){
-			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
-			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
-		}
-		else{
-			if(l==0){
-				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
-			}
-			if(l2==0){
-				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
-			}
-		}
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
 	});
 	
-	$("#form-admin-role-add").validate({
+	$("#form-member-add").validate({
 		rules:{
-			roleName:{
+			username:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			sex:{
 				required:true,
 			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			 form.submit();
-			/* $(form).ajaxSubmit();
+			//$(form).ajaxSubmit();
 			var index = parent.layer.getFrameIndex(window.name);
-			parent.layer.close(index); */
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
 		}
 	});
 });
 </script>
-<!--/请在上方写此页面业务相关的脚本-->
 <!-- 消息提示 -->
 <script type="text/javascript">
 window.onload=function(){
 	var msg = document.getElementById('msg').value;
 	if(msg != null && msg != '') {layer.msg(msg,{icon: 1,time:2000});}
-}
+	
+} 
 </script> 
+<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

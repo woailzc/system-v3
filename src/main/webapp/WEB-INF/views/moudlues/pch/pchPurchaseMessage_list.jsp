@@ -43,7 +43,7 @@
 			<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>
 			</form>
 		</div>
-		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" onclick="product_add('添加产品','<%=basePath%>a/pchPurchaseMessage/save.do?id=${pchPurchaseType.id}&delFlag=1')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加产品</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="pch:pchPurchaseMessage:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="pch:pchPurchaseMessage:save"> <a class="btn btn-primary radius" onclick="product_add('添加产品','<%=basePath%>a/pchPurchaseMessage/save.do?id=${pchPurchaseType.id}&delFlag=1')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加产品</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(pchPurchaseMessages)}</strong> 条</span> </div>
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
@@ -61,14 +61,17 @@
 				<tbody>
 				<c:forEach items="${pchPurchaseMessages}" var="pchPurchaseMessage">
 					<tr class="text-c va-m">
-						<td><input name="" type="checkbox" value=""></td>
+						<td><input type="checkbox" value="${pchPurchaseMessage.id }" name="ids" id="ids"></td>
 						<td>${pchPurchaseMessage.id }</td>
 						<td><a onClick="product_show('哥本哈根橡木地板','<%=basePath%>a/pchPurchaseMessage/show.do?id=${pchPurchaseMessage.id}','10001')" href="javascript:;"><img width="60" class="product-thumb" src="temp/product/Thumb/6204.jpg"></a></td>
 						<td class="text-l"><a style="text-decoration:none" onClick="product_show('${pchPurchaseMessage.name }','product-show.html','10001')" href="javascript:;"><img title="国内品牌" src="static/h-ui.admin/images/cn.gif">${pchPurchaseMessage.name }</a></td>
 						<td class="text-l">${pchPurchaseMessage.remark }。</td>
 						<td><span class="price">${pchPurchaseMessage.spend }</span> 元/平米</td>
 						<td class="td-status"><span class="label label-success radius">已发布</span></td>
-						<td class="td-manage"><a style="text-decoration:none" onClick="product_stop(this,'10001')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a style="text-decoration:none" class="ml-5" onClick="product_edit('产品编辑','<%=basePath%>a/pchPurchaseMessage/update.do?id=${pchPurchaseMessage.id}&delFlag=1','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="product_del(this,'10001')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+						<td class="td-manage">
+						 <shiro:hasPermission name="pch:pchPurchaseMessage:edit"><a style="text-decoration:none" class="ml-5" onClick="product_edit('产品编辑','<%=basePath%>a/pchPurchaseMessage/update.do?id=${pchPurchaseMessage.id}&delFlag=1','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+						 <shiro:hasPermission name="pch:pchPurchaseMessage:del"><a style="text-decoration:none" class="ml-5" onClick="product_del(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+						 </td>
 					</tr>
 					</c:forEach>
 				</tbody>
@@ -234,6 +237,32 @@ function product_del(obj,id){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});
 			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/pchPurchaseMessage/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
 			error:function(data) {
 				console.log(data.msg);
 			},

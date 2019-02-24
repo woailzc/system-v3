@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加仓库','<%=basePath%>a/whWarehouse/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加仓库</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加仓库','<%=basePath%>a/whWarehouse/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加仓库</a></span> <span class="r">共有数据：<strong>${fn:length(whWarehouses)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort" id="table">
 		<thead>
@@ -94,7 +94,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
 		]
 	});
 	
@@ -193,6 +193,7 @@ function datadel(){
 				/* $(obj).parents("tr").remove(); */
 				 Dtable.rows( '.selected' ).remove();
 				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
 			},
 			
 			error:function(data) {

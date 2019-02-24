@@ -52,6 +52,17 @@
     from ctn_food_type
     where id = #{id,jdbcType=VARCHAR}
   </select>
+     <!-- 逻辑删除多个 -->
+  <update id="deletes">
+    UPDATE nt_notice_type SET 
+			del_flag = 1
+    <if test="array.length>0">
+      where id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+          #{id}
+       </foreach>
+     </if> 
+  </update>
    <!-- 逻辑删除 -->
   <update id="delete">
 		UPDATE nt_notice_type SET 

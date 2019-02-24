@@ -23,15 +23,23 @@
    <collection property="sysPermissions" ofType="SysPermission">
       <id column="pid" property="id" jdbcType="VARCHAR" />
       <result column="pname" property="name" jdbcType="VARCHAR" />
+      <result column="pM_id" property="sysMenuId" jdbcType="VARCHAR" />
+      <!-- <association property="sysMenu"
+                   javaType="SysMenu"
+                   column="pM_idd"
+                   select="selectSysMenuBase"/> -->
    </collection>
   </resultMap>
   
    <select id="selectSysUserBase" resultType="SysUser">
      select * from sys_user where id =#{xxx}
   </select>
+    <!-- <select id="selectSysMenuBase" resultType="SysMenu">
+     select * from sys_menu where id=#{xxx}
+  </select> -->
  
   <sql id="Base_Column_List" >
-    a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag, a.remark, a.name ,p.id AS pid,p.name AS pname
+    a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag, a.remark, a.name ,p.id AS pid,p.name AS pname,p.menu_id AS pM_id
   </sql>
   <select id="findList" resultMap="BaseResultMap" >
     select
@@ -72,19 +80,37 @@
           insert into sys_role_permission(role_id,permission_id) values 
           ((#{0}),(#{1}))
   </insert>
+ <delete id="deleteRolePermisson" >
+    delete from sys_role_permission
+    where role_id = #{id,jdbcType=VARCHAR}
+  </delete>
  <!-- 逻辑删除 -->
   <update id="delete">
 		UPDATE sys_role SET 
-			"del_flag" = 1
-		WHERE "id" = #{id}
+			del_flag = 1
+		WHERE id = #{id}
  </update>
+    <!-- 逻辑删除多个 -->
+  <update id="deletes">
+    UPDATE sys_role SET 
+			del_flag = 1
+    <if test="array.length>0">
+      where id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+          #{id}
+       </foreach>
+     </if> 
+  </update>
+ <!--   <update id="updateRolePermission">
+		UPDATE sys_role_permission SET 
+			permission_id = #{newPermissionId}
+		WHERE role_id = #{roleId} and permission_id = #{oldPermissionId}
+ </update> -->
   <update id="update" >
     update sys_role
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

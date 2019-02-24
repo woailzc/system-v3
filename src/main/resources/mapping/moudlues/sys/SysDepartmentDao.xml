@@ -65,6 +65,17 @@
 			del_flag = 1
 		WHERE id = #{id}
  </update>
+    <!-- 逻辑删除多个 -->
+  <update id="deletes">
+    UPDATE sys_department SET 
+			del_flag = 1
+    <if test="array.length>0">
+      where id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+          #{id}
+       </foreach>
+     </if> 
+  </update>
 <!-- 插入一个部门 -->
   <insert id="insert" >
     <selectKey keyProperty="id" resultType="String" order="BEFORE">

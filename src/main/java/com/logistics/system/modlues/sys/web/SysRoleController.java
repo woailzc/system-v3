@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.logistics.system.modlues.shiroTest.entity.Permission;
+import com.logistics.system.modlues.shiroTest.entity.Role;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysMenu;
 import com.logistics.system.modlues.sys.entity.SysPermission;
@@ -83,14 +85,32 @@ public class SysRoleController {
 	}
 	
 	@RequestMapping("/update.do")
-	public String update(Model model,SysRole sysRole){
+	public String update(Model model,SysRole sysRole,String[] premissionIds){
 		if (sysRole !=null && sysRole.getDelFlag().equals("0")) {
-			sysRoleService.update(sysRole);
-			String msg = "修改成功!";
-			model.addAttribute("msg", msg);
-			return "moudlues/sys/sysRole_update";
+			sysRoleService.update(sysRole,premissionIds);
+			String msg = "update Suucesss!";
+			model.addAttribute("updateMsg", msg);
+			return "redirect:" + "/a/sysRole/list.do";	
 		}
-		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		//创建一个sysMenu带有空id的fatherSysMenu,以便查询顶级菜单
+		        SysUser currentSysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
+				SysMenu sysMenu = new SysMenu();
+				SysMenu fSysMenu = new SysMenu("");
+				sysMenu.setFatherMenu(fSysMenu);
+				List<SysMenu> sysMenus = sysMenuService.findList(sysMenu);
+				model.addAttribute("sysMenus", sysMenus);
+				//查找角色
+				SysRole sysRole2 = sysRoleService.get(sysRole);
+				model.addAttribute("sysRole", sysRole2);
+				//查找权限
+				List<SysPermission> permissions = sysPermissionService.findList(new SysPermission());
+				model.addAttribute("permissions", permissions);
+				//查找角色的权限
+				List<SysPermission> rolePermissions = sysRole2.getSysPermissions();
+				model.addAttribute("rolePermissions", rolePermissions);
+				
+				
+				model.addAttribute("sysUser", currentSysUser);
 		return "moudlues/sys/sysRole_update";
 		
 	}
@@ -101,5 +121,14 @@ public class SysRoleController {
 		return null;
 		
 	}
-
+	//删除多条
+	@RequestMapping("/dels.do")
+	@ResponseBody
+	public Object dels(Model model,@RequestParam(value = "ids[]") String[] ids){
+		sysRoleService.deletes(ids);
+		   HashMap<String, Object> data = new HashMap<>();
+		   data.put("data", "删除");
+			return data;
+			
+		}
 }

@@ -8,6 +8,8 @@ public class SysPermission extends DataEntity<SysPermission> {
   
     private String name;
     
+    private String sysMenuId;
+    
     private SysMenu sysMenu;
 
     public String getName() {
@@ -24,6 +26,14 @@ public class SysPermission extends DataEntity<SysPermission> {
 
 	public void setSysMenu(SysMenu sysMenu) {
 		this.sysMenu = sysMenu;
+	}
+
+	public String getSysMenuId() {
+		return sysMenuId;
+	}
+
+	public void setSysMenuId(String sysMenuId) {
+		this.sysMenuId = sysMenuId;
 	}
     
 }

@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ptyProperty/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="pty:ptyProperty:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="pty:ptyProperty:save"> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ptyProperty/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(ptyPropertys)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -53,11 +53,14 @@
 		<tbody>
 		   <c:forEach items="${ptyPropertys }" var="ptyProperty">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="${ptyProperty.id }" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ptyProperty.name}','<%=basePath%>a/ptyProperty/show.do?id=${ptyProperty.id}','10001','360','400')">${ptyProperty.name}</u></td>
 				<td><fmt:formatDate value="${ptyProperty.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${ptyProperty.createBy.name}</td>
-				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ptyProperty/update.do?id=${ptyProperty.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ptyProperty.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage"> 
+				 <shiro:hasPermission name="pty:ptyProperty:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ptyProperty/update.do?id=${ptyProperty.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+				 <shiro:hasPermission name="pty:ptyProperty:del"><a title="删除"  onClick="member_del(this,'${ptyProperty.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				 </td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -81,7 +84,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,4,4]}// 制定列不参与排序
 		]
 	});
 	
@@ -153,6 +156,32 @@ function member_del(obj,id){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});
 			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/ptyProperty/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
 			error:function(data) {
 				console.log(data.msg);
 			},

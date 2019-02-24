@@ -178,5 +178,14 @@ public class SysUserController {
 			}
 		    return hashMap;
 		}
-
+		//删除多条
+		@RequestMapping("/dels.do")
+		@ResponseBody
+		public Object dels(Model model,@RequestParam(value = "ids[]") String[] ids){
+			sysUserService.deletes(ids);
+			   HashMap<String, Object> data = new HashMap<>();
+			   data.put("data", "删除");
+				return data;
+				
+			}
 }

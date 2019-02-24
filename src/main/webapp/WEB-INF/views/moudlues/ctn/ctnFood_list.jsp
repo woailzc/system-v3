@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加食物','<%=basePath%>a/ctnFood/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加食物</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ctn:ctnFood:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="ctn:ctnFood:save"><a href="javascript:;" onclick="member_add('添加食物','<%=basePath%>a/ctnFood/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加食物</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(ctnFoods)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -54,16 +54,16 @@
 		<tbody>
 		   <c:forEach items="${ctnFoods }" var="ctnFood">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="${ctnFood.id }" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ctnFood.name}','<%=basePath%>a/ctnFood/show.do?id=${ctnFood.id}','10001','360','400')">${ctnFood.name}</u></td>
 				<td><fmt:formatDate value="${ctnFood.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${ctnFood.createBy.name}</td>
 				<td class="td-status"><span class="label label-success radius">${ctnFood.status}</span></td>
 <%-- 				<c:if test="${whWarehouse.status=='正常'}">
  --%>			<td class="td-manage">
-					   <a style="text-decoration:none" onClick="${whWarehouse.status=='正常'?'member_start':'member_stop'}(this,'${ctnFood.id}')" href="javascript:;" title="${whWarehouse.status=='正常'?'恢复':'确认过期'}"><i class="Hui-iconfont">&#xe631;</i></a>
-					   <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFood/update.do?id=${ctnFood.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					   <a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					   <shiro:hasPermission name="ctn:ctnFood:outDate"><a style="text-decoration:none" onClick="${whWarehouse.status=='正常'?'member_start':'member_stop'}(this,'${ctnFood.id}')" href="javascript:;" title="${whWarehouse.status=='正常'?'恢复':'确认过期'}"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
+					   <shiro:hasPermission name="ctn:ctnFood:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFood/update.do?id=${ctnFood.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+					   <shiro:hasPermission name="ctn:ctnFood:del"><a title="删除"  onClick="member_del(this,'${ctnFood.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 			     </td>
 <%-- 				</c:if>
  --%>				<%-- <c:if test="${whWarehouse.status=='过期'}">
@@ -96,7 +96,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
 		]
 	});
 	
@@ -170,6 +170,32 @@ function member_del(obj,id){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});
 			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/ctnFood/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
 			error:function(data) {
 				console.log(data.msg);
 			},

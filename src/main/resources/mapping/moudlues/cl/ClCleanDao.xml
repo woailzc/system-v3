@@ -60,7 +60,7 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{remark}, '%')
 			</if>
-			<if test="applicant != null and applicant.id != null and applyer.id != ''or(cleanBy != null and cleanBy.id != '' and cleanBy.id != null)" >
+			<if test="applicant != null and applicant.id != null and applicant.id != ''or(cleanBy != null and cleanBy.id != '' and cleanBy.id != null)" >
 				and ((a.applicant  = #{applicant.id} and applicant_del_flag ='0') or (a.clean_by = #{cleanBy.id} and clean_by_del_flag =0))
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">

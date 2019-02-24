@@ -130,6 +130,7 @@ public class WhWarehouseController {
 	@RequestMapping("/dels.do")
 	@ResponseBody
 	public Object dels(Model model,@RequestParam(value = "ids[]") String[] ids){
+		   whWarehouseService.deletes(ids);
 		   HashMap<String, Object> data = new HashMap<>();
 		   data.put("data", "删除");
 			return data;

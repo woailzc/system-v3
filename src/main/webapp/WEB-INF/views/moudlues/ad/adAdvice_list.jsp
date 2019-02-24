@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/adAdvice/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 建言建策</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ad:adAdvice:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="ad:adAdvice:save"><a href="javascript:;" onclick="member_add('发布','<%=basePath%>a/adAdvice/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 建言建策</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(adAdvices)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -59,7 +59,10 @@
 				<td><fmt:formatDate value="${adAdvice.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${adAdvice.createBy.name}</td>
 				<td class="td-status"><span class="label label-success radius">${adAdvice.status}</span></td>
-				<td class="td-manage"><a title="审核" href="javascript:;" onclick="member_edit('审核','<%=basePath%>a/adAdvice/aduit.do?id=${adAdvice.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${adAdvice.id }','${currentUser.id == adAdvice.pusher.id? '1':'0' }','${currentUser.id == adAdvice.aduitor.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage">
+				<shiro:hasPermission name="ad:adAdvice:aduit"><a title="审核" href="javascript:;" onclick="member_edit('审核','<%=basePath%>a/adAdvice/aduit.do?id=${adAdvice.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+				<shiro:hasPermission name="ad:adAdvice:del"> <a title="删除"  onClick="member_del(this,'${adAdvice.id }','${currentUser.id == adAdvice.pusher.id? '1':'0' }','${currentUser.id == adAdvice.aduitor.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				</td>
 				
 			</tr>
 			</c:forEach>
@@ -84,7 +87,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
 		]
 	});
 	
@@ -162,6 +165,7 @@ function member_del(obj,id,pusherDelFlag,aduitDelFlag){
 		});		
 	});
 }
+
 </script> 
 </body>
 </html>

@@ -77,11 +77,18 @@
 		<dl id="menu-article">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 资产管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="ast:astFixedCapital:list">
 					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="固定资产管理" href="javascript:void(0)">固定资产管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ast:astngCapital:list">
 					<li><a data-href="<%=basePath%>a/astWorkingCapital/list.do" data-title="流动资产管理" href="javascript:void(0)">流动资产管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ast:astSpecialCapital:list">
 					<li><a data-href="<%=basePath%>a/astSpecialCapital/list.do" data-title="专项资产管理" href="javascript:void(0)">专项资产管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ast:astCapitalStatistics:list">
 					<li><a data-href="<%=basePath%>a/astCapitalStatistics/list.do" data-title="资产统计" href="javascript:void(0)">资产统计</a></li>
+					</shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
@@ -97,9 +104,12 @@
 	<dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 采购管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="pch:pchPurchaseMessage:list">
 					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/list.do" data-title="采购管理" href="javascript:void(0)">采购管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="pch:pchPurchaseType:list">
 					<li><a data-href="<%=basePath%>a/pchPurchaseType/list.do" data-title="采购管理类型" href="javascript:void(0)">采购管理类型</a></li>
+					</shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
@@ -107,10 +117,15 @@
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 仓库管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="wh:whWarehouse:list">
 					<li><a data-href="<%=basePath%>a/whWarehouse/list.do" data-title="仓库管理" href="javascript:void(0)">仓库管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="wh:whWarehouseType:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库管理类型管理" href="javascript:void(0)">仓库管理类型管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="wh:whWarehouseApply:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
+					</shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
@@ -121,18 +136,27 @@
 					<!-- <li><a data-href="product-brand.html" data-title="品牌管理" href="javascript:void(0)">品牌管理</a></li>
 					<li><a data-href="product-category.html" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
 					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li> -->
+					 <shiro:hasPermission name="pty:ptyProperty:list">
 					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业管理" href="javascript:void(0)">物业管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="pty:ptyPropertyType:list">
 					<li><a data-href="<%=basePath%>a/ptyPropertyType/list.do" data-title="物业管理类型" href="javascript:void(0)">物业管理类型</a></li>
+					</shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 食堂管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="ctn:ctnFood:list">
 					<li><a data-href="<%=basePath%>a/ctnFood/list.do" data-title="食物管理" href="javascript:void(0)">食物管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ctn:ctnFoodType:list">
 					<li><a data-href="<%=basePath%>a/ctnFoodType/list.do" data-title="食物类型管理" href="javascript:void(0)">食物类型管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ctn:ctnMenu:list">
 					<li><a data-href="<%=basePath%>a/ctnMenu/list.do" data-title="菜单管理" href="javascript:void(0)">菜单管理</a></li>
+					</shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
@@ -156,9 +180,12 @@
 		<dl id="menu-admin">
 			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="sys:sysRole:list">
 					<li><a data-href="<%=basePath%>a/sysRole/list.do" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="sys:sysPermission:list">
 					<li><a data-href="<%=basePath%>a/sysPermission/list.do" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
+					</shiro:hasPermission>
 					<!--<li><a data-href="admin-list.html" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>-->
 			</ul>
 		</dd>
@@ -166,17 +193,21 @@
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 维修管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="re:reRepairOrder:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do" data-title="维修管理" href="javascript:;">维修管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="re:reRepairOrderType:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrderType/list.do" data-title="维修类型管理" href="javascript:;">维修类型管理</a></li>
+					</shiro:hasPermission>
                 </ul>    
 		</dd>
 	</dl>
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 保洁管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="cl:clClean:list">
 					<li><a data-href="<%=basePath%>a/clClean/list.do" data-title="保洁管理" href="javascript:;">保洁管理</a></li>
+					</shiro:hasPermission>
                 </ul>    
 		</dd>
 	</dl>
@@ -184,8 +215,12 @@
 			<dt><i class="Hui-iconfont">&#xe622;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
+				    <shiro:hasPermission name="nt:ntNotice:list">
 					<li><a data-href="<%=basePath%>a/ntNotice/list.do" data-title="公告管理" href="javascript:;">公告管理</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="nt:ntNotice:list">
                     <li><a data-href="<%=basePath%>a/ntNoticeType/list.do" data-title="公告类型管理" href="javascript:;">公告类型管理</a></li>
+                    </shiro:hasPermission>
 			</ul>
 		</dd>
 	</dl>
@@ -195,8 +230,12 @@
 				<ul>
 					<!-- <li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="评论列表" href="javascript:;">评论列表</a></li>
 					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>  -->
+					 <shiro:hasPermission name="ad:adAdvice:list">
 					<li><a data-href="<%=basePath%>a/adAdvice/list.do" data-title="建言建策管理" href="javascript:;">建言建策管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="ad:adAdviceType:list">
                     <li><a data-href="<%=basePath%>a/adAdviceType/list.do" data-title="建言建策类型管理" href="javascript:;">建言建策类型管理</a></li>
+                    </shiro:hasPermission>
 					
 					
 			</ul>
@@ -205,12 +244,21 @@
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul>
+				<ul> <shiro:hasPermission name="sys:sysUser:list">
 					<li><a data-href="<%=basePath%>a/sysUser/list.do" data-title="用户管理" href="javascript:;">用户管理</a></li>
+					</shiro:hasPermission>
+					 <shiro:hasPermission name="sys:sysDepartment:list">
                     <li><a data-href="<%=basePath%>a/sysDepartment/list.do" data-title="部门管理" href="javascript:;">部门管理</a></li>
+                    </shiro:hasPermission>
+                     <shiro:hasPermission name="sys:sysUser:user:update">
                     <li><a data-href="<%=basePath%>a/sysUser/update.do" data-title="修改个人信息" href="javascript:;">修改个人信息</a></li>
+                    </shiro:hasPermission>
+                     <shiro:hasPermission name="sys:sysUser:user:updatePassword">
                     <li><a data-href="<%=basePath%>a/sysUser/updatePassword.do" data-title="修改密码" href="javascript:;">修改密码</a></li>
+                    </shiro:hasPermission>
+                     <shiro:hasPermission name="sys:sysUser:updatePhoto">
                     <li><a data-href="<%=basePath%>a/sysUser/updatePhoto.do" data-title="修改个人头像" href="javascript:;">修改个人头像</a></li>
+                    </shiro:hasPermission>
                 </ul>
 		</dd>
 	</dl>

@@ -34,11 +34,11 @@
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入部门名" id="name" name="name">
+		<input type="text" class="input-text" style="width:250px" placeholder="输入名" id="name" name="name">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/clClean/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="cl:clClean:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="cl:clClean:save"><a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/clClean/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(clCleans)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -62,13 +62,13 @@
 				<td>${clClean.cleanBy.name}</td>
 				<td class="td-status"><span class="label label-success radius">${clClean.status}</span></td>
 				<td class="td-manage"> 
-					<a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/clClean/update.do?id=${clClean.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除"  onClick="member_del(this,'${clClean.id }','${currentUser.id == clClean.applicant.id? '1':'0' }','${currentUser.id == clClean.cleanBy.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<shiro:hasPermission name="cl:clClean:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/clClean/update.do?id=${clClean.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+					<shiro:hasPermission name="cl:clClean:del"><a title="删除"  onClick="member_del(this,'${clClean.id }','${currentUser.id == clClean.applicant.id? '1':'0' }','${currentUser.id == clClean.cleanBy.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 					<c:if test="${clClean.status=='申请'}">
-					 <a style="text-decoration:none" onClick="accept(this,'${clClean.id}')" href="javascript:;" title="接受">接受</a>
+					 <shiro:hasPermission name="cl:clClean:accept"><a style="text-decoration:none" onClick="accept(this,'${clClean.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${clClean.status=='已接受'}">
-					  <a style="text-decoration:none" onClick="confirm_finish(this,'${clClean.id}')" href="javascript:;" title="确认完成">确认完成</a>
+					 <shiro:hasPermission name="cl:clClean:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${clClean.id}')" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
 					</c:if>
 				</td>
 			</tr>
@@ -94,7 +94,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,6,6]}// 制定列不参与排序
 		]
 	});
 	

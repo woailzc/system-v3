@@ -1,5 +1,7 @@
 package com.logistics.system.modlues.sys.service;
 
+import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,20 @@ public class SysRoleService extends CrudService<SysRoleDao, SysRole>{
 		}
 		
 	}
-	
+	//更新
+		public void update(SysRole sysRole ,String[] premissionIds){
+			super.update(sysRole);
+			sysRoleDao.deleteRolePermisson(sysRole);//先删除原来的权限
+			String roleId = sysRole.getId();
+			for (int i = 0; i < premissionIds.length; i++) {//然后再插入新的权限,从而达到更新的目的
+				sysRoleDao.savePermissonByid(roleId,premissionIds[i]);
+			}
+		}
+	//删除
+		public void delete(SysRole sysRole){
+			super.delete(sysRole);
+			sysRoleDao.deleteRolePermisson(sysRole);
+		}
+
 
 }
