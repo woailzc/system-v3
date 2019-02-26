@@ -32,7 +32,7 @@ public class AstCapitalStatisticsController {
 	AstFixedCapitalDao astFixedCapitalDao;
 	
 	
-	@RequestMapping("/lsit.do")
+	@RequestMapping("/list.do")
 	public String list(Model model){
 		
 		int astWorkingCapital = astWorkingCapitalDao.statistics();

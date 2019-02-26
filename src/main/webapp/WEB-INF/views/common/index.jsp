@@ -80,7 +80,7 @@
 				<ul> <shiro:hasPermission name="ast:astFixedCapital:list">
 					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="固定资产管理" href="javascript:void(0)">固定资产管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="ast:astngCapital:list">
+					 <shiro:hasPermission name="ast:astWorkingCapital:list">
 					<li><a data-href="<%=basePath%>a/astWorkingCapital/list.do" data-title="流动资产管理" href="javascript:void(0)">流动资产管理</a></li>
 					</shiro:hasPermission>
 					 <shiro:hasPermission name="ast:astSpecialCapital:list">

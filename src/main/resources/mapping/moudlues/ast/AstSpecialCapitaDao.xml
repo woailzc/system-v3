@@ -90,7 +90,7 @@
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}
-      <!-- #{pusher,jdbcType=VARCHAR}, --> #{projectName,jdbcType=VARCHAR})
+      <!-- #{pusher,jdbcType=VARCHAR}, --> ,#{projectName,jdbcType=VARCHAR})
   </insert>
   
  <!-- 统计金额 -->
