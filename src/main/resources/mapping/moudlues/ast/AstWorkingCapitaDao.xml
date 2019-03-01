@@ -95,8 +95,8 @@
   </insert>
   
  <!-- 统计金额 -->
-  <select id="statistics">
-   SELECT COUNT("amount") FROM ast_special_capital
+  <select id="statistics"  resultType="java.lang.Integer">
+   SELECT sum("amount") FROM ast_special_capital
   </select>
  
   <update id="update" >
