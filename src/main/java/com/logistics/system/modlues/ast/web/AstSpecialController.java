@@ -65,9 +65,9 @@ public class AstSpecialController {
 			astSpecialCapitalService.update(astSpecialCapital);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/ast/astSpecialCapital_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("astSpecialCapital", astSpecialCapitalService.get(astSpecialCapital));
 		return "moudlues/ast/astSpecialCapital_update";
 		
 	}

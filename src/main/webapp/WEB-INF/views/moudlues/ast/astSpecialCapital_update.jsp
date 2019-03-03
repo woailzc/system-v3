@@ -35,16 +35,36 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/astSpecialCapital/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/astSpecialCapital/update.do" method="post" class="form form-horizontal" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专项项目的名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
+				<input type="text" class="input-text" value="" placeholder="${astSpecialCapital.projectName }" id="projectName" name="projectName" >
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>金额：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${astSpecialCapital.amount }" placeholder="" id="amount" name="amount">
+			</div>
+		</div>
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>来源：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="source" name="source">
+			</div>
+		</div> -->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark">${astSpecialCapital.remark }</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+		
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -74,35 +94,29 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			projectName:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			amount:{
 				required:true,
+				number:true
 			},
-			mobile:{
+			remark:{
 				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
+			
 		},
+			
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

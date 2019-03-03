@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ast:workingCapital:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="ast:workingCapital:save"><a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/astWorkingCapital/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(astWorkingCapitals)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ast:astWorkingCapital:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="ast:astWorkingCapital:save"><a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/astWorkingCapital/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(astWorkingCapitals)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -62,8 +62,8 @@
 				<td><fmt:formatDate value="${astWorkingCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${astWorkingCapital.createBy.name}</td>
 				<td class="td-manage"> 
-				<shiro:hasPermission name="ast:workingCapital:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/astWorkingCapital/update.do?id=${astWorkingCapital.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
-				 <shiro:hasPermission name="ast:workingCapital:del"><a title="删除"  onClick="member_del(this,'${astWorkingCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				<shiro:hasPermission name="ast:astWorkingCapital:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/astWorkingCapital/update.do?id=${astWorkingCapital.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+				 <shiro:hasPermission name="ast:astWorkingCapital:del"><a title="删除"  onClick="member_del(this,'${astWorkingCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 				 </td>
 			</tr>
 			</c:forEach>
@@ -88,7 +88,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,6,6]}// 制定列不参与排序
 		]
 	});
 	

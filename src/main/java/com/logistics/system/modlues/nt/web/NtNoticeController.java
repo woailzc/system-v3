@@ -68,7 +68,6 @@ public class NtNoticeController {
 			ntNoticeService.update(ntNotice);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/nt/ntNotice_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/nt/ntNotice_update";

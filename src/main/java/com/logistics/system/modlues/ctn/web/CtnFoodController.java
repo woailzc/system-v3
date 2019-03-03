@@ -69,7 +69,6 @@ public class CtnFoodController {
 			ctnFoodService.update(ctnFood);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/ctn/ctnFood_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/ctn/ctnFood_update";

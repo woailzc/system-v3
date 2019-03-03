@@ -29,15 +29,15 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>添加 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/astSpecialCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/astSpecialCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 			<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>固定资产的名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专项项目的名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="projectName" name="projectName" >
 			</div>
@@ -91,35 +91,28 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			projectName:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			amount:{
 				required:true,
+				number:true
 			},
-			mobile:{
+			remark:{
 				required:true,
-				isMobile:true,
+				minlength:0,
+				maxlength:100
 			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
-			},
+			
 			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

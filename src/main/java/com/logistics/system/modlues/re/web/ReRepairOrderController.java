@@ -87,7 +87,6 @@ public class ReRepairOrderController {
 			reRepairOrderService.update(reRepairOrder);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/nt/reRepairOrder_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/re/reRepairOrder_update";

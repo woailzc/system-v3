@@ -33,7 +33,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/whWarehouse/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/whWarehouse/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	    <input type="hidden" value="空闲" name="status" id="status">
@@ -43,16 +43,16 @@
 				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
 			</div>
 		</div>
-		<div class="row cl">
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最小库存量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="maxInventory" name="maxInventory">
 			</div>
-		</div>
+		</div> -->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最大库存量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="minInventory" name="minInventory">
+				<input type="text" class="input-text" value="" placeholder="" id="maxInventory" name="maxInventory">
 			</div>
 		</div>
 			<div class="row cl">
@@ -117,24 +117,23 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			computingUnit:{
 				required:true,
 			},
-			mobile:{
+			maxInventory:{
 				required:true,
-				isMobile:true,
+				number:true
 			},
-			email:{
+			
+			remark:{
 				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},

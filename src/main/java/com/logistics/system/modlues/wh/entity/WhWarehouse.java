@@ -7,7 +7,7 @@ import com.logistics.system.common.baseEntity.DataEntity;
 public class WhWarehouse extends DataEntity<WhWarehouse> {
     private String name;
     
-    private String computingUnit;
+    private String computingUnit;//计量单位
     
     private WhWarehouseType whWarehouseType;//仓库类型
 

@@ -29,11 +29,11 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>添加</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/astFixedCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/astFixedCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 		<div class="row cl">
@@ -92,25 +92,26 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			amount:{
 				required:true,
+				number:true
 			},
-			mobile:{
+			source:{
 				required:true,
-				isMobile:true,
+				minlength:2,
+				maxlength:16
 			},
-			email:{
+			remark:{
 				required:true,
-				email:true,
+				minlength:0,
+				maxlength:100
 			},
-			uploadfile:{
-				required:true,
-			},
+			
 			
 		},
 		onkeyup:false,
@@ -118,9 +119,10 @@ $(function(){
 		success:"valid",
 		submitHandler:function(form){
 			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
+			form.submit();
+			//var index = parent.layer.getFrameIndex(window.name);
 			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			//parent.layer.close(index);
 		}
 	});
 });

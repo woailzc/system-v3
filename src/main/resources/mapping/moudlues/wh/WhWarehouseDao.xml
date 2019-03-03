@@ -152,7 +152,6 @@
       max_inventory = #{maxInventory,jdbcType=INTEGER},
       min_inventory = #{minInventory,jdbcType=INTEGER},
       current_inventory = #{currentInventory,jdbcType=INTEGER},
-      status = #{status,jdbcType=VARCHAR},
       computing_unit = #{computingUnit,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

@@ -33,7 +33,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/pchPurchaseMessage/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/pchPurchaseMessage/update.do" method="post" class="form form-horizontal" id="form-article-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
@@ -251,49 +251,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-<script type="text/javascript">
-$(function(){
-	$('.skin-minimal input').iCheck({
-		checkboxClass: 'icheckbox-blue',
-		radioClass: 'iradio-blue',
-		increaseArea: '20%'
-	});
-	
-	$("#form-member-add").validate({
-		rules:{
-			username:{
-				required:true,
-				minlength:2,
-				maxlength:16
-			},
-			sex:{
-				required:true,
-			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
-			},
-			
-		},
-		onkeyup:false,
-		focusCleanup:true,
-		success:"valid",
-		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});
-});
-</script>
+
 <!-- 消息提示 -->
 <script type="text/javascript">
 window.onload=function(){
@@ -302,6 +260,71 @@ window.onload=function(){
 	
 } 
 </script> 
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-article-add").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			whWarehouse:{
+				required:true,
+			},
+			pchPurchaseType:{
+				required:true,
+			},
+			num:{
+				required:true,
+				number:true
+			},
+			spend:{
+				required:true,
+				number:true
+			},
+			originPlace:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			purchaseStartDate:{
+				required:true,
+			},
+			purchaseEndDate:{
+				required:true,
+			},
+			supplier:{
+				required:true,
+				minlength:0,
+				maxlength:100
+			},
+			remark:{
+				required:true,
+				minlength:0,
+				maxlength:100
+			},
+			
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			form.submit();
+			//var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			//parent.layer.close(index);
+		}
+	});
+});
+</script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

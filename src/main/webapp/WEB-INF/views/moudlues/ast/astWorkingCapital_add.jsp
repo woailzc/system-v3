@@ -33,7 +33,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/astWorkingCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/astWorkingCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 			<div class="row cl">
@@ -48,16 +48,16 @@
 				<input type="text" class="input-text" value="" placeholder="" id="amount" name="amount">
 			</div>
 		</div>
-		<div class="row cl">
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>来源：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="source" name="source">
 			</div>
-		</div>
+		</div> -->
 			 <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="typ" id="type" required="required">
+				<select class="select" size="1" name="type" id="type" required="required">
 					<option value="" selected>请选择流动资金的类型</option>
 					<option value="收入">收入</option>
 					<option value="支出">支出</option>
@@ -103,35 +103,33 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			objective:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			amount:{
 				required:true,
+				number:true
 			},
-			mobile:{
+			remark:{
 				required:true,
-				isMobile:true,
+				minlength:0,
+				maxlength:100
 			},
-			email:{
+			source:{
 				required:true,
-				email:true,
+				minlength:2,
+				maxlength:16
 			},
-			uploadfile:{
-				required:true,
-			},
+			
 			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

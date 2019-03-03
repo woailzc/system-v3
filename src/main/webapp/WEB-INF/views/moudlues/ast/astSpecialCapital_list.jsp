@@ -152,7 +152,7 @@ function member_del(obj,id){
 		$.ajax({
 			type: 'POST',
 			data:{id:id},
-			url: '<%=basePath%>a//del.do',
+			url: '<%=basePath%>a/astSpecialCapital/del.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

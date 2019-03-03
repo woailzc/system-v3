@@ -140,7 +140,7 @@ function accept(obj,id){
 				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>'); */
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">'+data.status+'</span>');
 				$(obj).remove();
-				layer.msg('已接受!',{icon: 6,time:1000});
+				layer.msg('已接受!',{icon:5,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);

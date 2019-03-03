@@ -20,7 +20,7 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class ClCleanService extends CrudService<ClCleanDao, ClClean>{
 	@Autowired
 	ClCleanDao clCleanDao;

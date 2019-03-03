@@ -38,7 +38,9 @@
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	     <input type="hidden" value="${sysUser.id}" name="applicant.id" id="applicant.id" >
 	     <input type="hidden" value="${nowDate}" name="start_date" id="start_date">
-	
+	     <input type="hidden" value="0" name="cleanByDelFlag" id="cleanByDelFlag">
+	    <input type="hidden" value="0" name="applicantDelFlag" id="applicantDelFlag">
+	   <input type="hidden" value="申请" name="status" id="status">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">

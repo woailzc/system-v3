@@ -81,7 +81,6 @@ public class ClCleanController {
 			clCleanService.update(clClean);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/cl/clClean_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/cl/clClean_update";
@@ -101,7 +100,7 @@ public class ClCleanController {
 			 if(clClean.getStatus().equals("已完成")) clClean.setUpdateDate(new Date());
 		   clCleanService.acceptAndFinish(clClean);
 		   HashMap<String, Object> data = new HashMap<>();
-		   data.put("status", data);
+		   data.put("status", "已完成");
 			return data;
 		}
 			

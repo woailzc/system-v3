@@ -65,9 +65,9 @@ public class AstFixedCapitalController {
 			astFixedCapitalService.update(astFixedCapital);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/ast/astFixedCapital_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("astFixedCapital", astFixedCapitalService.get(astFixedCapital));
 		return "moudlues/ast/astFixedCapital_update";
 		
 	}

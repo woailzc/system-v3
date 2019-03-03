@@ -29,32 +29,30 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>更新部门</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<title>更新</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/whWarehouse/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/whWarehouse/update.do" method="post" class="form form-horizontal" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
-	    <%-- <input type="hidden" value="${param.id }" name="id" id="id"> --%>
+	   <input type="hidden" value="${param.id }" name="id" id="id"> 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>仓库名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="${whWarehouse.name }" placeholder="" id="name" name="name">
 			</div>
 		</div>
-		<div class="row cl">
+		<%-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最小库存量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="${whWarehouse.maxInventory }" placeholder="" id="maxInventory" name="maxInventory">
 			</div>
-		</div>
+		</div> --%>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最大库存量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${whWarehouse.minInventory }" placeholder="" id="minInventory" name="minInventory">
+				<input type="text" class="input-text" value="${whWarehouse.minInventory }" placeholder="" id="maxInventory" name="maxInventory">
 			</div>
 		</div>
 		<div class="row cl">
@@ -68,7 +66,7 @@
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="type.id" id="type.id" required="required">
-					<option value="" selected>请选择仓库的类型</option>
+					<option value="${whWarehouse.whWarehouseType.id }" selected>${whWarehouse.whWarehouseType.name }</option>
 					<c:forEach items="${whWharehouseTypes}" var="whWharehouseType">
 					<option value="${whWharehouseType.id }">${whWharehouseType.name }</option>
 					</c:forEach>
@@ -106,24 +104,23 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			computingUnit:{
 				required:true,
 			},
-			mobile:{
+			maxInventory:{
 				required:true,
-				isMobile:true,
+				number:true
 			},
-			email:{
+			
+			remark:{
 				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},

@@ -69,7 +69,6 @@ public class WhWarehouseApplyController {
 			whWarehouseApplyService.update(whWarehouseApply);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/wh/whWarehouseApply_update";
 		}
 		model.addAttribute("whWarehouseApply",whWarehouseApplyService.get(whWarehouseApply.getId()));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
