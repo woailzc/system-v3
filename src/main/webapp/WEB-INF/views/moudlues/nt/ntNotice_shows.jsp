@@ -23,45 +23,14 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>查看</title>
+<title>公告查看</title>
 </head>
 <body>
 
 <div class="pd-20">
-	<table class="table">
-		<tbody>
-			<tr>
-				<th class="text-r" width="80">地址：</th>
-				<td>${clClean.cleanAdress }</td>
-			</tr>
-			<tr>
-				<th class="text-r">描述：</th>
-				<td>${clClean.remark }</td>
-			</tr>
-			<tr>
-				<th class="text-r" width="80">清洁人：</th>
-				<td>${clClean.applicant.name }</td>
-			</tr>
-			<tr>
-				<th class="text-r" width="80">申请人：</th>
-				<td>${clClean.cleanBy.name }</td>
-			</tr>
-			<tr>
-				<th class="text-r" width="80">清洁开始时间：</th>
-				<td><fmt:formatDate value="${clClean.startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			</tr>
-			<tr>
-				<th class="text-r" width="80">清洁结束时间：</th>
-				<td><fmt:formatDate value="${clClean.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			</tr>
-			
-			<%-- <tr>
-				<th class="text-r">发送时间：</th>
-				<td>${infNotice.createDate }</td>
-			</tr> --%>
-			
-		</tbody>
-	</table>
+	<c:forEach items="${ntNotices }" var="ntNotice">
+	<a href="<%=basePath%>a/ntNotice/show.do?id=${ntNotice.id}">${ntNotice.title}---------------<fmt:formatDate value="${ntNotice.pushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></a><br>
+	</c:forEach>
 </div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery/1.9.1/jquery.min.js"></script>

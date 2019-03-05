@@ -11,6 +11,7 @@
      <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="push_date" property="pushDate" jdbcType="DATE" />
     <result column="pusher" property="pusher" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -39,7 +40,7 @@
  
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, text, push_date,title,
-    pusher, type_id
+    pusher, type_id,status
   </sql>
   
   
@@ -55,9 +56,23 @@
 					<!-- <if test="dbName == 'mssql'">'%'+#{title}+'%'</if>-->
 					CONCAT('%', #{title}, '%')
 			</if>
+			<if test="status != null and status != ''">
+				AND a.status =  #{status}
+					
+			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a.create_date between #{datemin} and #{datemax}
 			</if>
+		</where>   
+  </select>
+<!--   查看所有发布的公告 -->
+  <select id="shows" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from nt_notice a
+    <where>
+			a.del_flag = #{delFlag} AND a.status =  #{status}
+					
 		</where>   
   </select>
   <!-- 获取一个信息 -->
@@ -88,7 +103,12 @@
 			del_flag = 1
 		WHERE id = #{id}
  </update>
- 
+ <!--  更新状态 -->
+<update id="updateStatus">
+  update nt_notice set
+       status = #{status,jdbcType=VARCHAR}
+       where id = #{id}
+</update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
@@ -97,26 +117,24 @@
     insert into nt_notice (id, create_by, create_date, 
       update_by, update_date, del_flag, 
       remark, text, push_date, 
-     <!--  pusher, --> title,type_id)
+     <!--  pusher, --> title,type_id,status)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, #{pushDate,jdbcType=DATE}, 
-      <!-- #{pusher,jdbcType=VARCHAR}, --> #{title,jdbcType=VARCHAR},#{ntNoticeType.id,jdbcType=VARCHAR})
+      <!-- #{pusher,jdbcType=VARCHAR}, --> #{title,jdbcType=VARCHAR},#{ntNoticeType.id,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
   </insert>
   
  
  
   <update id="update" >
     update nt_notice
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
+    set 
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},
-      push_date = #{pushDate,jdbcType=DATE},
-    <!--   pusher = #{pusher,jdbcType=VARCHAR}, -->
+<!--       push_date = #{pushDate,jdbcType=DATE},
+ -->    <!--   pusher = #{pusher,jdbcType=VARCHAR}, -->
       title = #{title,jdbcType=VARCHAR},
       type_id = #{ntNoticeType.id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

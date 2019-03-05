@@ -162,18 +162,18 @@
       update_by = #{updateBy.id,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=DATE},
      <!--  del_flag = #{delFlag,jdbcType=VARCHAR}, -->
-      remark = #{remark,jdbcType=VARCHAR},
+     <!--  remark = #{remark,jdbcType=VARCHAR}, -->
       name = #{name,jdbcType=VARCHAR},
       loginName = #{loginName,jdbcType=VARCHAR},
 <!--       password = #{password,jdbcType=VARCHAR},
  -->    <!--   phone = #{phone,jdbcType=VARCHAR}, -->
-      email = #{email,jdbcType=VARCHAR},
+     <!--  email = #{email,jdbcType=VARCHAR}, -->
     <!--   photo = #{photo,jdbcType=VARCHAR}, -->
-      adress = #{adress,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      brithday = #{brithday,jdbcType=DATE},
-      department_id = #{sysDepartment.id,jdbcType=VARCHAR},
-      role_id = #{sysRole.id,jdbcType=VARCHAR}
+    <!--   adress = #{adress,jdbcType=VARCHAR}, -->
+      sex = #{sex,jdbcType=VARCHAR}
+    <!--   brithday = #{brithday,jdbcType=DATE}, -->
+      <!-- department_id = #{sysDepartment.id,jdbcType=VARCHAR},
+      role_id = #{sysRole.id,jdbcType=VARCHAR} -->
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

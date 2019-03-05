@@ -37,7 +37,7 @@
 			</tr>
 			<tr class="text-c">
 				<th width="25"><input type="checkbox" value="" name=""></th>
-				<th width="40">ID</th>
+				<!-- <th width="40">ID</th> -->
 				<th width="200">角色名</th>
 				<!-- <th>用户列表</th> -->
 				<th width="300">描述</th>
@@ -48,7 +48,7 @@
 		  <c:forEach items="${sysRoles }" var="sysRole">
 			<tr class="text-c">
 				<td><input type="checkbox" value="${sysRole.id }" name="ids" id="ids"></td>
-				<td>${sysRole.id }</td>
+				<%-- <td>${sysRole.id }</td> --%>
 				<td>${sysRole.name }</td>
 				<%-- <td><a href="#">${sysRole.id }</a></td> --%>
 				<td>${sysRole.remark }</td>

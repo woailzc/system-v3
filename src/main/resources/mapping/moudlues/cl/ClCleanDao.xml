@@ -112,11 +112,13 @@
 <update id="updateStatus">
   update cl_clean set
        status = #{status,jdbcType=VARCHAR}
+       where id = #{id}
 </update>
  <!--  更新日期 -->
 <update id="updateDate">
   update cl_clean set
         update_date = #{updateDate,jdbcType=DATE}
+     where id = #{id}
 </update>
   <!-- <update id="update" >
    update cl_clean

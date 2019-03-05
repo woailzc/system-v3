@@ -29,22 +29,46 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>更新部门</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<title>更新</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ctnMenu/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/ctnMenu/update.do" method="post" class="form form-horizontal" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
+				<input type="text" class="input-text" value="${ctnMenu.name }" placeholder="" id="name" name="name">
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${ctnMenu.price }" placeholder="" id="price" name="price">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">描述：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="describe" name="describe">${ctnMenu.describe }</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+	<%-- 	<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="type.id" id="type.id" required="required">
+					<option value="" selected>请选择公告的类型</option>
+					<c:forEach items="${ctnMenuTypes}" var="ctnMenuType">
+					<option value="${ctnFoodType.id }">${ctnFoodType.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
+			</div>
+		</div> --%>
+	
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -74,24 +98,19 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			price:{
 				required:true,
+				number:true
 			},
-			mobile:{
+			remark:{
 				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},
@@ -99,10 +118,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

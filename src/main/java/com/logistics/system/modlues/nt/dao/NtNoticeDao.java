@@ -11,5 +11,9 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 import java.util.List;
 
 public interface NtNoticeDao extends CrudDao<NtNotice> {
+	
+	public void updateStatus(NtNotice ntNotice);
+	
+	public List<NtNotice> shows(NtNotice ntNotice);
 
 }

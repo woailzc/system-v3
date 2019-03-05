@@ -76,10 +76,12 @@ public class WhWarehouseController {
 			whWarehouseService.update(whWarehouse);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/wh/whWarehouse_update";
 		}
-		model.addAttribute("whWarehouse",whWarehouseService.get(whWarehouse.getId()));
+		WhWarehouse whWarehouse2 = whWarehouseService.get(whWarehouse);
+		model.addAttribute("whWarehouse",whWarehouse2);
+		List<WhWarehouseType> whWarehouseTypes = whWarehouseTypeService.findList(new WhWarehouseType());
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("whWarehouseTypes", whWarehouseTypes);
 		return "moudlues/wh/whWarehouse_update";
 		
 	}

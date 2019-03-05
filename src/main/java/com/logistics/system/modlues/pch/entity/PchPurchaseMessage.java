@@ -13,9 +13,7 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date purchaseEndDate;//采购的结束时间
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date purchaseStartDate;//采购的开始时间
-
-    private String reason;//原因
+    private Date purchaseStartDate;//申请时间
 
     private int num;//数量
 
@@ -23,13 +21,22 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
     
     private WhWarehouse whWarehouse;//加入的仓库
 
-    private Double spend;//花费的总价
+//    private Double spend;//花费的总价
     
     private String supplier;//供应商
     
-    private String originPlace;//来源地
     
     private String computingUnit;//计算单位
+    
+    private String useWay;//使用的方向
+    
+    private String model;//型号
+    
+    private String status;// 状态
+    
+    private String specifications;//规格
+    
+    private double unitPrice;//单价
     
     public PchPurchaseMessage(){};
     
@@ -38,7 +45,23 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
     }
 
 
-    public String getName() {
+    public String getUseWay() {
+		return useWay;
+	}
+
+	public void setUseWay(String useWay) {
+		this.useWay = useWay;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -70,13 +93,6 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
 		this.whWarehouse = whWarehouse;
 	}
 
-	public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
-    }
 
     public int getNum() {
 		return num;
@@ -94,13 +110,13 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
 		this.purchaseType = purchaseType;
 	}
 
-	public Double getSpend() {
+/*	public Double getSpend() {
         return spend;
     }
 
     public void setSpend(Double spend) {
         this.spend = spend;
-    }
+    }*/
 
 	public String getSupplier() {
 		return supplier;
@@ -110,20 +126,37 @@ public class PchPurchaseMessage extends DataEntity<PchPurchaseMessage> {
 		this.supplier = supplier;
 	}
 
-	public String getOriginPlace() {
-		return originPlace;
-	}
-
-	public void setOriginPlace(String originPlace) {
-		this.originPlace = originPlace;
-	}
-
 	public String getComputingUnit() {
 		return computingUnit;
 	}
 
 	public void setComputingUnit(String computingUnit) {
 		this.computingUnit = computingUnit;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+	public String getSpecifications() {
+		return specifications;
+	}
+
+	public void setSpecifications(String specifications) {
+		this.specifications = specifications;
+	}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
     
 }

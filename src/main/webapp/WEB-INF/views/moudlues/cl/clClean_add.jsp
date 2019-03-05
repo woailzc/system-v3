@@ -33,7 +33,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/clClean/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/clClean/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	     <input type="hidden" value="${sysUser.id}" name="applicant.id" id="applicant.id" >
@@ -102,24 +102,19 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			
+			startDate:{
+				required:true,
+			},
+			cleanAdress:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			remark:{
 				required:true,
-			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},
@@ -127,10 +122,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

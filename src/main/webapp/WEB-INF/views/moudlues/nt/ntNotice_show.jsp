@@ -38,6 +38,14 @@
 				<th class="text-r">内容：</th>
 				<td>${ntNotice.text }</td>
 			</tr>
+			<tr>
+				<th class="text-r">发布时间</th>
+				<td><fmt:formatDate value="${ntNotice.pushDate}" pattern="yyyy-MM-dd"/></td>
+			</tr>
+			<tr>
+				<th class="text-r">发布人</th>
+				<td>${ntNotice.createBy.name }</td>
+			</tr>
 			<%-- <tr>
 				<th class="text-r">发送时间：</th>
 				<td>${infNotice.createDate }</td>

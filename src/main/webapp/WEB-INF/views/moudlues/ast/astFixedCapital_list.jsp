@@ -44,11 +44,16 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">固定资产的名称</th>
+				<th width="100">名称</th>
+				<th>规格</th>
+				<th width="100">型号</th>
+				<th width="100">单价</th>
+				<th width="100">数量</th>
+				<th width="100">使用方向</th>
+				<th width="100">单价</th>
 				<th width="100">来源</th>
-					<th width="100">金额</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th> -->
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -59,8 +64,12 @@
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.name}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.name}</u></td>
 				<td>${astFixedCapital.source}</td>
 				<td>${astFixedCapital.amount}</td>
-				<td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${astFixedCapital.createBy.name}</td>
+				<td>${astFixedCapital.amount}</td>
+				<td>${astFixedCapital.amount}</td>
+				<td>${astFixedCapital.amount}</td>
+				<td>${astFixedCapital.amount}</td>
+				<%-- <td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${astFixedCapital.createBy.name}</td> --%>
 				<td class="td-manage"> 
 				<shiro:hasPermission name="ast:astFixedCapital:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/astFixedCapital/update.do?id=${astFixedCapital.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 				<shiro:hasPermission name="ast:astFixedCapital:del"><a title="删除"  onClick="member_del(this,'${astFixedCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
@@ -88,7 +97,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,6,6]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,9,9]}// 制定列不参与排序
 		]
 	});
 	

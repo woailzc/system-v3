@@ -9,7 +9,8 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
-     <result column="status" property="status" jdbcType="VARCHAR" />
+     <result column="repair_adress" property="repairAdress" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="apply_date" property="applyDate" jdbcType="DATE" />
     <result column="recevie_date" property="recevieDate" jdbcType="DATE" />
      <association property="createBy"
@@ -52,7 +53,7 @@
  
    <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, applyer, receiver, 
-    type_id, reason, suggestion, apply_date, recevie_date,status
+    type_id, reason, suggestion, apply_date, recevie_date,status,repair_adress
   </sql>
   
   
@@ -110,39 +111,41 @@
       update_by, update_date, del_flag, 
       remark, applyer, receiver, 
       type_id, reason, suggestion, 
-      apply_date, recevie_date,status)
+      apply_date, recevie_date,status,repair_adress,applyer_del_flag,receiver_del_flag)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{applyer.id,jdbcType=VARCHAR}, #{receiver.id,jdbcType=VARCHAR}, 
       #{repairOrderType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
-      #{applyDate,jdbcType=DATE}, #{recevieDate,jdbcType=DATE}, #{status,jdbcType=VARCHAR})
+      #{applyDate,jdbcType=DATE}, #{recevieDate,jdbcType=DATE}, #{status,jdbcType=VARCHAR},#{repairAdress,jdbcType=VARCHAR}
+      ,#{applyerDelFlag,jdbcType=VARCHAR},#{receiverDelFlag,jdbcType=VARCHAR})
   </insert>
 <!--  更新状态 -->
 <update id="updateStatus">
   update re_repair_order set
        status = #{status,jdbcType=VARCHAR}
+       where id = #{id}
 </update>
 <!--  更新日期 -->
 <update id="updateDate">
   update re_repair_order set
         update_date = #{updateDate,jdbcType=DATE}
+       where id = #{id}
 </update>
  
   <update id="update" >
   update re_repair_order
-    set create_by = #{createBy.id,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=DATE},
-      update_by = #{updateBy.id,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=DATE},
-      del_flag = #{delFlag,jdbcType=VARCHAR},
+    set
+<!--       update_by = #{updateBy.id,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=DATE}, -->
       remark = #{remark,jdbcType=VARCHAR},
-      applyer = #{applyer.id,jdbcType=VARCHAR},
-      receiver = #{receiver.id,jdbcType=VARCHAR},
+<!--       applyer = #{applyer.id,jdbcType=VARCHAR},
+ -->      receiver = #{receiver.id,jdbcType=VARCHAR},
       type_id = #{repairOrderType.id,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR},
-      suggestion = #{suggestion,jdbcType=VARCHAR},
-      apply_date = #{applyDate,jdbcType=DATE},
-      recevie_date = #{recevieDate,jdbcType=DATE}
+    <!--   suggestion = #{suggestion,jdbcType=VARCHAR}, -->
+     <!--  apply_date = #{applyDate,jdbcType=DATE},
+      recevie_date = #{recevieDate,jdbcType=DATE}, -->
+      repair_adress = #{repairAdress,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -9,9 +9,12 @@ import com.logistics.system.modlues.nt.entity.NtNotice;
 import com.logistics.system.modlues.pch.entity.PchPurchaseMessage;
 import com.logistics.system.modlues.sys.entity.SysDepartment;
 import com.logistics.system.modlues.sys.entity.SysUser;
+import com.logistics.system.modlues.wh.entity.WhWarehouse;
 
 import java.util.List;
 
 public interface PchPurchaseMessageDao extends CrudDao<PchPurchaseMessage> {
+	public void updateStatus(PchPurchaseMessage pchPurchaseMessage);
+	
 
 }

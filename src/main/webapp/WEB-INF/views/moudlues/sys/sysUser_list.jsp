@@ -49,8 +49,10 @@
 				<th width="100">登录名</th>
 				<th width="40">性别</th>
 				<th width="90">手机</th>
-				<th width="150">邮箱</th>
-				<th width="">地址</th>
+				<!-- <th width="150">邮箱</th>
+				<th width="">地址</th> -->
+				<th width="">部门</th>
+				<th width="">角色</th>
 				<th width="130">加入时间</th>
 				<th width="100">操作</th>
 			</tr>
@@ -63,8 +65,10 @@
 				<td>${sysUser.loginName}</td>
 				<td>${sysUser.sex}</td>
 				<td>${sysUser.phone}</td>
-				<td>${sysUser.email}</td>
-				<td class="text-l">${sysUser.adress}</td>
+				<%-- <td>${sysUser.email}</td>
+				<td class="text-l">${sysUser.adress}</td> --%>
+				<td>${sysUser.sysDepartment.name}</td>
+				<td>${sysUser.sysRole.name}</td>
 				<td><fmt:formatDate value="${sysUser.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td class="td-manage"><shiro:hasPermission name="sys:sysUser:updatePassword"><a style="text-decoration:none"  href="<%=basePath%>a/sysUser/updatePassword.do?id=${sysUser.id}" title="修改密码"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission><shiro:hasPermission name="sys:sysUser:edit"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/sysUser/update.do?id=${sysUser.id}','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission><!-- <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.html','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a> --> <shiro:hasPermission name="sys:sysUser:del"><a title="删除" <%-- href="<%=basePath%>a/sysUser/del.do?id=${sysOUser.id}" onclick="" --%> onClick="member_del(this,'${sysUser.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission></td>
 			</tr>

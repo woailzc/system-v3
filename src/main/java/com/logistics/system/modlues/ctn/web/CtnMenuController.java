@@ -63,6 +63,7 @@ public class CtnMenuController {
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
 		}
+		model.addAttribute("ctnMenu", ctnMenuService.get(ctnMenu));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/ctn/ctnMenu_update";
 		
@@ -81,6 +82,7 @@ public class CtnMenuController {
 		ctnMenuService.stopAndStart(ctnMenu);
 		HashMap<String,Object> data = new HashMap<>();
 		data.put("过期", "停用");
+		data.put("id", ctnMenu.getId());
 		return data;
 	}
 		

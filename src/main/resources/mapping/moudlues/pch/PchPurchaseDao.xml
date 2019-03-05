@@ -10,11 +10,13 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="purchase_start_date" property="purchaseStartDate" jdbcType="DATE" />
     <result column="purchase_end_date" property="purchaseEndDate" jdbcType="DATE" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="INTEGER" />
-    <result column="spend" property="spend" jdbcType="DOUBLE" />
-    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
-    <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
+   <!--  <result column="spend" property="spend" jdbcType="DOUBLE" /> -->
+    <result column="useWay" property="use_way" jdbcType="VARCHAR" />
+    <result column="unitPrice" property="unit_price" jdbcType="DOUBLE" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+     <result column="specifications" property="specifications" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -52,7 +54,7 @@
 
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, name, purchase_end_date,purchase_start_date, 
-    type_id, reason, num, warehouse_id, spend,origin_place,supplier
+    type_id, num, warehouse_id,supplier,use_way,unit_price,model,status,specifications
   </sql>
   
   <select id="findList" resultMap="BaseResultMap" >
@@ -94,6 +96,12 @@
        </foreach>
      </if> 
   </update>
+  <!-- 更新状态 -->
+   <update id="updateStatus">
+		UPDATE pch_purchase_message SET 
+			status = #{status}
+		WHERE id = #{id}
+ </update>
  <!-- 逻辑删除 -->
   <update id="delete">
 		UPDATE pch_purchase_message SET 
@@ -104,16 +112,18 @@
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
-   insert into pch_purchase_message (id, create_by, create_date, purchase_end_date,purchase_start_date,
+   insert into pch_purchase_message (id, create_by, create_date,purchase_start_date,
       update_by, update_date, del_flag, 
       remark, name, 
-      type_id, reason, num, 
-      warehouse_id, spend,origin_place,supplier)
-    values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},  #{purchaseEndDate,jdbcType=DATE},  #{purchaseStartDate,jdbcType=DATE}, 
+      type_id, num, 
+      warehouse_id, supplier ,use_way,unit_price,model,status,specifications)
+    values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},#{purchaseStartDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{purchaseType.id,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
-      #{whWarehouse.id,jdbcType=VARCHAR}, #{spend,jdbcType=DOUBLE} ,#{supplier,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR})
+      #{purchaseType.id,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
+      #{whWarehouse.id,jdbcType=VARCHAR},  #{supplier,jdbcType=VARCHAR} ,
+      #{useWay,jdbcType=VARCHAR},#{unitPrice,jdbcType=DOUBLE} ,#{model,jdbcType=VARCHAR},
+       #{status,jdbcType=VARCHAR} ,#{specifications,jdbcType=VARCHAR})
   </insert>
  
   <update id="update" >
@@ -126,12 +136,9 @@
     <!--   purchase_start_date = #{purchaseStartDate,jdbcType=DATE},
       purchase_end_date = #{purchaseEndDate,jdbcType=DATE}, -->
       type_id = #{purchaseType.id,jdbcType=VARCHAR},
-      spend = #{spend,jdbcType=DOUBLE},
       supplier = #{supplier,jdbcType=VARCHAR},
-      origin_place = #{originPlace,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       warehouse_id = #{whWarehouse.id,jdbcType=VARCHAR},
-      spend = #{spend,jdbcType=DOUBLE}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

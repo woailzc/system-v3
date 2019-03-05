@@ -29,6 +29,8 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
     
     private String receiverDelFlag;
     
+    private String repairAdress;
+    
     public ReRepairOrder() {
 		super();
 		this.applyerDelFlag = "0";
@@ -118,6 +120,14 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
 
 	public void setReceiverDelFlag(String receiverDelFlag) {
 		this.receiverDelFlag = receiverDelFlag;
+	}
+
+	public String getRepairAdress() {
+		return repairAdress;
+	}
+
+	public void setRepairAdress(String repairAdress) {
+		this.repairAdress = repairAdress;
 	}
     
 }

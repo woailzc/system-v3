@@ -23,7 +23,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>建材列表</title>
+<title>采购申请列表</title>
 <link rel="stylesheet" href="<%=basePath%>static/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
 <body class="pos-r">
@@ -40,10 +40,12 @@
 		-
 			<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
 			<input type="text" class="input-text" style="width:250px" placeholder="产品名称" id="name" name="name">
-			<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>
+			<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜名字</button>
 			</form>
 		</div>
-		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="pch:pchPurchaseMessage:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="pch:pchPurchaseMessage:save"> <a class="btn btn-primary radius" onclick="product_add('添加产品','<%=basePath%>a/pchPurchaseMessage/save.do?id=${pchPurchaseType.id}&delFlag=1')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加产品</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(pchPurchaseMessages)}</strong> 条</span> </div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="pch:pchPurchaseMessage:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<%-- 		<shiro:hasPermission name="pch:pchPurchaseMessage:save"> <a class="btn btn-primary radius" onclick="product_add('添加产品','<%=basePath%>a/pchPurchaseMessage/save.do?id=${pchPurchaseType.id}&delFlag=1')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加产品</a></shiro:hasPermission></span>
+ --%>		<%--  <span class="r">共有数据：<strong>${fn:length(pchPurchaseMessages)}</strong> 条</span> --%> </div>
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
@@ -51,9 +53,15 @@
 						<th width="40"><input name="" type="checkbox" value=""></th>
 						<!-- <th width="40">ID</th> -->
 						<!-- <th width="60">缩略图</th> -->
-						<th width="100">产品名称</th>
-						<th>描述</th>
-						<th width="100">总价</th>
+						<th width="100">申请名称</th>
+						<th>规格</th>
+						<th width="100">型号</th>
+						<th width="100">单价</th>
+						<th width="100">数量</th>
+						<th width="100">使用方向</th>
+						<th width="100">申请时间</th>
+						<th width="100">申请人</th>
+						<th width="100">状态</th>
 						<th width="100">操作</th>
 					</tr>
 				</thead>
@@ -61,14 +69,24 @@
 				<c:forEach items="${pchPurchaseMessages}" var="pchPurchaseMessage">
 					<tr class="text-c va-m">
 						<td><input type="checkbox" value="${pchPurchaseMessage.id }" name="ids" id="ids"></td>
-						<%-- <td>${pchPurchaseMessage.id }</td> --%>
-<%-- 						<td><a onClick="product_show('哥本哈根橡木地板','<%=basePath%>a/pchPurchaseMessage/show.do?id=${pchPurchaseMessage.id}','10001')" href="javascript:;"><img width="60" class="product-thumb" src="temp/product/Thumb/6204.jpg"></a></td>
- --%>						<td class="text-l">${pchPurchaseMessage.name }</td>
-						<td class="text-l">${pchPurchaseMessage.remark }。</td>
-						<td><span class="price">${pchPurchaseMessage.spend }</span> 元/平米</td>
+					    <td class="text-l">${pchPurchaseMessage.name }</td>
+						<td class="text-l">${pchPurchaseMessage.specifications }</td>
+						<td>${pchPurchaseMessage.model }</td>
+						<td>${pchPurchaseMessage.unitPrice }</td>
+						<td>${pchPurchaseMessage.num }</td>
+						<td>${pchPurchaseMessage.useWay }</td>
+						<td><fmt:formatDate value="${pchPurchaseMessage.purchaseStartDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+						<td>${pchPurchaseMessage.createBy.name }</td>
+						<td>${pchPurchaseMessage.status }</td>
 						<td class="td-manage">
 						 <shiro:hasPermission name="pch:pchPurchaseMessage:edit"><a style="text-decoration:none" class="ml-5" onClick="product_edit('产品编辑','<%=basePath%>a/pchPurchaseMessage/update.do?id=${pchPurchaseMessage.id}&delFlag=1','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 						 <shiro:hasPermission name="pch:pchPurchaseMessage:del"><a style="text-decoration:none" class="ml-5" onClick="product_del(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+								<c:if test="${pchPurchaseMessage.status=='审核'}">
+								  <shiro:hasPermission name="pch:pchPurchaseMessage:aduit"><a style="text-decoration:none" onClick="article_shenhe(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="审核">审核</a></shiro:hasPermission>
+								</c:if>
+								<%-- <c:if test="${whWarehouse.status=='审核通过'}">
+								  <shiro:hasPermission name="pch:pchPurchaseMessage:finsh"><a style="text-decoration:none" onClick="member_stop(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="确认采购完成"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
+								</c:if> --%>
 						 </td>
 					</tr>
 					</c:forEach>
@@ -167,23 +185,43 @@ function product_show(title,url,id){
 	});
 	layer.full(index);
 }
-/*产品-审核*/
-function product_shenhe(obj,id){
-	layer.confirm('审核文章？', {
-		btn: ['通过','不通过'], 
-		shade: false
+/*申请-审核*/
+function article_shenhe(obj,id){
+	layer.confirm('审核？', {
+		btn: ['通过','不通过','取消'], 
+		shade: false,
+		closeBtn: 0
 	},
 	function(){
-		$(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="product_start(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
-		$(obj).remove();
-		layer.msg('已发布', {icon:6,time:1000});
+		$.ajax({
+			type: 'POST',
+			data:{id:id,status:'审核通过'},
+			url: '<%=basePath%>a/pchPurchaseMessage/audit.do',
+			dataType: 'json',
+			success: function(data){
+				location.reload();
+				layer.msg('审核通过', {icon:6,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+		
 	},
 	function(){
-		$(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="product_shenqing(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-danger radius">未通过</span>');
-		$(obj).remove();
-    	layer.msg('未通过', {icon:5,time:1000});
+		$.ajax({
+			type: 'POST',
+			data:{status:'审核不通过',id:id},
+			url: '<%=basePath%>a/pchPurchaseMessage/audit.do',
+			dataType: 'json',
+			success: function(data){
+				location.reload();
+				layer.msg('审核不通过', {icon:5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
 	});	
 }
 /*产品-下架*/

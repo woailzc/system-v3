@@ -112,6 +112,9 @@ public class SysUserController {
 	public String updatePasswordForPost(Model model,SysUser sysUser){
 //		String passwordMD5 =DigestUtils.md5Hex(sysOUser.getPassword());
 		sysUserService.updatePasswordById(sysUser);
+		 model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		 String msg = "修改成功!";
+		 model.addAttribute("msg", msg);
 		return "moudlues/sys/sysUser_updatePassword";
 	}
 	//get更新密码

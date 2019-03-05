@@ -118,10 +118,11 @@ function member_stop(obj,id){
 			url: '<%=basePath%>a/ctnFood/dateOutAndRecovery.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="恢复"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,'+data.id+')" href="javascript:;" title="恢复"><i class="Hui-iconfont">&#xe6e1;</i></a>');
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已过期</span>');
-				$(obj).remove();
+				$(obj).remove(); */
 				layer.msg('已过期!',{icon: 5,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -139,10 +140,11 @@ function member_start(obj,id){
 			data:{id:id,status:'过期'},
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="确认过期"><i class="Hui-iconfont">&#xe631;</i></a>');
+			/* 	$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,'+data.id+')" href="javascript:;" title="确认过期"><i class="Hui-iconfont">&#xe631;</i></a>');
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已恢复</span>');
-				$(obj).remove();
+				$(obj).remove(); */
 				layer.msg('已恢复!',{icon: 6,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);

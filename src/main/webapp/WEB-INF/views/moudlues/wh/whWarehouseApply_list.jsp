@@ -44,9 +44,10 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
-				<th width="40">意见</th>
+				<!-- <th width="100">创建时间</th> -->
+				<th width="40">申请人</th>
+				<th width="40">反馈的结果</th>
+				 <th width="100">申请的原因</th> 
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -54,9 +55,10 @@
 		   <c:forEach items="${whWarehouseApplys }" var="whWarehouseApply">
 			<tr class="text-c">
 				<td><input type="checkbox" value="${whWarehouseApply.id }" name="ids" id="ids"></td>
-				<td><fmt:formatDate value="${whWarehouseApply.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<%-- <td><fmt:formatDate value="${whWarehouseApply.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
 				<td>${whWarehouseApply.createBy.name}</td>
 				<td>${whWarehouseApply.suggestion}</td>
+				<td>${whWarehouseApply.reason}</td>
 				<td class="td-manage"> 
 				 <shiro:hasPermission name="wh:whWarehouseApply:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouseApply/update.do?id=${whWarehouseApply.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
 				 <shiro:hasPermission name="wh:whWarehouseApply:del"><a title="删除"  onClick="member_del(this,'${whWarehouseApply.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>

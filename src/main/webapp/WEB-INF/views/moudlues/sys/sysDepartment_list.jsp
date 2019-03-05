@@ -45,8 +45,8 @@
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">部门名</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th> -->
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -55,8 +55,8 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${sysDepartment.id }" name="ids" id="ids"></td>
 				<td>${sysDepartment.name}</td>
-				<td><fmt:formatDate value="${sysDepartment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${sysDepartment.createBy.name}</td>
+				<%-- <td><fmt:formatDate value="${sysDepartment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${sysDepartment.createBy.name}</td> --%>
 				<td class="td-manage"> 
 				<shiro:hasPermission name="sys:sysDepartment:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/sysDepartment/update.do?id=${sysDepartment.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
 				<shiro:hasPermission name="sys:sysDepartment:del"><a title="删除"  onClick="member_del(this,'${sysDepartment.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
@@ -84,7 +84,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,4,4]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,2,2]}// 制定列不参与排序
 		]
 	});
 	

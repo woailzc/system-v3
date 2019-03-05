@@ -29,19 +29,26 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>添加 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ntNotice/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/ntNotice/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
+	      <input type="hidden" value="草稿" name="status" id="status">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>发布的时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  id="pushDate" name="pushDate" onfocus="WdatePicker({ pushDate:'#F{$dp.$D(\'brithday\')}',applyDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" required="required">
+			</div>
+		</div> 
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">内容：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -52,7 +59,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="type.id" id="type.id" required="required">
+				<select class="select" size="1" name="ntNoticeType.id" id="ntNoticeType.id" required="required">
 					<option value="" selected>请选择公告的类型</option>
 					<c:forEach items="${ntNoticeTypes}" var="ntNoticeType">
 					<option value="${ntNoticeType.id }">${ntNoticeType.name }</option>
@@ -91,24 +98,16 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			title:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			
+			remark:{
 				required:true,
-			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},
@@ -116,10 +115,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

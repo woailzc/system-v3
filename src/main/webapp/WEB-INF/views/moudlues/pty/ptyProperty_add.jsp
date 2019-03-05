@@ -33,13 +33,13 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ptyProperty/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/ptyProperty/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title" required="required">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" required="required">
 			</div>
 		</div>
 		<div class="row cl">
@@ -53,7 +53,7 @@
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="ptyPropertyType.id" id="ptyPropertyType.id" required="required">
-					<option value="" selected>请选择公告的类型</option>
+					<option value="" selected>请选择类型</option>
 					<c:forEach items="${ptyPropertyTypes}" var="ptyPropertyType">
 					<option value="${ptyPropertyType.id }">${ptyPropertyType.name }</option>
 					</c:forEach>
@@ -91,35 +91,24 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			remark:{
 				required:true,
+				minlength:0,
+				maxlength:100
 			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
-			},
+
 			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

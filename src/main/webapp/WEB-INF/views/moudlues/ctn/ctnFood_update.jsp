@@ -40,11 +40,48 @@
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>食物的名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
+				<input type="text" class="input-text" value="${ctnFood.name }" placeholder="" id="name" name="name">
 			</div>
 		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'guarunceeDate\')||\'%y-%M-%d\'}' })" id="productDate" name="productDate" class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>过期时间:</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'productDate\')}',maxDate:'%y-%M-%d' })" id="guarunceeDate" name="guarunceeDate" class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${ctnFood.productDate }" placeholder="" id="productDate" name="productDate" readonly="readonly">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>过期时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${ctnFood.guarunceeDate }" placeholder="" id="guarunceeDate" name="guarunceeDate" readonly="readonly">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="ctnFoodType.id" id="ctnFoodType.id" required="required">
+					<option value="${ctnFood.ctnFoodType.id}" selected>${ctnFood.ctnFoodType.name}</option>
+					<c:forEach items="${ctnFoodTypes}" var="ctnFoodType">
+					<option value="${ctnFoodType.id }">${ctnFoodType.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
+			</div>
+		</div>
+	
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -74,23 +111,15 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			guarunceeDate:{
 				required:true,
 			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
+			productDate:{
 				required:true,
 			},
 			
@@ -99,10 +128,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

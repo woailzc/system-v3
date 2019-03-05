@@ -40,7 +40,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysUser.name }" placeholder="" id="name" name="name" >
+				<input type="text" class="input-text" value="${sysUser.name }" placeholder="" id="name" name="name" readonly="readonly">
 			</div>
 		</div>
 		<div class="row cl">
@@ -49,19 +49,19 @@
 				<input type="text" class="input-text" value="${sysUser.loginName }" placeholder="" id="loginName" name="loginName" >
 			</div>
 		</div>
-		<div class="row cl">
+		<%-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>出生年月日：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="${sysUser.brithday }" placeholder="" id="brithday" name="brithday" readonly="readonly">
 			</div>
-		</div>
+		</div> --%>
 		
-		<div class="row cl">
+		<%-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="${sysUser.adress }" placeholder="" id="adress" name="adress" >
 			</div>
-		</div>
+		</div> --%>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属的部门：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -99,12 +99,12 @@
 				<input type="text" class="input-text" value="${sysUser.phone }" placeholder="" id="phone" name="phone">
 			</div>
 		</div>
-		<div class="row cl">
+		<%-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="${sysUser.email }"placeholder="@" name="email" id="email">
 			</div>
-		</div>
+		</div> --%>
 		<%--  <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">所属部门：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">

@@ -27,7 +27,9 @@ public class ClCleanService extends CrudService<ClCleanDao, ClClean>{
 	
 	public void acceptAndFinish(ClClean clClean){
 		clCleanDao.updateStatus(clClean);
-		if(clClean.getUpdateDate() != null)clCleanDao.updateDate(clClean);
+		if(clClean.getStatus().equals("已完成")){
+			clCleanDao.updateDate(clClean);
+		}
 	}
 	
 

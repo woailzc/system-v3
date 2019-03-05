@@ -26,12 +26,23 @@ import com.logistics.system.modlues.wh.entity.WhWarehouse;
 public class PchPurchaseMessagService extends CrudService<PchPurchaseMessageDao, PchPurchaseMessage>{
 	@Autowired
 	WhWarehouseDao whWarehouseDao;
+	@Autowired
+	PchPurchaseMessageDao pchPurchaseMessageDao;
 	
 	public void save(PchPurchaseMessage pchPurchaseMessage){
 		super.save(pchPurchaseMessage);
 		WhWarehouse whWarehouse = whWarehouseDao.get(pchPurchaseMessage.getWhWarehouse());
 		whWarehouse.setCurrentInventory(whWarehouse.getCurrentInventory()-pchPurchaseMessage.getNum());
 		whWarehouseDao.updateCurrentInventory(whWarehouse);
+	}
+	
+	public void audit(PchPurchaseMessage pchPurchaseMessage){
+		pchPurchaseMessageDao.updateStatus(pchPurchaseMessage);
+	}
+
+	public void apply(PchPurchaseMessage pchPurchaseMessage) {
+		super.save(pchPurchaseMessage);
+		
 	}
 	
 

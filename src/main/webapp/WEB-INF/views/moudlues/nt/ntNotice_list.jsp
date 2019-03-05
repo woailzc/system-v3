@@ -38,15 +38,16 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="nt:ntNotice:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="nt:ntNotice:save"><a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ntNotice/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 发布公告</a></shiro:hasPermission></span> <span class="r">共有数据：<strong></strong>${fn:length(ntNotices)} 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="nt:ntNotice:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="nt:ntNotice:save"><a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ntNotice/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong></strong>${fn:length(ntNotices)} 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">标题</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<th width="100">发布时间</th>
+				<!-- <th width="40">创建人</th> -->
+				<th width="70">状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -55,12 +56,21 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ntNotice.title}','<%=basePath%>a/ntNotice/show.do?id=${ntNotice.id}','10001','360','400')">${ntNotice.title}</u></td>
-				<td><fmt:formatDate value="${ntNotice.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${ntNotice.createBy.name}</td>
+				<td><fmt:formatDate value="${ntNotice.pushDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<%-- <td>${ntNotice.createBy.name}</td> --%>
+				<td class="td-status"><span class="label label-success radius">${ntNotice.status}</span></td>
 				<td class="td-manage">
 				<shiro:hasPermission name="nt:ntNotice:edit"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ntNotice/update.do?id=${ntNotice.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 				<shiro:hasPermission name="nt:ntNotice:del"><a title="删除"  onClick="member_del(this,'${ntNotice.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
-				</td>
+					<c:if test="${ntNotice.status=='草稿'}">
+					 <shiro:hasPermission name="nt:ntNotice:pushAndStop"><a style="text-decoration:none" onClick="member_start(this,'${ntNotice.id}')" href="javascript:;" title="发布">发布</a></shiro:hasPermission>
+					</c:if>
+					<c:if test="${ntNotice.status=='已发布'}">
+					 <shiro:hasPermission name="nt:ntNotice:pushAndStop"> <a style="text-decoration:none" onClick="member_stop(this,'${ntNotice.id}')" href="javascript:;" title="停用">停用</a></shiro:hasPermission>
+					</c:if>
+					<c:if test="${ntNotice.status=='已停用'}">
+					 <shiro:hasPermission name="nt:ntNotice:pushAndStop"><a style="text-decoration:none" onClick="member_start(this,'${ntNotice.id}')" href="javascript:;" title="发布">发布</a></shiro:hasPermission>
+					</c:if>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -102,13 +112,15 @@ function member_stop(obj,id){
 	layer.confirm('确认要停用吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'已停用'},
+			url: '<%=basePath%>a/ntNotice/pushAndStop.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
-				$(obj).remove();
-				layer.msg('已停用!',{icon: 5,time:1000});
+	 		/* 	$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,1)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+	 			$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+					$(obj).remove(); */
+					layer.msg('已停用!',{icon: 5,time:1000});
+					location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -119,16 +131,19 @@ function member_stop(obj,id){
 
 /*用户-启用*/
 function member_start(obj,id){
-	layer.confirm('确认要启用吗？',function(index){
+	layer.confirm('确认要发布吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			data:{id:id,status:'已发布'},
+			url: '<%=basePath%>a/ntNotice/pushAndStop.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-				$(obj).remove();
-				layer.msg('已启用!',{icon: 6,time:1000});
+			/* 	$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,9d9c35bf8f8d1037a41b531e9ebedb10)" href="javascript:;" title="停用">停用</a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
+				$(obj).remove(); */
+				layer.msg('已发布!',{icon: 6,time:1000});
+				location.reload();
+				
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -155,6 +170,7 @@ function member_del(obj,id){
 			success: function(data){
 				$(obj).parents("tr").remove();
 				layer.msg('已删除!',{icon:1,time:1000});
+				
 			},
 			error:function(data) {
 				console.log(data.msg);

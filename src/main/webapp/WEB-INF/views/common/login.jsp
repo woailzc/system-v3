@@ -71,7 +71,7 @@ DD_belatedPNG.fix('*');
   </div>
 </div>
 <input type="hidden" value="${message }" name="msg" id="msg">
-<div class="footer">中小企业管理系统后台</div>
+<div class="footer">后勤管理系统后台</div>
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>static/lib/layer/2.4/layer.js"></script>

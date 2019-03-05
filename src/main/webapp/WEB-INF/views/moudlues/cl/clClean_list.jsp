@@ -62,7 +62,9 @@
 				<td>${clClean.cleanBy.name}</td>
 				<td class="td-status"><span class="label label-success radius">${clClean.status}</span></td>
 				<td class="td-manage"> 
+					<c:if test="${clClean.status=='申请'}">
 					<shiro:hasPermission name="cl:clClean:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/clClean/update.do?id=${clClean.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+					</c:if>
 					<shiro:hasPermission name="cl:clClean:del"><a title="删除"  onClick="member_del(this,'${clClean.id }','${currentUser.id == clClean.applicant.id? '1':'0' }','${currentUser.id == clClean.cleanBy.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 					<c:if test="${clClean.status=='申请'}">
 					 <shiro:hasPermission name="cl:clClean:accept"><a style="text-decoration:none" onClick="accept(this,'${clClean.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
@@ -117,9 +119,10 @@ function confirm_finish(obj,id){
 			dataType: 'json',
 			success: function(data){
 				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>'); */
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">'+data.status+'</span>');
-				$(obj).remove();
+			/* 	$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">'+data.status+'</span>');
+				$(obj).remove(); */
 				layer.msg('已完成!',{icon: 5,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -138,9 +141,10 @@ function accept(obj,id){
 			dataType: 'json',
 			success: function(data){
 				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>'); */
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">'+data.status+'</span>');
-				$(obj).remove();
+				/* $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">'+data.status+'</span>');
+				$(obj).remove(); */
 				layer.msg('已接受!',{icon:5,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);

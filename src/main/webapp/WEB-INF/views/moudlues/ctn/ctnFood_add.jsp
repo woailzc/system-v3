@@ -33,7 +33,7 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ctnFood/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data">
+	<form action="<%=basePath%>/a/ctnFood/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	     <input type="hidden" value="正常" name="status" id="status">
@@ -43,7 +43,7 @@
 				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
 			</div>
 		</div>
-		<div class="row cl">
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'guarunceeDate\')||\'%y-%M-%d\'}' })" id="productDate" name="productDate" class="input-text Wdate" style="width:120px;" >
@@ -54,12 +54,12 @@
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'productDate\')}',maxDate:'%y-%M-%d' })" id="guarunceeDate" name="guarunceeDate" class="input-text Wdate" style="width:120px;" >
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="type.id" id="type.id" required="required">
+				<select class="select" size="1" name="ctnFoodType.id" id="ctnFoodType.id" required="required">
 					<option value="" selected>请选择食物的类型</option>
 					<c:forEach items="${ctnFoodTypes}" var="ctnFoodType">
 					<option value="${ctnFoodType.id }">${ctnFoodType.name }</option>
@@ -98,35 +98,25 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			guarunceeDate:{
 				required:true,
 			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
+			productDate:{
 				required:true,
 			},
+			
 			
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });

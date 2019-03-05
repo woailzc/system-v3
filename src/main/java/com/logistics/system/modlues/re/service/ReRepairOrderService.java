@@ -1,5 +1,7 @@
 package com.logistics.system.modlues.re.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,10 @@ public class ReRepairOrderService extends CrudService<ReRepairOrderDao, ReRepair
 	
 	public void acceptAndFinish(ReRepairOrder reRepairOrder){
 		repairOrderDao.updateStatus(reRepairOrder);
-		if(reRepairOrder.getUpdateDate() != null)repairOrderDao.updateDate(reRepairOrder);
+		if(reRepairOrder.getStatus().equals("已完成")){
+//			reRepairOrder.setUpdateDate(new Date());
+			repairOrderDao.updateDate(reRepairOrder);
+		}
 		
 	}
 	

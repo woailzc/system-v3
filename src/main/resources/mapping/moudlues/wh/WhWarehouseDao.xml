@@ -148,11 +148,12 @@
       update_date = #{updateDate,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      type_id = #{whWarehouseType.id,jdbcType=VARCHAR},
-      max_inventory = #{maxInventory,jdbcType=INTEGER},
-      min_inventory = #{minInventory,jdbcType=INTEGER},
-      current_inventory = #{currentInventory,jdbcType=INTEGER},
-      computing_unit = #{computingUnit,jdbcType=VARCHAR}
+      type_id = #{whWarehouseType.id,jdbcType=VARCHAR}
+      
+     <!--  max_inventory = #{maxInventory,jdbcType=INTEGER}, -->
+     <!--  min_inventory = #{minInventory,jdbcType=INTEGER}, -->
+     <!--  current_inventory = #{currentInventory,jdbcType=INTEGER}, -->
+     <!--  computing_unit = #{computingUnit,jdbcType=VARCHAR} -->
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

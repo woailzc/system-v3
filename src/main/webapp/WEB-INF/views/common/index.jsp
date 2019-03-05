@@ -30,7 +30,7 @@
 <body>
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">后勤管理</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">后勤管理系统</a> 
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
 			<!--<nav class="nav navbar-nav">
 				<ul class="cl">
@@ -51,13 +51,14 @@
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A">${currentSysUser.name} <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+					<!-- 	<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li> -->
 						<!--<li><a href="#">切换账户</a></li>-->
+						<li><a href="javascript:;" onClick="member_updatePassWord('修改密码','<%=basePath%>a/sysUser/updatePassword.do','','600','510')">修改密码</a></li>
 						<li><a href="<%=basePath%>a/logout.do">退出</a></li>
 				</ul>
 			</li>
-				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
-				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+				<!-- <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li> -->
+				<!-- <li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
 						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
@@ -66,7 +67,7 @@
 						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
 						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
 					</ul>
-				</li>
+				</li> -->
 			</ul>
 		</nav>
 	</div>
@@ -80,26 +81,29 @@
 				<ul> <shiro:hasPermission name="ast:astFixedCapital:list">
 					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="固定资产管理" href="javascript:void(0)">固定资产管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="ast:astWorkingCapital:list">
+					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="添加已有的固定资产" href="javascript:void(0)">添加已有的固定资产</a></li>
+					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="设备维修" href="javascript:void(0)">设备维修</a></li>
+					
+					<%--  <shiro:hasPermission name="ast:astWorkingCapital:list">
 					<li><a data-href="<%=basePath%>a/astWorkingCapital/list.do" data-title="流动资产管理" href="javascript:void(0)">流动资产管理</a></li>
 					</shiro:hasPermission>
 					 <shiro:hasPermission name="ast:astSpecialCapital:list">
 					<li><a data-href="<%=basePath%>a/astSpecialCapital/list.do" data-title="专项资产管理" href="javascript:void(0)">专项资产管理</a></li>
 					</shiro:hasPermission>
 					 <shiro:hasPermission name="ast:astCapitalStatistics:list">
-					<li><a data-href="<%=basePath%>a/astCapitalStatistics/list.do" data-title="资产统计" href="javascript:void(0)">资产统计</a></li>
-					</shiro:hasPermission>
+					<li><a data-href="<%=basePath%>a/astCapitalStatistics/list.do" data-title="资产统计" href="javascript:void(0)">资产统计</a></li> --%>
+			<%-- 		</shiro:hasPermission> --%>
 			</ul>
 		</dd>
 	</dl>
-	<dl id="menu-picture">
+	<!-- <dl id="menu-picture">
 			<dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
 					<li><a data-href="picture-list.html" data-title="图片管理" href="javascript:void(0)">图片管理</a></li>
 			</ul>
 		</dd>
-	</dl>
+	</dl> -->
 	<%-- <shiro:hasPermission name="sys:user:save"> --%>
 	<dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 采购管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
@@ -110,6 +114,10 @@
 					 <shiro:hasPermission name="pch:pchPurchaseType:list">
 					<li><a data-href="<%=basePath%>a/pchPurchaseType/list.do" data-title="采购管理类型" href="javascript:void(0)">采购管理类型</a></li>
 					</shiro:hasPermission>
+					<%-- <shiro:hasPermission name="pch:pchPurchaseType:list"> --%>
+					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/apply.do" data-title="采购申请" href="javascript:void(0)">采购申请</a></li>
+					<%-- </shiro:hasPermission> --%>
+					
 			</ul>
 		</dd>
 	</dl>
@@ -121,7 +129,7 @@
 					<li><a data-href="<%=basePath%>a/whWarehouse/list.do" data-title="仓库管理" href="javascript:void(0)">仓库管理</a></li>
 					</shiro:hasPermission>
 					 <shiro:hasPermission name="wh:whWarehouseType:list">
-					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库管理类型管理" href="javascript:void(0)">仓库管理类型管理</a></li>
+					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库类型管理" href="javascript:void(0)">仓库类型管理</a></li>
 					</shiro:hasPermission>
 					 <shiro:hasPermission name="wh:whWarehouseApply:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
@@ -139,9 +147,10 @@
 					 <shiro:hasPermission name="pty:ptyProperty:list">
 					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业管理" href="javascript:void(0)">物业管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="pty:ptyPropertyType:list">
+					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业维修" href="javascript:void(0)">物业维修</a></li>
+					<%--  <shiro:hasPermission name="pty:ptyPropertyType:list">
 					<li><a data-href="<%=basePath%>a/ptyPropertyType/list.do" data-title="物业管理类型" href="javascript:void(0)">物业管理类型</a></li>
-					</shiro:hasPermission>
+					</shiro:hasPermission> --%>
 			</ul>
 		</dd>
 	</dl>
@@ -196,9 +205,9 @@
 				<ul> <shiro:hasPermission name="re:reRepairOrder:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do" data-title="维修管理" href="javascript:;">维修管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="re:reRepairOrderType:list">
+					<%--  <shiro:hasPermission name="re:reRepairOrderType:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrderType/list.do" data-title="维修类型管理" href="javascript:;">维修类型管理</a></li>
-					</shiro:hasPermission>
+					</shiro:hasPermission> --%>
                 </ul>    
 		</dd>
 	</dl>
@@ -218,8 +227,11 @@
 				    <shiro:hasPermission name="nt:ntNotice:list">
 					<li><a data-href="<%=basePath%>a/ntNotice/list.do" data-title="公告管理" href="javascript:;">公告管理</a></li>
 					</shiro:hasPermission>
-					<shiro:hasPermission name="nt:ntNotice:list">
+					<%-- <shiro:hasPermission name="nt:ntNoticeType:list">
                     <li><a data-href="<%=basePath%>a/ntNoticeType/list.do" data-title="公告类型管理" href="javascript:;">公告类型管理</a></li>
+                    </shiro:hasPermission> --%>
+                    <shiro:hasPermission name="nt:ntNotice:shows">
+                    <li><a data-href="<%=basePath%>a/ntNotice/shows.do" data-title="公告查看" href="javascript:;">公告查看</a></li>
                     </shiro:hasPermission>
 			</ul>
 		</dd>
@@ -231,11 +243,11 @@
 					<!-- <li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="评论列表" href="javascript:;">评论列表</a></li>
 					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>  -->
 					 <shiro:hasPermission name="ad:adAdvice:list">
-					<li><a data-href="<%=basePath%>a/adAdvice/list.do" data-title="建言建策管理" href="javascript:;">建言建策管理</a></li>
+					<li><a data-href="<%=basePath%>a/adAdvice/list.do" data-title="建言建策管理" href="javascript:;">建言建策</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="ad:adAdviceType:list">
+					<%--  <shiro:hasPermission name="ad:adAdviceType:list">
                     <li><a data-href="<%=basePath%>a/adAdviceType/list.do" data-title="建言建策类型管理" href="javascript:;">建言建策类型管理</a></li>
-                    </shiro:hasPermission>
+                    </shiro:hasPermission> --%>
 					
 					
 			</ul>
@@ -253,12 +265,12 @@
                      <shiro:hasPermission name="sys:sysUser:user:update">
                     <li><a data-href="<%=basePath%>a/sysUser/update.do" data-title="修改个人信息" href="javascript:;">修改个人信息</a></li>
                     </shiro:hasPermission>
-                     <shiro:hasPermission name="sys:sysUser:user:updatePassword">
+                   <%--   <shiro:hasPermission name="sys:sysUser:user:updatePassword">
                     <li><a data-href="<%=basePath%>a/sysUser/updatePassword.do" data-title="修改密码" href="javascript:;">修改密码</a></li>
-                    </shiro:hasPermission>
-                     <shiro:hasPermission name="sys:sysUser:updatePhoto">
+                    </shiro:hasPermission> --%>
+                    <%--  <shiro:hasPermission name="sys:sysUser:updatePhoto">
                     <li><a data-href="<%=basePath%>a/sysUser/updatePhoto.do" data-title="修改个人头像" href="javascript:;">修改个人头像</a></li>
-                    </shiro:hasPermission>
+                    </shiro:hasPermission> --%>
                 </ul>
 		</dd>
 	</dl>
@@ -388,7 +400,10 @@ function product_add(title,url){
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
-
+/*用户-修改密码*/
+function member_updatePassWord(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
 
 </script> 
 

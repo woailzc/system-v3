@@ -44,9 +44,10 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
-				<th width="100">创建时间</th>
+				<th width="100">仓库的名称</th>
+				<!-- <th width="100">创建时间</th> -->
 				<th width="40">创建人</th>
+				<th width="40">现库存</th>
 				<th width="100">申请码</th>
 				<th width="60">仓库的状态</th>
 				<th width="100">操作</th>
@@ -57,8 +58,9 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${whWarehouse.id}" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.name}','<%=basePath%>a/whWarehouse/show.do?id=${whWarehouse.id}','10001','360','400')">${whWarehouse.name}</u></td>
-				<td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<%-- <td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
 				<td>${whWarehouse.createBy.name}</td>
+				<td>${whWarehouse.currentInventory}</td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.whWarehouseAndApplyCode.id}','<%=basePath%>a/whWarehouse/showApply.do?id=${whWarehouse.whWarehouseAndApplyCode.id}','10001','360','400')">${whWarehouse.whWarehouseAndApplyCode.id}</u></td>
 				<td class="td-status"><span class="label label-success radius">${whWarehouse.status}</span></td>
 				<td class="td-manage"> 
@@ -96,7 +98,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,4,4]}// 制定列不参与排序
 		]
 	});
 	
@@ -193,9 +195,10 @@ function datadel(){
 			url: '<%=basePath%>a/whWarehouse/dels.do',
 			success: function(data){
 				/* $(obj).parents("tr").remove(); */
-				 Dtable.rows( '.selected' ).remove();
+				
+				 location.reload();
 				layer.msg('已删除!',{icon:1,time:1000});
-				location.reload();
+				
 			},
 			
 			error:function(data) {
@@ -219,9 +222,7 @@ function article_shenhe(obj,id){
 			url: '<%=basePath%>a/whWarehouse/audit.do',
 			dataType: 'json',
 			success: function(data){
-				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">'+data.status+'</span>');
-				$(obj).remove();
+				location.reload();
 				layer.msg('已启用', {icon:6,time:1000});
 			},
 			error:function(data) {
@@ -237,10 +238,8 @@ function article_shenhe(obj,id){
 			url: '<%=basePath%>a/whWarehouse/audit.do',
 			dataType: 'json',
 			success: function(data){
-			/* 	$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>'); */
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">'+data.status+'</span>');
-				$(obj).remove();
-				layer.msg('未通过', {icon:5,time:1000});
+				location.reload();
+  			  layer.msg('未通过', {icon:5,time:1000});
 			},
 			error:function(data) {
 				console.log(data.msg);

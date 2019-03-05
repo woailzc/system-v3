@@ -82,7 +82,13 @@ public class ClCleanController {
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
 		}
+		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"保洁部"));//保洁部
+		SysUser sysUser = new SysUser();
+		sysUser.setSysDepartment(sysDepartment);
+		List<SysUser> clCleanUsers = sysUserService.findList(sysUser);
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("clCleanUsers", clCleanUsers);
+		model.addAttribute("clClean", clCleanService.get(clClean));
 		return "moudlues/cl/clClean_update";
 		
 	}

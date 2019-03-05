@@ -45,8 +45,8 @@
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">类型名称</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th> -->
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -55,8 +55,8 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${ctnFoodType.id }" name="ids" id="ids"></td>
 				<td>${ctnFoodType.name}</td>
-				<td><fmt:formatDate value="${ctnFoodType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${ctnFoodType.createBy.name}</td>
+				<%-- <td><fmt:formatDate value="${ctnFoodType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
+				<%-- <td>${ctnFoodType.createBy.name}</td> --%>
 				<td class="td-manage"> 
 				<shiro:hasPermission name="ctn:ctnFoodType:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnFoodType/update.do?id=${ctnFoodType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 				<shiro:hasPermission name="ctn:ctnFoodType:del"><a title="删除"  onClick="member_del(this,'${ctnFoodType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
@@ -84,7 +84,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,4,4]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,2,2]}// 制定列不参与排序
 		]
 	});
 	

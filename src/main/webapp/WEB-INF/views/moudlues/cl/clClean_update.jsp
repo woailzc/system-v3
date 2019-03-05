@@ -29,20 +29,49 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>更新部门</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<title>更新</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/clClean/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/clClean/update.do" method="post" class="form form-horizontal" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
+	<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark" >${clClean.remark }</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+		<!--  <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  id="startDate" name="startDate" onfocus="WdatePicker({ startDate:'#F{$dp.$D(\'startDate\')}',startDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" >
+			</div>
+		</div>  -->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${clClean.startDate }" placeholder="" id="startDate" name="startDate" readonly="readonly">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${clClean.cleanAdress }" placeholder="" id="cleanAdress" name="cleanAdress">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁人：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="cleanBy.id" id="cleanBy.id" required="required">
+					<option value="${clClean.cleanBy.id }" selected>${clClean.cleanBy.name }</option>
+					<c:forEach items="${clCleanUsers}" var="clCleanUser">
+					<option value="${clCleanUser.id }">${clCleanUser.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
 			</div>
 		</div>
 		<div class="row cl">
@@ -74,24 +103,16 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+		
+			cleanAdress:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			remark:{
 				required:true,
-			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},

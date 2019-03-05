@@ -88,7 +88,15 @@ public class ReRepairOrderController {
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
 		}
+		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
+		SysUser sysUser = new SysUser();
+		sysUser.setSysDepartment(sysDepartment);
+		List<SysUser> reRepairOrderUsers = sysUserService.findList(sysUser);
+		List<ReRepairOrderType> reRepairOrderTypes = reRepairOrderTypeService.findList(new ReRepairOrderType());
+		model.addAttribute("reRepairOrder", reRepairOrderService.get(reRepairOrder));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("reRepairOrderTypes", reRepairOrderTypes);
+		model.addAttribute("reRepairOrderUsers", reRepairOrderUsers);
 		return "moudlues/re/reRepairOrder_update";
 		
 	}

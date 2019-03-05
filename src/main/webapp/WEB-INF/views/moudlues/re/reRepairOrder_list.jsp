@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="re:reRepairOrder:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="re:reRepairOrder:save"><a href="javascript:;" onclick="member_add('申请','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></shiro:hasPermission></span><span class="r">共有数据：<strong>${fn:length(reRepairOrders)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><%-- <shiro:hasPermission name="re:reRepairOrder:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> --%> <shiro:hasPermission name="re:reRepairOrder:save"><a href="javascript:;" onclick="member_add('申请','<%=basePath%>a/reRepairOrder/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 申请</a></shiro:hasPermission></span><span class="r">共有数据：<strong>${fn:length(reRepairOrders)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -62,7 +62,9 @@
 				<td>${reRepairOrder.receiver.name}</td>
 				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
 				<td class="td-manage"> 
+				   <c:if test="${reRepairOrder.status=='申请'}">
 					<shiro:hasPermission name="re:reRepairOrder:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+				   </c:if>
 					<shiro:hasPermission name="re:reRepairOrder:del"><a title="删除"  onClick="member_del(this,'${reRepairOrder.id }','${currentUser.id == reRepairOrder.applyer.id? '1':'0' }','${currentUser.id == reRepairOrder.receiver.id? '1':'0' }')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 					<c:if test="${reRepairOrder.status=='申请'}">
 					 <shiro:hasPermission name="re:reRepairOrder:accept"><a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
@@ -96,7 +98,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,6,6]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
 		]
 	});
 	
@@ -119,9 +121,10 @@ function confirm_finish(obj,id){
 			dataType: 'json',
 			success: function(data){
 				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>'); */
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已完成</span>');
-				$(obj).remove();
+		/* 		$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已完成</span>');
+				$(obj).remove(); */
 				layer.msg('已完成!',{icon: 5,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -140,9 +143,10 @@ function accept(obj,id){
 			dataType: 'json',
 			success: function(data){
 				/* $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>'); */
-				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已接受</span>');
-				$(obj).remove();
+			/* 	$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已接受</span>');
+				$(obj).remove(); */
 				layer.msg('已接受!',{icon: 6,time:1000});
+				location.reload();
 			},
 			error:function(data) {
 				console.log(data.msg);

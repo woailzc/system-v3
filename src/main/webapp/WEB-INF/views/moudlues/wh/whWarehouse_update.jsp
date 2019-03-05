@@ -50,9 +50,15 @@
 			</div>
 		</div> --%>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格计算单位：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${whWarehouse.computingUnit }" placeholder="" id="computingUnit" name="computingUnit">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>最大库存量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${whWarehouse.minInventory }" placeholder="" id="maxInventory" name="maxInventory">
+				<input type="text" class="input-text" value="${whWarehouse.maxInventory }" placeholder="" id="maxInventory" name="maxInventory" readonly="readonly">
 			</div>
 		</div>
 		<div class="row cl">
@@ -65,9 +71,9 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="type.id" id="type.id" required="required">
+				<select class="select" size="1" name="whWarehouseType.id" id="whWarehouseType.id" required="required">
 					<option value="${whWarehouse.whWarehouseType.id }" selected>${whWarehouse.whWarehouseType.name }</option>
-					<c:forEach items="${whWharehouseTypes}" var="whWharehouseType">
+					<c:forEach items="${whWarehouseTypes}" var="whWharehouseType">
 					<option value="${whWharehouseType.id }">${whWharehouseType.name }</option>
 					</c:forEach>
 				</select>
@@ -112,10 +118,10 @@ $(function(){
 			computingUnit:{
 				required:true,
 			},
-			maxInventory:{
+		/* 	maxInventory:{
 				required:true,
 				number:true
-			},
+			}, */
 			
 			remark:{
 				required:true,
@@ -128,10 +134,8 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
+			
 		}
 	});
 });

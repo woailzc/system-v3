@@ -23,7 +23,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>公告查看</title>
+<title>查看</title>
 </head>
 <body>
 
@@ -31,12 +31,32 @@
 	<table class="table">
 		<tbody>
 			<tr>
-				<th class="text-r" width="80">标题：</th>
-				<td>${reRepairOrder.id }</td>
+				<th class="text-r" width="80">地址：</th>
+				<td>${reRepairOrder.repairAdress }</td>
 			</tr>
 			<tr>
 				<th class="text-r">内容：</th>
-				<td>${reRepairOrder.id }</td>
+				<td>${reRepairOrder.reason }</td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">维修人：</th>
+				<td>${reRepairOrder.receiver.name }</td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">申请人：</th>
+				<td>${reRepairOrder.applyer.name }</td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">维修开始时间：</th>
+				<td>${reRepairOrder.applyDate }</td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">维修结束时间：</th>
+				<td>${reRepairOrder.updateDate }</td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">维修类型：</th>
+				<td>${reRepairOrder.repairOrderType.name }</td>
 			</tr>
 			<%-- <tr>
 				<th class="text-r">发送时间：</th>

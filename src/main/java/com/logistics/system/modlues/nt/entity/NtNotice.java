@@ -2,6 +2,8 @@ package com.logistics.system.modlues.nt.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.logistics.system.common.baseEntity.DataEntity;
 
 public class NtNotice extends DataEntity<NtNotice>{
@@ -9,10 +11,12 @@ public class NtNotice extends DataEntity<NtNotice>{
 	private String title;
    
     private String text;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date pushDate;
 
     private String pusher;
+    
+    private String status;
 
     private NtNoticeType ntNoticeType;
     
@@ -61,6 +65,14 @@ public class NtNotice extends DataEntity<NtNotice>{
 
 	public void setNtNoticeType(NtNoticeType ntNoticeType) {
 		this.ntNoticeType = ntNoticeType;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
     
 }

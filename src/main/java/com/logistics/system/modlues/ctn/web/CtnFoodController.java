@@ -70,6 +70,7 @@ public class CtnFoodController {
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
 		}
+		model.addAttribute("ctnFood",ctnFoodService.get(ctnFood) );
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/ctn/ctnFood_update";
 		
@@ -88,6 +89,7 @@ public class CtnFoodController {
 		ctnFoodService.dateOutAndRecovery(ctnFood);
 		HashMap<String,Object> data = new HashMap<>();
 		data.put("过期", "过期");
+		data.put("id", ctnFood.getId());
 		return data;
 		
 	}

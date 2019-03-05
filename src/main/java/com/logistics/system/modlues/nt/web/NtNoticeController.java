@@ -80,5 +80,25 @@ public class NtNoticeController {
 		return "moudlues/nt/ntNotice_show";
 		
 	}
+	//发布公告
+	@RequestMapping("/pushAndStop.do")
+	@ResponseBody
+	public Object pushAndStop(Model model,NtNotice ntNotice){
+	   ntNoticeService.pushAndStop(ntNotice);
+	   HashMap<String, Object> data = new HashMap<>();
+	   data.put("status", "已发布");
+	   data.put("id", ntNotice.getId());
+		return data;
+		
+	}
+	//查看所有发布的公告
+	@RequestMapping("/shows.do")
+	public String shows(Model model,NtNotice ntNotice){
+		ntNotice.setStatus("已发布");
+		List<NtNotice> ntNotices = ntNoticeService.shows(ntNotice);
+	   model.addAttribute("ntNotices", ntNotices);
+		return "moudlues/nt/ntNotice_shows";
+		
+	}
 
 }

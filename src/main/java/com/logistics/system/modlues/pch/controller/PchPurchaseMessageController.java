@@ -123,4 +123,27 @@ public class PchPurchaseMessageController {
 			return data;
 			
 		}
+	//采购申请
+	@RequestMapping("/apply.do")
+	public String apply(Model model, PchPurchaseMessage pchPurchaseMessage){
+		if(pchPurchaseMessage.getName() != null && pchPurchaseMessage.getDelFlag().equals("0")){
+			pchPurchaseMessageService.apply(pchPurchaseMessage);
+			String msg = "申请成功，等待后勤管理员审核!";
+			model.addAttribute("msg", msg);
+		}
+		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		return "moudlues/pch/pchPurchaseMessage_apply";
+		
+	}
+	//审核
+	@RequestMapping("/audit.do")
+	@ResponseBody
+	public Object audit(Model model, PchPurchaseMessage pchPurchaseMessage){
+		   pchPurchaseMessageService.audit(pchPurchaseMessage);
+		   HashMap<String, Object> data = new HashMap<>();
+		   data.put("data", "shnehe");
+			return data;
+			
+		}
+	
 }

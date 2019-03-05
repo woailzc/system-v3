@@ -71,6 +71,9 @@ public class PtyPropertyController {
 			model.addAttribute("msg", msg);
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
+		model.addAttribute("ptyProperty", ptyPropertyService.get(ptyProperty));
+		List<PtyPropertyType> ptyPropertyTypes = ptyPropertyTypeService.findList(new PtyPropertyType());
+		model.addAttribute("ptyPropertyTypes", ptyPropertyTypes);
 		return "moudlues/pty/ptyProperty_update";
 		
 	}

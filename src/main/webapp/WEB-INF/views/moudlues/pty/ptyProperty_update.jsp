@@ -35,14 +35,33 @@
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ptyProperty/update.do" method="post" class="form form-horizontal">
+	<form action="<%=basePath%>/a/ptyProperty/update.do" method="post" class="form form-horizontal" id="form-member-add">
 	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
 	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
 	    <input type="hidden" value="${param.id }" name="id" id="id">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>部门名字：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="${sysDepartment.name }" placeholder="" id="name" name="name" required="required">
+				<input type="text" class="input-text" value="${ptyProperty.name }" placeholder="" id="name" name="name" >
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark" required="required">${ptyProperty.name }</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="ptyPropertyType.id" id="ptyPropertyType.id" required="required">
+					<option value="${ptyProperty.ptyPropertyType.id }" selected>${ptyProperty.ptyPropertyType.name }</option>
+					<c:forEach items="${ptyPropertyTypes}" var="ptyPropertyType">
+					<option value="${ptyPropertyType.id }">${ptyPropertyType.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
 			</div>
 		</div>
 		<div class="row cl">
@@ -74,24 +93,15 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			sex:{
+			remark:{
 				required:true,
-			},
-			mobile:{
-				required:true,
-				isMobile:true,
-			},
-			email:{
-				required:true,
-				email:true,
-			},
-			uploadfile:{
-				required:true,
+				minlength:0,
+				maxlength:100
 			},
 			
 		},
@@ -99,10 +109,7 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			//$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+			form.submit();
 		}
 	});
 });
