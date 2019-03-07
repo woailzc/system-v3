@@ -18,6 +18,8 @@ import com.logistics.system.modlues.ast.service.AstFixedCapitalService;
 import com.logistics.system.modlues.ast.service.AstWorkingCapitalService;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.sys.service.SysDepartmentService;
+import com.logistics.system.modlues.wh.entity.WhWarehouse;
+import com.logistics.system.modlues.wh.service.WhWarehouseService;
 
 @Controller
 @RequestMapping("/a/astFixedCapital")
@@ -25,12 +27,14 @@ public class AstFixedCapitalController {
 	
 	@Autowired
 	AstFixedCapitalService astFixedCapitalService;
+	@Autowired
+	WhWarehouseService whWarehouseService;
 	
 	
 	@RequestMapping("/save.do")
 	public String save(Model model,AstFixedCapital astFixedCapital){
 		
-		if (astFixedCapital !=null && astFixedCapital.getDelFlag().equals("0")) {
+		if (astFixedCapital.getName() != null && !astFixedCapital.getName().equals("") && astFixedCapital.getDelFlag().equals("0")) {
 			astFixedCapitalService.save(astFixedCapital);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
@@ -88,4 +92,23 @@ public class AstFixedCapitalController {
 			return data;
 			
 		}
+	//申请入仓
+	@RequestMapping("/applyInWarehouse.do")
+	public String applyInWarehouse(Model model,AstFixedCapital astFixedCapital){
+		if(astFixedCapital.getDelFlag().equals("0") && astFixedCapital != null){
+			astFixedCapitalService.applyInWarehouse(astFixedCapital);
+			String msg = "申请成功!";
+			model.addAttribute("msg", msg);
+		}
+	   WhWarehouse whWarehouse = new WhWarehouse();
+	   whWarehouse.setStatus("启用中");
+	   List<WhWarehouse> whWarehouses = whWarehouseService.findList(whWarehouse);//查找所有启用中的仓库
+		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());//当前用户
+		model.addAttribute("whWarehouses", whWarehouses);
+	    AstFixedCapital astFixedCapital2 = astFixedCapitalService.get(astFixedCapital);
+	    model.addAttribute("astFixedCapital", astFixedCapital2);
+		return "moudlues/ast/astFixedCapital_applyInWarehouse";
+		
+	}
+	
 }

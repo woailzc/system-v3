@@ -39,6 +39,7 @@
 	<form action="<%=basePath%>/a/pchPurchaseMessage/save.do" method="post" class="form form-horizontal" id="form-article-add">
 	<input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
+	       
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>产品名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">

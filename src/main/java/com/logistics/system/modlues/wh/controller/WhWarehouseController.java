@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.logistics.system.modlues.ast.entity.AstFixedCapital;
+import com.logistics.system.modlues.ast.service.AstFixedCapitalService;
 import com.logistics.system.modlues.sys.entity.SysUser;
 import com.logistics.system.modlues.wh.entity.WhWarehouse;
 import com.logistics.system.modlues.wh.entity.WhWarehouseAndApplyCode;
@@ -35,6 +38,8 @@ public class WhWarehouseController {
 	@Autowired
 	WhWarehouseAndApplyCodeService whWarehouseAndApplyCodeService;
 	
+	@Autowired
+	AstFixedCapitalService astFixedCapitalService;
 	@RequestMapping("/save.do")
 	public String save(Model model,WhWarehouse whWarehouse){
 		
@@ -148,5 +153,23 @@ public class WhWarehouseController {
 			return data;
 			
 		}
+	@RequestMapping("/astFixedCapitalApplyList.do")
+	public String AstFixedCapitalApplyList(Model model,AstFixedCapital astFixedCapital){
+		astFixedCapital.setStatus("申请入仓中");
+		List<AstFixedCapital> astFixedCapitals = astFixedCapitalService.findList(astFixedCapital);
+		model.addAttribute("astFixedCapitals", astFixedCapitals);
+		return "moudlues/wh/whWarehouse_astFixedCapitalApplyList";
+		
+	}
+	@RequestMapping("/auditAstFixedCapitalAlpply.do")
+	@ResponseBody
+	public Object auditAstFixedCapitalAlpply(Model model,AstFixedCapital astFixedCapital){
+	
+		 whWarehouseService.aduitApply(astFixedCapital);
+		 HashMap<String, Object> data = new HashMap<>();
+		  data.put("data", "审核");
+			return data;
+		
+	}
 
 }

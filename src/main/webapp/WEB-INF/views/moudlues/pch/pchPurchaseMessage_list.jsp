@@ -84,9 +84,9 @@
 								<c:if test="${pchPurchaseMessage.status=='审核'}">
 								  <shiro:hasPermission name="pch:pchPurchaseMessage:aduit"><a style="text-decoration:none" onClick="article_shenhe(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="审核">审核</a></shiro:hasPermission>
 								</c:if>
-								<%-- <c:if test="${whWarehouse.status=='审核通过'}">
-								  <shiro:hasPermission name="pch:pchPurchaseMessage:finsh"><a style="text-decoration:none" onClick="member_stop(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="确认采购完成"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
-								</c:if> --%>
+								<c:if test="${pchPurchaseMessage.status=='审核通过'}">
+								  <shiro:hasPermission name="pch:pchPurchaseMessage:finsh"><a style="text-decoration:none" onClick="comfirm(this,'${pchPurchaseMessage.id}')" href="javascript:;" title="确认采购完成">确认采购完成<i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
+								</c:if> 
 						 </td>
 					</tr>
 					</c:forEach>
@@ -184,6 +184,27 @@ function product_show(title,url,id){
 		content: url
 	});
 	layer.full(index);
+}
+/*确认采购完成*/
+function comfirm(obj,id){
+	layer.confirm('确认要完成采购吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{status:'采购完成',id:id},
+			url: '<%=basePath%>a/pchPurchaseMessage/comfirm.do',
+			dataType: 'json',
+			success: function(data){
+/* 				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+ */		/* 		$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">空闲</span>');
+				$(obj).remove(); */
+				 location.reload();
+				layer.msg('已完成!',{icon: 5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
 }
 /*申请-审核*/
 function article_shenhe(obj,id){

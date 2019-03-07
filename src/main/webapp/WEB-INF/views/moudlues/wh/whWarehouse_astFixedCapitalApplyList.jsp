@@ -24,13 +24,13 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>仓库管理</title>
+<title>物质入藏申请列表</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>仓库管理中心 <span class="c-gray en">&gt;</span> 仓库管理管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-	  <form action="<%=basePath%>a/whWarehouse/list.do" method="post">
+	  <form action="<%=basePath%>a/whWarehouse/astFixedCapitalApplyList.do" method="post">
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
@@ -43,37 +43,28 @@
 	<table class="table table-border table-bordered table-hover table-bg table-sort" id="table">
 		<thead>
 			<tr class="text-c">
-			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">仓库的名称</th>
+			   <!--  <th width="25"><input type="checkbox" name="" value=""></th> -->
+				<th width="100">物质名称</th>
 				<!-- <th width="100">创建时间</th> -->
-				<th width="40">创建人</th>
-				<th width="40">现库存</th>
-				<th width="100">申请码</th>
-				<th width="60">仓库的状态</th>
+				<th width="40">仓库名称</th>
+				<th width="40">申请人</th>
+				<th width="60">状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		   <c:forEach items="${whWarehouses }" var="whWarehouse">
+		   <c:forEach items="${astFixedCapitals }" var="astFixedCapital">
 			<tr class="text-c">
-				<td><input type="checkbox" value="${whWarehouse.id}" name="ids" id="ids"></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.name}','<%=basePath%>a/whWarehouse/show.do?id=${whWarehouse.id}','10001','360','400')">${whWarehouse.name}</u></td>
+				<%-- <td><input type="checkbox" value="${astFixedCapital.id}" name="ids" id="ids"></td> --%>
+				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.name}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.name}</u></td>
 				<%-- <td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
-				<td>${whWarehouse.createBy.name}</td>
-				<td>${whWarehouse.currentInventory}</td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.whWarehouseAndApplyCode.id}','<%=basePath%>a/whWarehouse/showApply.do?id=${whWarehouse.whWarehouseAndApplyCode.id}','10001','360','400')">${whWarehouse.whWarehouseAndApplyCode.id}</u></td>
-				<td class="td-status"><span class="label label-success radius">${whWarehouse.status}</span></td>
+				<td>${astFixedCapital.whWarehouse.name}</td>
+				<td>${astFixedCapital.createBy.name}</td>
+				<td class="td-status"><span class="label label-success radius">${astFixedCapital.status}</span></td>
 				<td class="td-manage"> 
-					<shiro:hasPermission name="wh:whWarehouse:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouse/update.do?id=${whWarehouse.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
-					<shiro:hasPermission name="wh:whWarehouse:del"><a title="删除"  onClick="member_del(this,'${whWarehouse.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
-					<c:if test="${whWarehouse.status=='空闲'}">
-					</c:if>
-					<c:if test="${whWarehouse.status=='审核'}">
-					  <shiro:hasPermission name="wh:whWarehouse:aduit"><a style="text-decoration:none" onClick="article_shenhe(this,'${whWarehouse.id}')" href="javascript:;" title="审核">审核</a></shiro:hasPermission>
-					</c:if>
-					<c:if test="${whWarehouse.status=='启用中'}">
-					  <shiro:hasPermission name="wh:whWarehouse:stop"><a style="text-decoration:none" onClick="member_stop(this,'${whWarehouse.id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
-					</c:if>
+					<shiro:hasPermission name="wh:whWarehouse:astFixedCapitalDel"><a title="删除"  onClick="member_del(this,'${astFixedCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+					<shiro:hasPermission name="wh:whWarehouse:astFixedCapitalAduit"><a style="text-decoration:none" onClick="article_shenhe(this,'${astFixedCapital.id}')" href="javascript:;" title="审核">审核</a></shiro:hasPermission>
+					
 				</td>
 			</tr>
 			</c:forEach>
@@ -222,8 +213,8 @@ function article_shenhe(obj,id){
 	function(){
 		$.ajax({
 			type: 'POST',
-			data:{id:id,status:'启用中'},
-			url: '<%=basePath%>a/whWarehouse/audit.do',
+			data:{id:id,status:'已入仓'},
+			url: '<%=basePath%>a/whWarehouse/auditAstFixedCapitalAlpply.do',
 			dataType: 'json',
 			success: function(data){
 				location.reload();
@@ -238,8 +229,8 @@ function article_shenhe(obj,id){
 	function(){
 		$.ajax({
 			type: 'POST',
-			data:{status:'空闲',id:id},
-			url: '<%=basePath%>a/whWarehouse/audit.do',
+			data:{status:'入仓审核不通过',id:id},
+			url: '<%=basePath%>a/whWarehouse/auditAstFixedCapitalAlpply.do',
 			dataType: 'json',
 			success: function(data){
 				location.reload();

@@ -15,4 +15,8 @@ public interface AstFixedCapitalDao extends CrudDao<AstFixedCapital> {
 	
 	public int statistics();
 
+	public void updateStatus(AstFixedCapital astFixedCapital);
+
+	public void updateWarehouse(AstFixedCapital astFixedCapital);
+
 }

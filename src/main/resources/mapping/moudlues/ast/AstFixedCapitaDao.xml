@@ -8,8 +8,14 @@
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="DOUBLE" />
-     <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="useWay" property="use_way" jdbcType="VARCHAR" />
+    <result column="unitPrice" property="unit_price" jdbcType="DOUBLE" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="specifications" property="specifications" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -22,15 +28,23 @@
                  select="selectSysUserBase"
                  >
     </association>
-
+   <association property="whWarehouse"
+                 javaType="WhWarehouse"
+                 column="warehouse_id"
+                 select="selectWhWharehouseBase"
+                 >
+    </association> 
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
   </select>
-    
+   <select id="selectWhWharehouseBase" resultType="WhWarehouse">
+     select id,name from wh_warehouse where id=#{xxx}
+  </select>
  
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, amount, source,name
+    id, create_by, create_date, update_by, update_date, del_flag, remark, amount, source,name,num,use_way,unit_price,model,status,specifications,
+    warehouse_id
   </sql>
   
   
@@ -48,6 +62,9 @@
 			</if>
 			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
 				AND a.create_date between #{datemin} and #{datemax}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
 			</if>
 		</where>   
   </select>
@@ -79,7 +96,20 @@
 			del_flag = 1
 		WHERE id = #{id}
  </update>
- 
+ <!--  更新状态 -->
+ <update id="updateStatus">
+		UPDATE ast_fixed_capital SET 
+			status = #{status}
+		
+		WHERE id = #{id}
+ </update>
+ <!--  更新仓库 -->
+ <update id="updateWarehouse">
+		UPDATE ast_fixed_capital SET 
+			warehouse_id = #{whWarehouse.id}
+		
+		WHERE id = #{id}
+ </update>
   <insert id="insert" >
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
@@ -87,11 +117,12 @@
   
     insert into ast_fixed_capital (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, amount, source,name)
+      remark, amount, source,name,num,use_way,unit_price,model,status,specifications,warehouse_id)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{source,jdbcType=DATE}, 
-      <!-- #{pusher,jdbcType=VARCHAR}, --> #{name,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{source,jdbcType=VARCHAR},
+      <!-- #{pusher,jdbcType=VARCHAR}, --> #{name,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{useWay,jdbcType=VARCHAR},#{unitPrice,jdbcType=DOUBLE} ,#{model,jdbcType=VARCHAR},
+       #{status,jdbcType=VARCHAR} ,#{specifications,jdbcType=VARCHAR},#{whWarehouse.id,jdbcType=VARCHAR})
   </insert>
   <!-- 统计金额 -->
   <select id="statistics"  resultType="java.lang.Integer">

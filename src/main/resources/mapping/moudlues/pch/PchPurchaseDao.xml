@@ -54,7 +54,7 @@
 
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, name, purchase_end_date,purchase_start_date, 
-    type_id, num, warehouse_id,supplier,use_way,unit_price,model,status,specifications
+    type_id, num, warehouse_id,supplier,num,use_way,unit_price,model,status,specifications
   </sql>
   
   <select id="findList" resultMap="BaseResultMap" >

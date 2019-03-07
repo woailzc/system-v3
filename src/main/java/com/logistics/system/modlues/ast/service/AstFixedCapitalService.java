@@ -18,8 +18,19 @@ import com.logistics.system.modlues.sys.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class AstFixedCapitalService extends CrudService<AstFixedCapitalDao, AstFixedCapital>{
+
+	@Autowired
+	AstFixedCapitalDao astFixedCapitalDao;
+	
+	public void applyInWarehouse(AstFixedCapital astFixedCapital) {
+		
+		astFixedCapitalDao.updateStatus(astFixedCapital);
+		astFixedCapitalDao.updateWarehouse(astFixedCapital);
+		
+	}
+	
 	
 
 }

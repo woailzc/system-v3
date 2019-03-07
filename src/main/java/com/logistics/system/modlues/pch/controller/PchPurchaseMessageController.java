@@ -139,11 +139,20 @@ public class PchPurchaseMessageController {
 	@RequestMapping("/audit.do")
 	@ResponseBody
 	public Object audit(Model model, PchPurchaseMessage pchPurchaseMessage){
-		   pchPurchaseMessageService.audit(pchPurchaseMessage);
+		   pchPurchaseMessageService.audit(pchPurchaseMessage);//只是改变状态
 		   HashMap<String, Object> data = new HashMap<>();
 		   data.put("data", "shnehe");
 			return data;
 			
 		}
-	
+	//确认完成
+		@RequestMapping("/comfirm.do")
+		@ResponseBody
+		public Object comfirm(Model model, PchPurchaseMessage pchPurchaseMessage){
+			   pchPurchaseMessageService.comfirm(pchPurchaseMessage);//这只是改变状态
+			   HashMap<String, Object> data = new HashMap<>();
+			   data.put("data", "完成");
+				return data;
+				
+			}	
 }

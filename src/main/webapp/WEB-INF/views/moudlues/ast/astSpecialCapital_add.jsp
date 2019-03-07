@@ -35,30 +35,73 @@
 <article class="page-container">
 	<form action="<%=basePath%>/a/astSpecialCapital/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-			<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专项项目的名称：</label>
+	    <%--  <input type="hidden" value="${nowDate}" name="createDate" id="createDate"> --%>
+	     <input type="hidden" value="正常" name="status" id="status">
+	    
+           <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="projectName" name="projectName" >
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>金额：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="amount" name="amount">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" >
 			</div>
 		</div>
 		<!-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>来源：</label>
+			<label class="form-label col-xs-4 col-sm-2">产品规格：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="source" name="source">
+				<input type="text" name="" id="" placeholder="输入长度" value="" class="input-text" style=" width:25%">
+				MM
+				<input type="text" name="" id="" placeholder="输入宽度" value="" class="input-text" style=" width:25%">
+				MM
+				<input type="text" name="" id="" placeholder="输入高度" value="" class="input-text" style=" width:25%">
+				MM </div>
+		</div> -->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">规格：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="Specifications" id="Specifications" placeholder="" value="" class="input-text">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">型号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="model" id="model" placeholder="" value="" class="input-text">
+			</div>
+		</div>
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">供应商：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="supplier" id="supplier" placeholder="" value="" class="input-text">
+			</div>
+		</div> -->
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">单价：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="unitPrice" id="unitPrice" placeholder="" value="" class="input-text">
+				<input type="text" name="computingUnit" id="computingUnit" placeholder="" value="" class="input-text" readonly="readonly">
 			</div>
 		</div> -->
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<label class="form-label col-xs-4 col-sm-2">数量：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+				<input type="text" name="num" id="num" placeholder="" value="" class="input-text">
+<!-- 				<input type="text" name="computingUnit" id="computingUnit" placeholder="" value="" class="input-text" readonly="readonly">
+ -->			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">使用方向：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="useWay" id="useWay" placeholder="" value="" class="input-text">
+			</div>
+		</div> 
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">花费总价：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="spend" id="spend" placeholder="" value="" class="input-text" style="width:90%">
+				元</div>
+		</div> -->
+	    <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">添加日期：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker({ createDate:'#F{$dp.$D(\'createDate\')||\'%y-%M-%d\'}' })" id="createDate" name="createDate" class="input-text Wdate" style="width:120px;" >
 			</div>
 		</div>
 		
@@ -91,20 +134,38 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			projectName:{
+			name:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			amount:{
+			useWay:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			Specifications:{
+				required:true,
+				minlength:1,
+				maxlength:16
+			},
+			 model:{
+				required:true,
+				minlength:1,
+				maxlength:16
+			},
+		
+			createDate:{
+				required:true,
+			},
+			num:{
 				required:true,
 				number:true
 			},
-			remark:{
+			/*  unitPrice:{
 				required:true,
-				minlength:0,
-				maxlength:100
-			},
+				number:true
+			},  */
 			
 			
 		},

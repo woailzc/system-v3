@@ -38,7 +38,7 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ast:astFixedCapital:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><shiro:hasPermission name="ast:astFixedCapital:save"><a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/astFixedCapital/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(astFixedCaptials)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="ast:astFixedCapital:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </shiro:hasPermission><%-- <shiro:hasPermission name="ast:astFixedCapital:save"><a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/astFixedCapital/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> --%>  </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -50,10 +50,11 @@
 				<th width="100">单价</th>
 				<th width="100">数量</th>
 				<th width="100">使用方向</th>
-				<th width="100">单价</th>
+				<!-- <th width="100">单价</th> -->
 				<th width="100">来源</th>
 				<!-- <th width="100">创建时间</th>
 				<th width="40">创建人</th> -->
+				<th width="100">状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -62,15 +63,21 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${astFixedCapital.id }" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.name}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.name}</u></td>
+				<td>${astFixedCapital.specifications}</td>
+				<td>${astFixedCapital.model}</td>
+				<td>${astFixedCapital.unitPrice}</td>
+				<td>${astFixedCapital.num}</td>
+				<td>${astFixedCapital.useWay}</td>
 				<td>${astFixedCapital.source}</td>
-				<td>${astFixedCapital.amount}</td>
-				<td>${astFixedCapital.amount}</td>
-				<td>${astFixedCapital.amount}</td>
-				<td>${astFixedCapital.amount}</td>
-				<td>${astFixedCapital.amount}</td>
+				<td>${astFixedCapital.status}</td>
 				<%-- <td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${astFixedCapital.createBy.name}</td> --%>
-				<td class="td-manage"> 
+				<td class="td-manage">
+				<shiro:hasPermission name="ast:astFixedCapital:applyInWarehouse">
+				<c:if test="${astFixedCapital.status == '正常'}">
+				 <a title="申请入库" href="javascript:;" onclick="applyInWarehouse('申请入库','<%=basePath%>a/astFixedCapital/applyInWarehouse.do?id=${astFixedCapital.id}&delFlag=1')" class="ml-5" style="text-decoration:none">申请入库</a> 
+				</c:if>
+				</shiro:hasPermission>
 				<shiro:hasPermission name="ast:astFixedCapital:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/astFixedCapital/update.do?id=${astFixedCapital.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 				<shiro:hasPermission name="ast:astFixedCapital:del"><a title="删除"  onClick="member_del(this,'${astFixedCapital.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 				</td>
@@ -97,11 +104,20 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,9,9]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,8,8]}// 制定列不参与排序
 		]
 	});
 	
 });
+/* 申请入库 */
+function applyInWarehouse(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
