@@ -1,5 +1,6 @@
 package com.logistics.system.modlues.re.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.logistics.system.modlues.ast.entity.AstFixedCapital;
+import com.logistics.system.modlues.ast.service.AstFixedCapitalService;
+import com.logistics.system.modlues.pty.service.PtyPropertyService;
 import com.logistics.system.modlues.re.entity.ReRepairOrder;
 import com.logistics.system.modlues.re.entity.ReRepairOrderType;
 import com.logistics.system.modlues.re.service.ReRepairOrderService;
@@ -38,14 +41,23 @@ public class ReRepairOrderController {
 	@Autowired
 	SysUserService sysUserService;
 	
+	@Autowired
+	PtyPropertyService ptyPropertyService;
+	
+	@Autowired
+	AstFixedCapitalService astFixedCapitalService;
+	
 	@RequestMapping("/save.do")
-	public String save(Model model,ReRepairOrder reRepairOrder){
+	public String save(Model model,ReRepairOrder reRepairOrder,String type){
 		
 		if (reRepairOrder !=null && reRepairOrder.getDelFlag().equals("0")) {
 			reRepairOrderService.save(reRepairOrder);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
 		}
+		List contexts = new ArrayList<>();
+		if(type.equals("1")) contexts = astFixedCapitalService.findList(new AstFixedCapital());//1代表设备维修
+		if(type.equals("2"))  contexts = astFixedCapitalService.findList(new AstFixedCapital());//2代表物业维修
 		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
 		SysUser sysUser = new SysUser();
 		sysUser.setSysDepartment(sysDepartment);
@@ -54,6 +66,8 @@ public class ReRepairOrderController {
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("reRepairOrderTypes", reRepairOrderTypes);
 		model.addAttribute("reRepairOrderUsers", reRepairOrderUsers);
+		model.addAttribute("contexts", contexts);
+		model.addAttribute("type", type);//维修的内容区别
 		return "moudlues/re/reRepairOrder_add";
 		
 	}
@@ -71,13 +85,14 @@ public class ReRepairOrderController {
 	}
 	
 	@RequestMapping("/list.do")
-	public String list(Model model,ReRepairOrder reRepairOrder){
+	public String list(Model model,ReRepairOrder reRepairOrder,String type){
 		SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
 		reRepairOrder.setApplyer(sysUser);
 		reRepairOrder.setReceiver(sysUser);
 		List<ReRepairOrder> reRepairOrders = reRepairOrderService.findList(reRepairOrder);
 		model.addAttribute("currentUser", sysUser);
 		model.addAttribute("reRepairOrders", reRepairOrders);
+		model.addAttribute("type", type);
 		return "moudlues/re/reRepairOrder_list";
 	}
 	

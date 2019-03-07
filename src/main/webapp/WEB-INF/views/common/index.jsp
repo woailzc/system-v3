@@ -75,7 +75,7 @@
 					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="固定资产管理" href="javascript:void(0)">固定资产管理</a></li>
 					</shiro:hasPermission>
 					<li><a data-href="<%=basePath%>a/astFixedCapital/save.do" data-title="添加已有的固定资产" href="javascript:void(0)">添加已有的固定资产</a></li>
-					<li><a data-href="<%=basePath%>a/astFixedCapital/list.do" data-title="设备维修" href="javascript:void(0)">设备维修</a></li>
+					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do?type=1" data-title="设备维修" href="javascript:void(0)">设备维修</a></li>
 					
 					<%--  <shiro:hasPermission name="ast:astWorkingCapital:list">
 					<li><a data-href="<%=basePath%>a/astWorkingCapital/list.do" data-title="流动资产管理" href="javascript:void(0)">流动资产管理</a></li>
@@ -110,6 +110,9 @@
 					<%-- <shiro:hasPermission name="pch:pchPurchaseType:list"> --%>
 					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/apply.do" data-title="采购申请" href="javascript:void(0)">采购申请</a></li>
 					<%-- </shiro:hasPermission> --%>
+					 <shiro:hasPermission name="wh:whWarehouseApply:list">
+					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
+					</shiro:hasPermission>
 					
 			</ul>
 		</dd>
@@ -124,9 +127,9 @@
 					 <shiro:hasPermission name="wh:whWarehouseType:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseType/list.do" data-title="仓库类型管理" href="javascript:void(0)">仓库类型管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="wh:whWarehouseApply:list">
+			<%-- 		 <shiro:hasPermission name="wh:whWarehouseApply:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
-					</shiro:hasPermission>
+					</shiro:hasPermission> --%>
 				<%-- 	 <shiro:hasPermission name="wh:whWarehouseApply:list"> --%>
 					<li><a data-href="<%=basePath%>a/whWarehouse/astFixedCapitalApplyList.do" data-title="固定资产申请入仓列表" href="javascript:void(0)">固定资产申请入仓列表</a></li>
 					<%-- </shiro:hasPermission> --%>
@@ -143,8 +146,8 @@
 					 <shiro:hasPermission name="pty:ptyProperty:list">
 					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业管理" href="javascript:void(0)">物业管理</a></li>
 					</shiro:hasPermission>
-					<li><a data-href="<%=basePath%>a/ptyProperty/list.do" data-title="物业维修" href="javascript:void(0)">物业维修</a></li>
-					<%--  <shiro:hasPermission name="pty:ptyPropertyType:list">
+					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do?type=2" data-title="物业维修" href="javascript:void(0)">物业维修</a></li>
+				<%-- 	<shiro:hasPermission name="pty:ptyPropertyType:list">
 					<li><a data-href="<%=basePath%>a/ptyPropertyType/list.do" data-title="物业管理类型" href="javascript:void(0)">物业管理类型</a></li>
 					</shiro:hasPermission> --%>
 			</ul>
@@ -172,9 +175,9 @@
 				<ul> <shiro:hasPermission name="re:reRepairOrder:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do" data-title="维修管理" href="javascript:;">维修管理</a></li>
 					</shiro:hasPermission>
-					<%--  <shiro:hasPermission name="re:reRepairOrderType:list">
+				    <shiro:hasPermission name="re:reRepairOrderType:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrderType/list.do" data-title="维修类型管理" href="javascript:;">维修类型管理</a></li>
-					</shiro:hasPermission> --%>
+					</shiro:hasPermission>
                 </ul>    
 		</dd>
 	</dl>
@@ -185,7 +188,7 @@
 					<li><a data-href="<%=basePath%>a/clClean/list.do" data-title="保洁管理" href="javascript:;">保洁管理</a></li>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="cl:clClean:list">
-					<li><a data-href="<%=basePath%>a/clClean/areaList.do" data-title="保洁区域管理" href="javascript:;">保洁区域管理</a></li>
+					<li><a data-href="<%=basePath%>a/clCleanArea/list.do" data-title="保洁区域管理" href="javascript:;">保洁区域管理</a></li>
 					</shiro:hasPermission>
                 </ul>    
 		</dd>

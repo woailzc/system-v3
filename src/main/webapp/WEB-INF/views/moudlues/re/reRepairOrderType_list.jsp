@@ -38,15 +38,15 @@
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="re:reRepairOrderType:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="re:reRepairOrderType:save"> <a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/reRepairOrderType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加部门</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(reRepairOrderTypes)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="re:reRepairOrderType:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="re:reRepairOrderType:save"> <a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/reRepairOrderType/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(reRepairOrderTypes)}</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">类型名称</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th> -->
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -55,8 +55,8 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${whWarehouseApply.id }" name="ids" id="ids"></td>
 				<td>${reRepairOrderType.name}</td>
-				<td><fmt:formatDate value="${reRepairOrderType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${reRepairOrderType.createBy.name}</td>
+				<%-- <td><fmt:formatDate value="${reRepairOrderType.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${reRepairOrderType.createBy.name}</td> --%>
 				<td class="td-manage"> 
 				 <shiro:hasPermission name="re:reRepairOrderType:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrderType/update.do?id=${reRepairOrderType.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
 				 <shiro:hasPermission name="re:reRepairOrderType:del"><a title="删除"  onClick="member_del(this,'${reRepairOrderType.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
@@ -84,7 +84,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,4,4]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,2,2]}// 制定列不参与排序
 		]
 	});
 	

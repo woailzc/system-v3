@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.logistics.system.modlues.re.dao.ReRepairOrderTypeDao" >
-  <resultMap id="BaseResultMap" type="ReRepairOrderType" >
+<mapper namespace="com.logistics.system.modlues.cl.dao.ClCleanAreaDao" >
+  <resultMap id="BaseResultMap" type="ClCleanArea" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
     <result column="update_date" property="updateDate" jdbcType="DATE" />
@@ -31,7 +31,7 @@
   <select id="findList" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
-    from re_repair_order_type a
+    from cl_clean_area a
      <where>
 			a.del_flag = #{delFlag}
 			<if test="name != null and name != ''">
@@ -49,12 +49,18 @@
   <select id="get" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from re_repair_order_type
+    from cl_clean_area
     where id = #{id,jdbcType=VARCHAR}
   </select>
-     <!-- 逻辑删除多个 -->
+   <!-- 逻辑删除 -->
+  <update id="delete">
+		UPDATE cl_clean_area SET 
+			del_flag = 1
+		WHERE id = #{id}
+ </update>
+    <!-- 逻辑删除多个 -->
   <update id="deletes">
-    UPDATE re_repair_order_type SET 
+    UPDATE cl_clean_area SET 
 			del_flag = 1
     <if test="array.length>0">
       where id in
@@ -63,19 +69,13 @@
        </foreach>
      </if> 
   </update>
-   <!-- 逻辑删除 -->
-  <update id="delete">
-		UPDATE re_repair_order_type SET 
-			del_flag = 1
-		WHERE id = #{id}
- </update>
 <!-- 插入一个 -->
   <insert id="insert" >
     <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select  replace(uuid(),'-','')   from dual
     </selectKey>
   
-    insert into re_repair_order_type (id, create_by, create_date, 
+    insert into cl_clean_area (id, create_by, create_date, 
       update_by, update_date, del_flag, 
       remark, name)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
@@ -84,7 +84,7 @@
   </insert>
 <!--  更新 -->
   <update id="update">
-    update re_repair_order_type
+    update cl_clean_area
     set <!-- create_by = #{createBy.id,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE}, -->
       update_by = #{updateBy.id,jdbcType=VARCHAR},

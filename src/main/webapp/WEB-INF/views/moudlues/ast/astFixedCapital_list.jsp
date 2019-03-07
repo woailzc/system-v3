@@ -54,7 +54,8 @@
 				<th width="100">来源</th>
 				<!-- <th width="100">创建时间</th>
 				<th width="40">创建人</th> -->
-				<th width="100">状态</th>
+				<th width="100">入库状态</th>
+				<th width="100">损坏的状态</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
@@ -69,6 +70,7 @@
 				<td>${astFixedCapital.num}</td>
 				<td>${astFixedCapital.useWay}</td>
 				<td>${astFixedCapital.source}</td>
+				<td>${astFixedCapital.status}</td>
 				<td>${astFixedCapital.status}</td>
 				<%-- <td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${astFixedCapital.createBy.name}</td> --%>

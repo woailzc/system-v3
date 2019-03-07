@@ -38,19 +38,31 @@
 	    <input type="hidden" value="${sysUser.id}" name="applyer.id" id="applyer.id" >
 <%-- 	    <input type="hidden" value="${nowDate}" name="applyDate" id="applyDate">
  --%>	    <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	    <input type="hidden" value="申请" name="status" id="status">
+            <input type="hidden" value="${type}" name="type" id="type">
+	    <input type="hidden" value="待处理" name="status" id="status">
 	    <input type="hidden" value="0" name="applyerDelFlag" id="applyerDelFlag">
 	    <input type="hidden" value="0" name="receiverDelFlag" id="receiverDelFlag">
-		
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">原因：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>内容：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="contex" id="contex" required="required">
+					<option value="" selected>请选择维修的内容</option>
+					<c:forEach items="${contexts}" var="context">
+					<option value="${context.name }">${context.name }</option>
+					</c:forEach>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">情况描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入100个字符" onKeyUp="$.Huitextarealength(this,100)"id="reason" name="reason"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
 		 <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开始的时间：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>申请维修的时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text"  id="applyDate" name="applyDate" onfocus="WdatePicker({ applyDate:'#F{$dp.$D(\'brithday\')}',applyDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" >
 			</div>
@@ -62,7 +74,7 @@
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>种类：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="repairOrderType.id" id="repairOrderType.id" required="required">
 					<option value="" selected>请选择维修的类型</option>

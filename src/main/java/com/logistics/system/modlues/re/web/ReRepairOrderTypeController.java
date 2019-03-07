@@ -70,7 +70,6 @@ public class ReRepairOrderTypeController {
 			reRepairOrderTypeService.update(reRepairOrderType);
 			String msg = "修改成功!";
 			model.addAttribute("msg", msg);
-			return "moudlues/re/reRepairOrderType_update";
 		}
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		return "moudlues/re/reRepairOrderType_update";

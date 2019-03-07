@@ -8,14 +8,16 @@ import com.logistics.system.common.baseEntity.DataEntity;
 import com.logistics.system.modlues.sys.entity.SysUser;
 
 public class ReRepairOrder extends DataEntity<ReRepairOrder> {
+	
+	private String contex;//内容
 
-    private SysUser applyer;
+    private SysUser applyer;//申请人
 
-    private SysUser receiver;
+    private SysUser receiver;//维修人
 
-    private ReRepairOrderType repairOrderType;
+    private ReRepairOrderType repairOrderType;//种类
 
-    private String reason;
+    private String reason;//情况描述内容
 
     private String suggestion;
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -23,13 +25,17 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
 
     private Date recevieDate;
     
-    private String status;
+    private String status;//状态
     
      private String applyerDelFlag;
     
     private String receiverDelFlag;
     
-    private String repairAdress;
+    private String repairAdress;//维修地址
+    
+    private String serviceQuality;//服务质量
+    
+    private String serviceAttitude;//服务态度
     
     public ReRepairOrder() {
 		super();
@@ -128,6 +134,30 @@ public class ReRepairOrder extends DataEntity<ReRepairOrder> {
 
 	public void setRepairAdress(String repairAdress) {
 		this.repairAdress = repairAdress;
+	}
+
+	public String getServiceQuality() {
+		return serviceQuality;
+	}
+
+	public void setServiceQuality(String serviceQuality) {
+		this.serviceQuality = serviceQuality;
+	}
+
+	public String getServiceAttitude() {
+		return serviceAttitude;
+	}
+
+	public void setServiceAttitude(String serviceAttitude) {
+		this.serviceAttitude = serviceAttitude;
+	}
+
+	public String getContex() {
+		return contex;
+	}
+
+	public void setContex(String contex) {
+		this.contex = contex;
 	}
     
 }
