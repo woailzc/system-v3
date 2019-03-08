@@ -1,5 +1,7 @@
 package com.logistics.system.modlues.cl.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,4 +57,26 @@ public class PaiBanService extends CrudService<PaiBanDao, PaiBan>{
 			paiBanDao.insert(paiBan);
 		}		
   }
+	
+	public List<String> getUserIdByPaiBanId(String paibanId){
+		
+		return paiBanDao.getUserIds(paibanId);
+		
+	}
+//删除一个排班
+	public void deletePaiban(String userId, String paibanId) {
+		
+		paiBanDao.deletePaiban(userId, paibanId);
+	}
+//增加一个排班
+	public void savePaiban(String userId, String paibanId) {
+		
+		paiBanDao.savePaiban(userId, paibanId);
+		
+	}
+
+	public void updatePaiban(String userId, String paibanId) {
+		
+		paiBanDao.updatePaiban(userId, paibanId);
+	}
 }

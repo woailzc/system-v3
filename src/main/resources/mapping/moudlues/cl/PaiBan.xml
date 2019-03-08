@@ -30,6 +30,14 @@
                  select="selectClCleanArea"
                  >
     </association> -->
+    <collection property="sysUsers" ofType="SysUser">
+      <id column="uid" property="id" jdbcType="VARCHAR" />
+      <result column="uname" property="name" jdbcType="VARCHAR" />
+      <!-- <association property="sysMenu"
+                   javaType="SysMenu"
+                   column="pM_idd"
+                   select="selectSysMenuBase"/> -->
+   </collection>
   </resultMap>
    <select id="selectSysUserBase" resultType="SysUser">
      select id,name from sys_user where id=#{xxx}
@@ -37,16 +45,16 @@
  <!--  <select id="selectClCleanArea" resultType="ClCleanArea">
      select id,name from cl_clean_area where id=#{xxx}
   </select>-->
-  <sql id="Base_ Column_List" >
+ <!--  <sql id="Base_ Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark,week,banci,beginTime,endTime,area_id
-  </sql>
+  </sql> -->
   <!--   获取信息 -->
   <select id="findList" resultMap="BaseResultMap"  >
-    select
-    <include refid="Base_Column_List" />
-    from cl_paiban a
+    select  *
+  <!--   <include refid="Base_Column_List" /> -->
+    from cl_paiban a <!-- ,sys_user u , cl_paiban_user pu -->
      <where>
-			a.del_flag = #{delFlag}
+			a.del_flag = #{delFlag} <!-- AND a.id = pu.paiban_id AND u.id = pu.user_id -->
 			<if test="banci != 0 ">
 				AND a.banci = #{banci}
 			</if>
@@ -61,27 +69,36 @@
   </select>
  <!--  获取一个信息 -->
   <select id="get" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from cl_paiban
-    where id = #{id,jdbcType=VARCHAR}
+       select  a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag, a.remark,a.week,a.banci,a.beginTime,a.endTime,a.area_id,
+    u.id AS uid, u.name AS uname
+    <!-- <include refid="Base_Column_List" /> -->
+    from cl_paiban a,sys_user u , cl_paiban_user pu
+    where a.id = #{id,jdbcType=VARCHAR} and a.del_flag = #{delFlag} AND a.id = pu.paiban_id AND u.id = pu.user_id
   </select>
    <!-- 逻辑删除 -->
-  <update id="delete">
+<!--   <update id="delete">
 		UPDATE cl_paiban SET 
 			del_flag = 1
 		WHERE id = #{id}
- </update>
-    <!-- 逻辑删除多个 -->
-  <update id="deletes">
-    UPDATE cl_paiban SET 
-			del_flag = 1
-    <if test="array.length>0">
-      where id in
-       <foreach collection="array" item="id" open="(" close=")" separator=",">
-          #{id}
-       </foreach>
-     </if> 
+ </update>  -->
+   <delete id="deletePaiban">
+     delete  FROM cl_paiban_user where user_id = #{0} and paiban_id = #{1}
+   </delete>
+      <!-- 获取userids -->
+<!--   <update id="getUserIds">
+		select user_id  from cl_paiban_user
+    where paiban_id = #{paibanId,jdbcType=VARCHAR}
+ </update> -->
+
+   <insert id="savePaiban" >
+    insert into cl_paiban_user (user_id,paiban_id)
+    values ( #{0}, #{1})
+  </insert>
+    <update id="updatePaiban">
+    update cl_paiban_user
+    set 
+      user_id = #{0}
+    where user_id = #{0} and paiban_id = #{1}
   </update>
 <!-- 插入一个 -->
   <insert id="insert" >
@@ -95,7 +112,7 @@
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{week,jdbcType=INTEGER}, #{banci,jdbcType=INTEGER}, #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{clCleanAreaId,jdbcType=VARCHAR})
-  </insert>
+  </insert> 
 <!--  更新 -->
   <update id="update">
     update cl_paiban

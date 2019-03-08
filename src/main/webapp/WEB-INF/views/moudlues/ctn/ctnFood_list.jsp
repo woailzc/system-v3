@@ -45,8 +45,8 @@
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="100">标题</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th -->
 				<th width="70">状态</th>
 				<th width="100">操作</th>
 			</tr>
@@ -56,8 +56,8 @@
 			<tr class="text-c">
 				<td><input type="checkbox" value="${ctnFood.id }" name="ids" id="ids"></td>
 				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ctnFood.name}','<%=basePath%>a/ctnFood/show.do?id=${ctnFood.id}','10001','360','400')">${ctnFood.name}</u></td>
-				<td><fmt:formatDate value="${ctnFood.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${ctnFood.createBy.name}</td>
+			<%-- 	<td><fmt:formatDate value="${ctnFood.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${ctnFood.createBy.name}</td> --%>
 				<td class="td-status"><span class="label label-success radius">${ctnFood.status}</span></td>
 <%-- 				<c:if test="${whWarehouse.status=='正常'}">
  --%>			<td class="td-manage">

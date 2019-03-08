@@ -15,6 +15,14 @@ import java.util.List;
 
 public interface PaiBanDao extends CrudDao<PaiBan> {
 	
+	public List<String> getUserIds(String paibanId);
+
+	public void deletePaiban(String userId, String paibanId);
+
+	public void savePaiban(String userId, String paibanId);
+	
+	public void updatePaiban(String userId, String paibanId);
+	
 	/*public void updateStatus(ClClean clClean);
 	public void updateDate(ClClean clClean);*/
 

@@ -29,46 +29,24 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加 </title>
+<title>添加</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ntNotice/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="">
-	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	      <input type="hidden" value="草稿" name="status" id="status">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="title" name="title">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>发布的时间：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text"  id="pushDate" name="pushDate" onfocus="WdatePicker({ pushDate:'#F{$dp.$D(\'brithday\')}',applyDate:'%y-%M-%d' })"class="input-text Wdate" style="width:120px;" required="required">
-			</div>
-		</div> 
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">内容：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="text" name="text"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div>
-		<%-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+	<form action="<%=basePath%>/a/paiBan/save.do" method="post" class="form form-horizontal" id="form-member-add">
+	    <input type="hidden" value="${paibanId }" name="paibanId" id="paibanId">
+	    <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁人：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="ntNoticeType.id" id="ntNoticeType.id" required="required">
-					<option value="" selected>请选择公告的类型</option>
-					<c:forEach items="${ntNoticeTypes}" var="ntNoticeType">
-					<option value="${ntNoticeType.id }">${ntNoticeType.name }</option>
+				<select class="select" size="1" name="userId" id="userId" required="required">
+					<option value="" selected>请选择清洁的人</option>
+					<c:forEach items="${clCleanUsers}" var="clCleanUser">
+					<option value="${clCleanUser.id }">${clCleanUser.name }</option>
 					</c:forEach>
 				</select>
 				</span> 
 			</div>
-		</div> --%>
-	
+		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -89,6 +67,9 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+
+
+
 $(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -98,18 +79,11 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			title:{
+		
+			userId:{
 				required:true,
-				minlength:2,
-				maxlength:16
+				
 			},
-			
-			remark:{
-				required:true,
-				minlength:0,
-				maxlength:100
-			},
-			
 		},
 		onkeyup:false,
 		focusCleanup:true,
@@ -120,6 +94,117 @@ $(function(){
 	});
 });
 </script>
+<script type="text/javascript">
+/*用户-添加*/
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*用户-查看*/
+function member_show(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-停用*/
+function member_stop(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				$(obj).remove();
+				layer.msg('已停用!',{icon: 5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+/*用户-启用*/
+function member_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).remove();
+				layer.msg('已启用!',{icon: 6,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});
+	});
+}
+/*用户-编辑*/
+/* function member_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+} */
+/*用户-编辑*/
+function member_edit(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*密码-修改*/
+function change_password(title,url,id,w,h){
+	layer_show(title,url,w,h);	
+}
+/*用户-删除*/
+function member_del(obj,paibanId,userId){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{paibanId:paibanId,userId:userId},
+			url: '<%=basePath%>a/paiBan/del.do',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/clCleanArea/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+</script> 
 <!-- 消息提示 -->
 <script type="text/javascript">
 window.onload=function(){

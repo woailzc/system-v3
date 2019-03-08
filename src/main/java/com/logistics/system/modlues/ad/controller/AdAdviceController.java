@@ -40,7 +40,7 @@ public class AdAdviceController {
 			model.addAttribute("msg", msg);
 		}
 		List<AdAdviceType> adAdviceTypes = adAdviceTypeService.findList(new AdAdviceType());
-		List<SysUser> aduitors = sysUserService.findList(new SysUser(null,"000"));
+		List<SysUser> aduitors = sysUserService.findList(new SysUser(null,"cfcfe6568f9f1037a41b531e9ebedb10"));
 		model.addAttribute("sysUser", (SysUser)SecurityUtils.getSubject().getPrincipal());
 		model.addAttribute("aduitors", aduitors);
 		model.addAttribute("adAdviceTypes", adAdviceTypes);

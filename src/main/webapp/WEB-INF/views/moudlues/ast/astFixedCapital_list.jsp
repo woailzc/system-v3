@@ -63,7 +63,7 @@
 		   <c:forEach items="${astFixedCapitals }" var="astFixedCapital">
 			<tr class="text-c">
 				<td><input type="checkbox" value="${astFixedCapital.id }" name="ids" id="ids"></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${astFixedCapital.name}','<%=basePath%>a/astFixedCapital/show.do?id=${astFixedCapital.id}','10001','360','400')">${astFixedCapital.name}</u></td>
+				<td>${astFixedCapital.name}</td>
 				<td>${astFixedCapital.specifications}</td>
 				<td>${astFixedCapital.model}</td>
 				<td>${astFixedCapital.unitPrice}</td>

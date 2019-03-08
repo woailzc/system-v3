@@ -32,12 +32,8 @@
 <title>更新</title>
 </head>
 <body>
+<nav class="breadcrumb"><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <article class="page-container">
-	<form action="<%=basePath%>/a/clClean/update.do" method="post" class="form form-horizontal" id="form-member-add">
-	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
-	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
-	    <input type="hidden" value="${param.id }" name="id" id="id">
-	
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
@@ -53,28 +49,45 @@
 		</thead>
 		<tbody>
 			<tr class="text-c">
-			    <td>早班</td>
-				<%-- <td><u style="cursor:pointer" class="text-primary" onclick="member_show('${clClean.id}','<%=basePath%>a/clClean/show.do?id=${clClean.id}','10001','360','400')">${clClean.id}</u></td> --%>
-				<%-- <td><fmt:formatDate value="${clClean.startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
-				<c:forEach items="${paiBans1}" var="paiBan1">
-				<td>${paiBan1.id}</td>
+			    <td>早班${beginTime1}--${endTime1}</td>
+				<c:forEach items="${paiBans1}" var="paiBan1" varStatus="status">
+				<td>
+				   <c:forEach  items="${paiBan1.sysUsers}" var="sysUser">
+				       ${sysUser.name}            <a title="删除" href="javascript:;" onclick="member_del('删除','${paiBan1.id }','${sysUser.id }')" ><i class="Hui-iconfont">&#xe6e2;</i></a> 
+				       ,
+				   </c:forEach>
+                    <a title="添加" href="javascript:;" onclick="member_edit('添加','<%=basePath%>a/paiBan/save.do?paibanId=${paiBan1.id }','4','','510')" ><font color="red">添加清洁人</font></a>
+				   <%--  ${paiBan1.id} --%>
+				</td>
 				</c:forEach>
 			</tr>
 			<tr class="text-c">
-			    <td>中班</td>
+			    <td>中班${beginTime2}--${endTime2}</td>
 				<c:forEach items="${paiBans2}" var="paiBan2">
-				<td>${paiBan1.id}</td>
+				<td>
+				    <c:forEach  items="${paiBan2.sysUsers}" var="sysUser">
+				       ${sysUser.name}            <a title="删除" href="javascript:;" onclick="member_del('删除','${paiBan2.id }','${sysUser.id }')" ><i class="Hui-iconfont">&#xe6e2;</i></a> 
+				       ,
+				   </c:forEach>
+                    <a title="添加" href="javascript:;" onclick="member_edit('添加','<%=basePath%>a/paiBan/save.do?paibanId=${paiBan2.id }','4','','510')" ><font color="red">添加清洁人</font></a>
+				   <%--  ${paiBan1.id} --%>
+				   </td>
 				</c:forEach>
 			</tr>
 			<tr class="text-c">
-			    <td>晚班</td>
+			    <td>晚班${beginTime3}--${endTime3}</td>
 				<c:forEach items="${paiBans3}" var="paiBan3">
-				<td>paiBan1.id}</td>
+				<td><c:forEach  items="${paiBan3.sysUsers}" var="sysUser">
+				       ${sysUser.name}            <a title="删除" href="javascript:;" onclick="member_del('删除','${paiBan3.id }','${sysUser.id }')" ><i class="Hui-iconfont">&#xe6e2;</i></a> 
+				       ,
+				   </c:forEach>
+                    <a title="添加" href="javascript:;" onclick="member_edit('添加','<%=basePath%>a/paiBan/save.do?paibanId=${paiBan3.id }','4','','510')" ><font color="red">添加清洁人</font></a>
+				   <%--  ${paiBan1.id} --%>
+				   </td>
 				</c:forEach>
 			</tr>
 		</tbody>
 	</table>
-	</form>
 </article>
 <input type="hidden" value="${msg }" name="msg" id="msg">
 <!--_footer 作为公共模版分离出去-->
@@ -89,6 +102,9 @@
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=basePath%>static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+
+
+
 $(function(){
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
@@ -123,6 +139,117 @@ $(function(){
 	});
 });
 </script>
+<script type="text/javascript">
+/*用户-添加*/
+function member_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*用户-查看*/
+function member_show(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-停用*/
+function member_stop(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				$(obj).remove();
+				layer.msg('已停用!',{icon: 5,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+/*用户-启用*/
+function member_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).remove();
+				layer.msg('已启用!',{icon: 6,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});
+	});
+}
+/*用户-编辑*/
+ function member_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*用户-编辑*/
+/* function member_edit(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+} */
+/*密码-修改*/
+function change_password(title,url,id,w,h){
+	layer_show(title,url,w,h);	
+}
+/*用户-删除*/
+function member_del(obj,paibanId,userId){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{paibanId:paibanId,userId:userId},
+			url: '<%=basePath%>a/paiBan/del.do',
+			dataType: 'json',
+			success: function(data){
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*多条删除*/
+function datadel(){
+	var ids = [];
+	 $("input[name='ids']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		 ids[i] =$(this).val();
+	 });
+	/* alert(ids);
+	return false; */
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			data:{ids:ids},
+			dataType: 'json',
+			url: '<%=basePath%>a/clCleanArea/dels.do',
+			success: function(data){
+				/* $(obj).parents("tr").remove(); */
+				layer.msg('已删除!',{icon:1,time:1000});
+				location.reload();
+			},
+			
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+</script> 
 <!-- 消息提示 -->
 <script type="text/javascript">
 window.onload=function(){

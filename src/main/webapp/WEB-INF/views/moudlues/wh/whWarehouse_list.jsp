@@ -48,7 +48,7 @@
 				<!-- <th width="100">创建时间</th> -->
 				<th width="40">创建人</th>
 				<th width="40">现库存</th>
-				<th width="100">申请码</th>
+				<th width="100">查看申请原因</th>
 				<th width="60">仓库的状态</th>
 				<th width="100">操作</th>
 			</tr>
@@ -61,7 +61,7 @@
 				<%-- <td><fmt:formatDate value="${whWarehouse.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
 				<td>${whWarehouse.createBy.name}</td>
 				<td>${whWarehouse.currentInventory}</td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.whWarehouseAndApplyCode.id}','<%=basePath%>a/whWarehouse/showApply.do?id=${whWarehouse.whWarehouseAndApplyCode.id}','10001','360','400')">${whWarehouse.whWarehouseAndApplyCode.id}</u></td>
+				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${whWarehouse.whWarehouseAndApplyCode.id}','<%=basePath%>a/whWarehouse/showApply.do?id=${whWarehouse.whWarehouseAndApplyCode.id}','10001','360','400')">${whWarehouse.whWarehouseAndApplyCode.id != ''?'点击查看':''}</u></td>
 				<td class="td-status"><span class="label label-success radius">${whWarehouse.status}</span></td>
 				<td class="td-manage"> 
 					<shiro:hasPermission name="wh:whWarehouse:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/whWarehouse/update.do?id=${whWarehouse.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>

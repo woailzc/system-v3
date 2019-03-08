@@ -44,7 +44,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁区域：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="clCleanArea.id" id="clCleanArea.id" required="required">
+				<select class="select" size="1" name="clCleanAreaId" id="clCleanAreaId" required="required">
 					<option value="" selected>请选择清洁的区域</option>
 					<c:forEach items="${clCleanAreas}" var="clCleanArea">
 					<option value="${clCleanArea.id }">${clCleanArea.name }</option>

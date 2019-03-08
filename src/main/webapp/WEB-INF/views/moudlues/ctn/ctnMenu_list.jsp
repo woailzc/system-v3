@@ -44,9 +44,11 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
-				<th width="100">创建时间</th>
-				<th width="40">创建人</th>
+				<th width="100">名称</th>
+				<th width="140">描述</th>
+				<th width="100">价格</th>
+				<!-- <th width="100">创建时间</th>
+				<th width="40">创建人</th> -->
 				<th width="70">状态</th>
 				<th width="100">操作</th>
 			</tr>
@@ -55,14 +57,16 @@
 		   <c:forEach items="${ctnMenus }" var="ctnMenu">
 			<tr class="text-c">
 				<td><input type="checkbox" value="${ctnMenu.id }" name="ids" id="ids"></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('${ctnMenu.name}','<%=basePath%>a/ctnMenu/show.do?id=${ctnMenu.id}','10001','360','400')">${ctnMenu.name}</u></td>
-				<td><fmt:formatDate value="${ctnMenu.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td>${ctnMenu.createBy.name}</td>
+				<td>${ctnMenu.name}</td>
+				<td>${ctnMenu.describe}</td>
+				<td>${ctnMenu.price}</td>
+				<%-- <td><fmt:formatDate value="${ctnMenu.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${ctnMenu.createBy.name}</td> --%>
 				<td class="td-status"><span class="label ${ctnMenu.status=='已停用'?'label-defaunt':'label-success'} radius">${ctnMenu.status}</span></td>
 <%-- 				<td class="td-manage"> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnMenu/update.do?id=${ctnMenu.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"  onClick="member_del(this,'${ctnMenu.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
  --%>				<td class="td-manage">
-					   <shiro:hasPermission name="ctn:ctnMenu:stopAndStart"><a style="text-decoration:none" onClick="${ctnMenu.status=='已停用'?'member_start':'member_stop'}(this,'${ctnMenu.id}')" href="javascript:;" title="${ctnMenu.status=='已停用'?'启用':'停用'}"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
-					   <shiro:hasPermission name="ctn:ctnMenu:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnMenu/update.do?id=${ctnMenu.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
+<%-- 					   <shiro:hasPermission name="ctn:ctnMenu:stopAndStart"><a style="text-decoration:none" onClick="${ctnMenu.status=='已停用'?'member_start':'member_stop'}(this,'${ctnMenu.id}')" href="javascript:;" title="${ctnMenu.status=='已停用'?'启用':'停用'}"><i class="Hui-iconfont">&#xe631;</i></a></shiro:hasPermission>
+ --%>					   <shiro:hasPermission name="ctn:ctnMenu:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ctnMenu/update.do?id=${ctnMenu.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
 					   <shiro:hasPermission name="ctn:ctnMenu:del"><a title="删除"  onClick="member_del(this,'${ctnMenu.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
 			     </td>
 			</tr>

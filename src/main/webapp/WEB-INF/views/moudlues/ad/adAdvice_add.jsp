@@ -52,7 +52,7 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
-		<div class="row cl">
+		<%-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" name="type.id" id="type.id" required="required">
@@ -63,7 +63,7 @@
 				</select>
 				</span> 
 			</div>
-		</div>
+		</div> --%>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>提交的对象：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">

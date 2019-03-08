@@ -41,12 +41,8 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 					<!-- 	<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li> -->
 						<!--<li><a href="#">切换账户</a></li>-->
-						 <shiro:hasPermission name="sys:sysUser:user:update">
 						<li><a href="javascript:;" onClick="member_updatePassWord('修改个人信息','<%=basePath%>a/sysUser/update.do','','600','510')">修改个人信息</a></li>、
-						</shiro:hasPermission>
-						<shiro:hasPermission name="sys:sysUser:user:updatePassword">
 						<li><a href="javascript:;" onClick="member_updatePassWord('修改密码','<%=basePath%>a/sysUser/updatePassword.do','','600','510')">修改密码</a></li>
-						</shiro:hasPermission>
 						<li><a href="<%=basePath%>a/logout.do">退出</a></li>
 				</ul>
 			</li>
@@ -68,6 +64,7 @@
 </header>
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
+	   <shiro:hasPermission name="ast:astFixedCapital:list">
 		<dl id="menu-article">
 			<dt><i class="Hui-iconfont">&#xe616;</i> 资产管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -89,6 +86,7 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
 	<!-- <dl id="menu-picture">
 			<dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -98,18 +96,19 @@
 		</dd>
 	</dl> -->
 	<%-- <shiro:hasPermission name="sys:user:save"> --%>
+   <shiro:hasPermission name="pch:pchPurchaseMessage:list">
 	<dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 采购管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul> <shiro:hasPermission name="pch:pchPurchaseMessage:list">
 					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/list.do" data-title="采购管理" href="javascript:void(0)">采购管理</a></li>
 					</shiro:hasPermission>
-					 <shiro:hasPermission name="pch:pchPurchaseType:list">
+					 <%-- <shiro:hasPermission name="pch:pchPurchaseType:list">
 					<li><a data-href="<%=basePath%>a/pchPurchaseType/list.do" data-title="采购管理类型" href="javascript:void(0)">采购管理类型</a></li>
-					</shiro:hasPermission>
-					<%-- <shiro:hasPermission name="pch:pchPurchaseType:list"> --%>
+					</shiro:hasPermission> --%>
+					 <shiro:hasPermission name="pch:apply">
 					<li><a data-href="<%=basePath%>a/pchPurchaseMessage/apply.do" data-title="采购申请" href="javascript:void(0)">采购申请</a></li>
-					<%-- </shiro:hasPermission> --%>
+					 </shiro:hasPermission> 
 					 <shiro:hasPermission name="wh:whWarehouseApply:list">
 					<li><a data-href="<%=basePath%>a/whWarehouseApply/list.do" data-title="仓库申请" href="javascript:void(0)">仓库申请</a></li>
 					</shiro:hasPermission>
@@ -117,7 +116,9 @@
 			</ul>
 		</dd>
 	</dl>
+</shiro:hasPermission>
 <%-- 	</shiro:hasPermission> --%>
+<shiro:hasPermission name="wh:whWarehouse:list">
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 仓库管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -136,6 +137,8 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	<shiro:hasPermission name="pty:ptyProperty:list">
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 物业管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -153,6 +156,8 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	<shiro:hasPermission name="ctn:ctnFood:list">
     <dl id="menu-product">
 			<dt><i class="Hui-iconfont">&#xe620;</i> 食堂管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -168,12 +173,13 @@
 			</ul>
 		</dd>
 	</dl>
-
+</shiro:hasPermission>
+   <shiro:hasPermission name="re:reRepairOrder:accept">
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 维修管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul> <shiro:hasPermission name="re:reRepairOrder:list">
-					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do" data-title="维修管理" href="javascript:;">维修管理</a></li>
+					<li><a data-href="<%=basePath%>a/reRepairOrder/list.do" data-title="维修管理" href="javascript:;">待处理维修清单</a></li>
 					</shiro:hasPermission>
 				    <shiro:hasPermission name="re:reRepairOrderType:list">
 					<li><a data-href="<%=basePath%>a/reRepairOrderType/list.do" data-title="维修类型管理" href="javascript:;">维修类型管理</a></li>
@@ -181,19 +187,23 @@
                 </ul>    
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	<shiro:hasPermission name="cl:clCleanArea:list">
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 保洁管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul> <%-- <shiro:hasPermission name="cl:clClean:list">
 					<li><a data-href="<%=basePath%>a/clClean/list.do" data-title="保洁管理" href="javascript:;">保洁管理</a></li>
 					</shiro:hasPermission> --%>
-					<shiro:hasPermission name="cl:clClean:list">
+					<shiro:hasPermission name="cl:clCleanArea:list">
 					<li><a data-href="<%=basePath%>a/clCleanArea/list.do" data-title="保洁区域管理" href="javascript:;">保洁区域管理</a></li>
 					</shiro:hasPermission>
 					<li><a data-href="<%=basePath%>a/paiBan/inti.do" data-title="排班" href="javascript:;">排班</a></li>
                 </ul>    
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	<shiro:hasPermission name="nt:ntNotice:shows">
     <dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe622;</i> 公告管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -210,6 +220,8 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	 <shiro:hasPermission name="ad:adAdvice:list">
       <dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe622;</i> 建言建策<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -227,6 +239,8 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
+	<shiro:hasPermission name="sys:sysUser:list">
 			<dl id="menu-admin">
 			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -246,6 +260,7 @@
 			</ul>
 		</dd>
 	</dl>
+	</shiro:hasPermission>
   <%--   <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>

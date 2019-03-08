@@ -1,8 +1,10 @@
 package com.logistics.system.modlues.cl.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.logistics.system.common.baseEntity.DataEntity;
+import com.logistics.system.modlues.sys.entity.SysUser;
 
 public class PaiBan extends DataEntity<PaiBan> {
 	
@@ -15,6 +17,8 @@ public class PaiBan extends DataEntity<PaiBan> {
 	private String endTime;
 	
 	private String clCleanAreaId;
+	
+	private List<SysUser> sysUsers;
 
 	//用来接收前端数据
     private String beginTime1;
@@ -123,6 +127,14 @@ public class PaiBan extends DataEntity<PaiBan> {
 
 	public void setEndTime3(String endTime3) {
 		this.endTime3 = endTime3;
+	}
+
+	public List<SysUser> getSysUsers() {
+		return sysUsers;
+	}
+
+	public void setSysUsers(List<SysUser> sysUsers) {
+		this.sysUsers = sysUsers;
 	}
 	
 	
