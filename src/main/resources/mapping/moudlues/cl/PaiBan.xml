@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.system.modlues.cl.dao.PaiBanDao" >
+  <resultMap id="BaseResultMap" type="PaiBan" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="week" property="week" jdbcType="INTEGER" />
+    <result column="banci" property="banci" jdbcType="INTEGER" />
+    <result column="beginTime" property="beginTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+     <result column="area_id" property="clCleanAreaId" jdbcType="VARCHAR" />
+     <association property="createBy"
+                 javaType="SysUser"
+                 column="create_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+     <association property="updateBy"
+                 javaType="SysUser"
+                 column="update_by"
+                 select="selectSysUserBase"
+                 >
+    </association>
+<!--     <association property="clCleanArea"
+                 javaType="ClCleanArea"
+                 column="area_id"
+                 select="selectClCleanArea"
+                 >
+    </association> -->
+  </resultMap>
+   <select id="selectSysUserBase" resultType="SysUser">
+     select id,name from sys_user where id=#{xxx}
+  </select>
+ <!--  <select id="selectClCleanArea" resultType="ClCleanArea">
+     select id,name from cl_clean_area where id=#{xxx}
+  </select>-->
+  <sql id="Base_ Column_List" >
+    id, create_by, create_date, update_by, update_date, del_flag, remark,week,banci,beginTime,endTime,area_id
+  </sql>
+  <!--   获取信息 -->
+  <select id="findList" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from cl_paiban a
+     <where>
+			a.del_flag = #{delFlag}
+			<if test="banci != 0 ">
+				AND a.banci = #{banci}
+			</if>
+			<if test="clCleanAreaId != null and clCleanAreaId != ''">
+				AND a.area_id = #{clCleanAreaId}
+			</if>
+			<if test="datemin != null and datemin != '' and datemax != null and datemax != ''">
+				AND a.create_date between #{datemin} and #{datemax}
+			</if>
+		</where>
+		ORDER BY(`week`)
+  </select>
+ <!--  获取一个信息 -->
+  <select id="get" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from cl_paiban
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   <!-- 逻辑删除 -->
+  <update id="delete">
+		UPDATE cl_paiban SET 
+			del_flag = 1
+		WHERE id = #{id}
+ </update>
+    <!-- 逻辑删除多个 -->
+  <update id="deletes">
+    UPDATE cl_paiban SET 
+			del_flag = 1
+    <if test="array.length>0">
+      where id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+          #{id}
+       </foreach>
+     </if> 
+  </update>
+<!-- 插入一个 -->
+  <insert id="insert" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select  replace(uuid(),'-','')   from dual
+    </selectKey>
+  
+    insert into cl_paiban (id, create_by, create_date, 
+      update_by, update_date, del_flag, 
+      remark, week,banci,beginTime,endTime,area_id)
+    values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{week,jdbcType=INTEGER}, #{banci,jdbcType=INTEGER}, #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{clCleanAreaId,jdbcType=VARCHAR})
+  </insert>
+<!--  更新 -->
+  <update id="update">
+    update cl_paiban
+    set <!-- create_by = #{createBy.id,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE}, -->
+      update_by = #{updateBy.id,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=DATE},
+    <!--   del_flag = #{delFlag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}, -->
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

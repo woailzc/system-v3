@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.logistics.system.modlues.ast.entity.AstFixedCapital;
 import com.logistics.system.modlues.ast.service.AstFixedCapitalService;
+import com.logistics.system.modlues.pty.entity.PtyProperty;
 import com.logistics.system.modlues.pty.service.PtyPropertyService;
 import com.logistics.system.modlues.re.entity.ReRepairOrder;
 import com.logistics.system.modlues.re.entity.ReRepairOrderType;
@@ -56,13 +57,18 @@ public class ReRepairOrderController {
 				astFixedCapital.setRepairStatus("维修中");
 				astFixedCapitalService.updateRepairStatus(astFixedCapital);
 			}
+			if(type.equals("2")){
+				PtyProperty ptyProperty = ptyPropertyService.getByName(reRepairOrder.getContex());
+				ptyProperty.setStatus("维修中");
+				ptyPropertyService.updateStatus(ptyProperty);
+			}
 			reRepairOrderService.save(reRepairOrder);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
 		}
 		List contexts = new ArrayList<>();
 		if(type.equals("1")) contexts = astFixedCapitalService.findList(new AstFixedCapital());//1代表设备维修
-		if(type.equals("2"))  contexts = astFixedCapitalService.findList(new AstFixedCapital());//2代表物业维修
+		if(type.equals("2"))  contexts = ptyPropertyService.findList(new PtyProperty());//2代表物业维修
 		SysDepartment sysDepartment = sysDepartmentService.get(new SysDepartment(null,"维修部"));//维修部
 		SysUser sysUser = new SysUser();
 		sysUser.setSysDepartment(sysDepartment);
@@ -130,9 +136,9 @@ public class ReRepairOrderController {
 //接受和完成
 	@RequestMapping("/acceptAndFinish.do")
 	@ResponseBody
-	public Object accept(Model model,ReRepairOrder reRepairOrder){
+	public Object accept(Model model,ReRepairOrder reRepairOrder,String type){
 	  if(reRepairOrder.getStatus().equals("已完成")) reRepairOrder.setUpdateDate(new Date());
-	  reRepairOrderService.acceptAndFinish(reRepairOrder);
+	  reRepairOrderService.acceptAndFinish(reRepairOrder,type);
 	   HashMap<String, Object> data = new HashMap<>();
 	   data.put("status",reRepairOrder.getStatus() );
 		return data;

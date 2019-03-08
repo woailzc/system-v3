@@ -184,12 +184,13 @@
     <dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 保洁管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
-				<ul> <shiro:hasPermission name="cl:clClean:list">
+				<ul> <%-- <shiro:hasPermission name="cl:clClean:list">
 					<li><a data-href="<%=basePath%>a/clClean/list.do" data-title="保洁管理" href="javascript:;">保洁管理</a></li>
-					</shiro:hasPermission>
+					</shiro:hasPermission> --%>
 					<shiro:hasPermission name="cl:clClean:list">
 					<li><a data-href="<%=basePath%>a/clCleanArea/list.do" data-title="保洁区域管理" href="javascript:;">保洁区域管理</a></li>
 					</shiro:hasPermission>
+					<li><a data-href="<%=basePath%>a/paiBan/inti.do" data-title="排班" href="javascript:;">排班</a></li>
                 </ul>    
 		</dd>
 	</dl>

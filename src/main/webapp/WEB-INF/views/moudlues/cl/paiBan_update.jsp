@@ -29,57 +29,51 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>更新</title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ptyProperty/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
-	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
-	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	        <input type="hidden" value="正常" name="status" id="status">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" required="required">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>编号：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="no" name="no" required="required">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属区域：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="adress" name="adress" required="required">
-			</div>
-		</div>
-		<!-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark" required="required"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div> -->
-		<%-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="ptyPropertyType.id" id="ptyPropertyType.id" required="required">
-					<option value="" selected>请选择类型</option>
-					<c:forEach items="${ptyPropertyTypes}" var="ptyPropertyType">
-					<option value="${ptyPropertyType.id }">${ptyPropertyType.name }</option>
-					</c:forEach>
-				</select>
-				</span> 
-			</div>
-		</div> --%>
+	<form action="<%=basePath%>/a/clClean/update.do" method="post" class="form form-horizontal" id="form-member-add">
+	   <input type="hidden" value="${sysUser.id }" name="updateBy.id" id="updateBy.id">
+	   <input type="hidden" value="${nowDate}" name="updateDate" id="updateDate">
+	    <input type="hidden" value="${param.id }" name="id" id="id">
 	
-		<div class="row cl">
-			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-			</div>
-		</div>
+		<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+			    <th width="100">班次</th>
+				<th width="100">周一</th>
+				<th width="100">周二</th>
+				<th width="100">周三</th>
+				<th width="100">周四</th>
+				<th width="100">周五</th>
+				<th width="100">周六</th>
+				<th width="100">周日</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+			    <td>早班</td>
+				<%-- <td><u style="cursor:pointer" class="text-primary" onclick="member_show('${clClean.id}','<%=basePath%>a/clClean/show.do?id=${clClean.id}','10001','360','400')">${clClean.id}</u></td> --%>
+				<%-- <td><fmt:formatDate value="${clClean.startDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
+				<c:forEach items="${paiBans1}" var="paiBan1">
+				<td>${paiBan1.id}</td>
+				</c:forEach>
+			</tr>
+			<tr class="text-c">
+			    <td>中班</td>
+				<c:forEach items="${paiBans2}" var="paiBan2">
+				<td>${paiBan1.id}</td>
+				</c:forEach>
+			</tr>
+			<tr class="text-c">
+			    <td>晚班</td>
+				<c:forEach items="${paiBans3}" var="paiBan3">
+				<td>paiBan1.id}</td>
+				</c:forEach>
+			</tr>
+		</tbody>
+	</table>
 	</form>
 </article>
 <input type="hidden" value="${msg }" name="msg" id="msg">
@@ -104,18 +98,16 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			name:{
+		
+			cleanAdress:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			adress:{
+			remark:{
 				required:true,
 				minlength:0,
-				maxlength:64
-			},
-			no:{
-				number:number
+				maxlength:100
 			},
 			
 		},
@@ -123,7 +115,10 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			form.submit();
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
 		}
 	});
 });

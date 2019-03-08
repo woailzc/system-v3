@@ -8,6 +8,9 @@
     <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+     <result column="adress" property="adress" jdbcType="VARCHAR" />
+      <result column="no" property="no" jdbcType="VARCHAR" />
+       <result column="status" property="status" jdbcType="VARCHAR" />
      <association property="createBy"
                  javaType="SysUser"
                  column="create_by"
@@ -35,7 +38,7 @@
   </select>
  
   <sql id="Base_Column_List" >
-    id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id
+    id, create_by, create_date, update_by, update_date, del_flag, remark, name, type_id,adress,no,status
   </sql>
   
   
@@ -62,6 +65,13 @@
     <include refid="Base_Column_List" />
     from pty_property
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <!-- 获取一个信息 -->
+  <select id="getByName" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from pty_property
+    where name = #{name,jdbcType=VARCHAR}
   </select>
   <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from nt_notice
@@ -92,13 +102,19 @@
   
     insert into pty_property (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark,name,type_id)
+      remark,name,type_id,adress,no,status)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{ptyPropertyType.id,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{ptyPropertyType.id,jdbcType=VARCHAR}, #{adress,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   
- 
+ <!--  更新状态 -->
+ <update id="updateStatus">
+		UPDATE pty_property SET 
+			status = #{status}
+		
+		WHERE id = #{id}
+ </update>
  
   <update id="update" >
     update pty_property

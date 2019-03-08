@@ -29,52 +29,31 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加部门 </title>
+<title>申请 </title>
 </head>
 <body>
 <article class="page-container">
-	<form action="<%=basePath%>/a/ptyProperty/save.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
+	<form action="<%=basePath%>/a/paiBan/inti.do" method="post" class="form form-horizontal"  enctype="multipart/form-data" id="form-member-add">
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
-	        <input type="hidden" value="正常" name="status" id="status">
+	   <div class="row cl">
+		 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>早班：<input type="time" name="beginTime1">--<input type="time" name="endTime1"></label>
+		 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>中班：<input type="time" name="beginTime2">--<input type="time" name="endTime2"></label>
+		 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>晚班：<input type="time" name="beginTime3">--<input type="time" name="endTime3"></label>
+		 </div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name" required="required">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>编号：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="no" name="no" required="required">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属区域：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="adress" name="adress" required="required">
-			</div>
-		</div>
-		<!-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" onKeyUp="$.Huitextarealength(this,100)"id="remark" name="remark" required="required"></textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-			</div>
-		</div> -->
-		<%-- <div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>清洁区域：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" name="ptyPropertyType.id" id="ptyPropertyType.id" required="required">
-					<option value="" selected>请选择类型</option>
-					<c:forEach items="${ptyPropertyTypes}" var="ptyPropertyType">
-					<option value="${ptyPropertyType.id }">${ptyPropertyType.name }</option>
+				<select class="select" size="1" name="clCleanArea.id" id="clCleanArea.id" required="required">
+					<option value="" selected>请选择清洁的区域</option>
+					<c:forEach items="${clCleanAreas}" var="clCleanArea">
+					<option value="${clCleanArea.id }">${clCleanArea.name }</option>
 					</c:forEach>
 				</select>
 				</span> 
 			</div>
-		</div> --%>
-	
+		</div>
+
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -104,18 +83,19 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			name:{
+			
+			startDate:{
+				required:true,
+			},
+			cleanAdress:{
 				required:true,
 				minlength:2,
 				maxlength:16
 			},
-			adress:{
+			remark:{
 				required:true,
 				minlength:0,
-				maxlength:64
-			},
-			no:{
-				number:number
+				maxlength:100
 			},
 			
 		},

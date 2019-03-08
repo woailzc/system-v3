@@ -24,46 +24,41 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>物业管理</title>
+<title>公告类型管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 物业中心 <span class="c-gray en">&gt;</span> 物业管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-	  <form action="<%=basePath%>a/ptyProperty/list.do" method="post">
+	  <form action="<%=basePath%>a/clCleanArea/list.do" method="post">
 		 日期范围：<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;" >
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;" >
-		<input type="text" class="input-text" style="width:250px" placeholder="输入名称" id="name" name="name">
-		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+		<input type="text" class="input-text" style="width:250px" placeholder="输入类型名" id="name" name="name">
+		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜名字</button>
 	   </form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="pty:ptyProperty:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission><shiro:hasPermission name="pty:ptyProperty:save"> <a href="javascript:;" onclick="member_add('发布公告','<%=basePath%>a/ptyProperty/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong>${fn:length(ptyPropertys)}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><shiro:hasPermission name="nt:clCleanArea:del"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></shiro:hasPermission> <shiro:hasPermission name="nt:clCleanArea:save"><a href="javascript:;" onclick="member_add('添加','<%=basePath%>a/clCleanArea/save.do?delFlag=1','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></shiro:hasPermission></span> <span class="r">共有数据：<strong></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="40">名称</th>
-				<th width="40">编号</th>
-				<th width="100">所属区域</th>
-				<th width="40">状态</th>
+				<th width="100">类型名称</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		   <c:forEach items="${ptyPropertys }" var="ptyProperty">
+		   <c:forEach items="${clCleanAreas }" var="clCleanArea">
 			<tr class="text-c">
-				<td><input type="checkbox" value="${ptyProperty.id }" name="ids" id="ids"></td>
-				<td>${ptyProperty.name}</td>
-				<td>${ptyProperty.no}</td>
-				<%-- <td><fmt:formatDate value="${ptyProperty.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%>
-				<td>${ptyProperty.adress}</td>
-				<td class="td-status"><span class="label label-success radius">${ptyProperty.status}</span></td>
+				<td><input type="checkbox" value="${clCleanArea.id }" name="ids" id="ids"></td>
+				<td>${clCleanArea.name}</td>
+				<%-- <td><fmt:formatDate value="${clCleanArea.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td>${clCleanArea.createBy.name}</td> --%>
 				<td class="td-manage"> 
-				 <shiro:hasPermission name="pty:ptyProperty:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/ptyProperty/update.do?id=${ptyProperty.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></shiro:hasPermission>
-				 <shiro:hasPermission name="pty:ptyProperty:del"><a title="删除"  onClick="member_del(this,'${ptyProperty.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
-				 </td>
+				<shiro:hasPermission name="nt:clCleanArea:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/clCleanArea/update.do?id=${clCleanArea.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
+				<shiro:hasPermission name="nt:clCleanArea:del"><a title="删除"  onClick="member_del(this,'${clCleanArea.id}')" href="javascript:;"class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></shiro:hasPermission>
+				</td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -87,7 +82,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,2,2]}// 制定列不参与排序
 		]
 	});
 	
@@ -153,7 +148,7 @@ function member_del(obj,id){
 		$.ajax({
 			type: 'POST',
 			data:{id:id},
-			url: '<%=basePath%>a/ptyProperty/del.do',
+			url: '<%=basePath%>a/clCleanArea/del.do',
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
@@ -178,7 +173,7 @@ function datadel(){
 			type: 'POST',
 			data:{ids:ids},
 			dataType: 'json',
-			url: '<%=basePath%>a/ptyProperty/dels.do',
+			url: '<%=basePath%>a/clCleanArea/dels.do',
 			success: function(data){
 				/* $(obj).parents("tr").remove(); */
 				layer.msg('已删除!',{icon:1,time:1000});

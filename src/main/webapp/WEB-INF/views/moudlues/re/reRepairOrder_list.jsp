@@ -60,15 +60,15 @@
 			<tr class="text-c">
 <!-- 				<td><input type="checkbox" value="1" name=""></td>
  -->				<td>${reRepairOrder.repairOrderType.name}</td>
-				<td>${reRepairOrder.reason}</td>
+				<td>${reRepairOrder.contex}</td>
 				<td>${reRepairOrder.reason}</td>
 				<td><fmt:formatDate value="${reRepairOrder.applyDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${reRepairOrder.repairAdress}</td>
 				<td>${reRepairOrder.applyer.name}</td>
 				<td>${reRepairOrder.applyer.phone}</td>
 				<td class="td-status"><span class="label label-success radius">${reRepairOrder.status}</span></td>
-				<td class="td-manage">、
-				   <a title="查看" href="javascript:;" onclick="member_show('查看','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','4','','510')" class="ml-5" style="text-decoration:none">
+				<td class="td-manage">
+				   <a title="查看" href="javascript:;" onclick="member_show('查看','<%=basePath%>a/reRepairOrder/show.do?id=${reRepairOrder.id}','4','','510')" class="ml-5" style="text-decoration:none">查看</a>
 				   <c:if test="${reRepairOrder.status=='待处理'}">
 				     <shiro:hasPermission name="re:reRepairOrder:edit"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','<%=basePath%>a/reRepairOrder/update.do?id=${reRepairOrder.id}&delFlag=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> </shiro:hasPermission>
 				   </c:if>
@@ -77,7 +77,7 @@
 					 <shiro:hasPermission name="re:reRepairOrder:accept"><a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${reRepairOrder.status=='已接受'}">
-					 <shiro:hasPermission name="re:reRepairOrder:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id},'${reRepairOrder.contex}'')" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
+					 <shiro:hasPermission name="re:reRepairOrder:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id}','${reRepairOrder.contex}','${type }' )" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${reRepairOrder.status=='已完成'&& reRepairOrder.applyer.id == currentUser.id}">
 					 <shiro:hasPermission name="re:reRepairOrder:evaluate"> <a style="text-decoration:none" onClick="evaluate(this,'${reRepairOrder.id}')" href="javascript:;" title="评价">评价</a></shiro:hasPermission>
@@ -122,11 +122,11 @@ function member_show(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
 /*用户-完成*/
-function confirm_finish(obj,id,context){
+function confirm_finish(obj,id,context,type){
 	layer.confirm('确认要完成吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{id:id,status:'已完成',contex:context},
+			data:{id:id,status:'已完成',contex:context,type:type},
 			url: '<%=basePath%>a/reRepairOrder/acceptAndFinish.do',
 			dataType: 'json',
 			success: function(data){
@@ -172,7 +172,7 @@ function member_edit(title,url,id,w,h){
 function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);	
 }
-/*用户-删除*/
+ /*用户-删除*/
 function member_del(obj,id,applyerDelFlag,receiverDelFlag){
 
 	layer.confirm('确认要删除吗？',function(index){
@@ -190,7 +190,9 @@ function member_del(obj,id,applyerDelFlag,receiverDelFlag){
 			},
 		});		
 	});
-}
+} 
+
+
 </script> 
 </body>
 </html>
