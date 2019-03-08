@@ -14,6 +14,7 @@
     <result column="unitPrice" property="unit_price" jdbcType="DOUBLE" />
     <result column="model" property="model" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
+     <result column="repairStatus" property="repairStatus" jdbcType="VARCHAR" />
     <result column="specifications" property="specifications" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="INTEGER" />
      <association property="createBy"
@@ -44,7 +45,7 @@
  
   <sql id="Base_Column_List" >
     id, create_by, create_date, update_by, update_date, del_flag, remark, amount, source,name,num,use_way,unit_price,model,status,specifications,
-    warehouse_id
+    warehouse_id,repair_status
   </sql>
   
   
@@ -75,6 +76,13 @@
     from ast_fixed_capital
     where id = #{id,jdbcType=VARCHAR}
   </select>
+    <!-- 获取一个信息 -->
+  <select id="getByName" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from ast_fixed_capital
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
   <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from nt_notice
     where id = #{id,jdbcType=VARCHAR}
@@ -103,6 +111,13 @@
 		
 		WHERE id = #{id}
  </update>
+  <!--  更新维修状态 -->
+ <update id="updateRepairStatus">
+		UPDATE ast_fixed_capital SET 
+			repair_status = #{repairStatus}
+		
+		WHERE id = #{id}
+ </update>
  <!--  更新仓库 -->
  <update id="updateWarehouse">
 		UPDATE ast_fixed_capital SET 
@@ -117,12 +132,12 @@
   
     insert into ast_fixed_capital (id, create_by, create_date, 
       update_by, update_date, del_flag, 
-      remark, amount, source,name,num,use_way,unit_price,model,status,specifications,warehouse_id)
+      remark, amount, source,name,num,use_way,unit_price,model,status,specifications,warehouse_id,repair_status)
     values (#{id,jdbcType=VARCHAR}, #{createBy.id,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
       #{updateBy.id,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE}, #{delFlag,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{source,jdbcType=VARCHAR},
       <!-- #{pusher,jdbcType=VARCHAR}, --> #{name,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{useWay,jdbcType=VARCHAR},#{unitPrice,jdbcType=DOUBLE} ,#{model,jdbcType=VARCHAR},
-       #{status,jdbcType=VARCHAR} ,#{specifications,jdbcType=VARCHAR},#{whWarehouse.id,jdbcType=VARCHAR})
+       #{status,jdbcType=VARCHAR} ,#{specifications,jdbcType=VARCHAR},#{whWarehouse.id,jdbcType=VARCHAR},#{repairStatus,jdbcType=VARCHAR})
   </insert>
   <!-- 统计金额 -->
   <select id="statistics"  resultType="java.lang.Integer">

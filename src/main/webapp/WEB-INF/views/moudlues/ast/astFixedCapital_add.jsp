@@ -37,6 +37,7 @@
 	    <input type="hidden" value="${sysUser.id}" name="createBy.id" id="createBy.id" >
 	     <input type="hidden" value="${nowDate}" name="createDate" id="createDate">
 	   <input type="hidden" value="正常" name="status" id="status">
+	    <input type="hidden" value="正常" name="repairStatus" id="repairStatus">
 	   <input type="hidden" value="现有" name="source" id="source">
 	    
         <div class="row cl">

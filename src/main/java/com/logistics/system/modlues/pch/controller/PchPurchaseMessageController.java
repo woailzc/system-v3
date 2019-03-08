@@ -149,7 +149,7 @@ public class PchPurchaseMessageController {
 		@RequestMapping("/comfirm.do")
 		@ResponseBody
 		public Object comfirm(Model model, PchPurchaseMessage pchPurchaseMessage){
-			   pchPurchaseMessageService.comfirm(pchPurchaseMessage);//这只是改变状态
+			   pchPurchaseMessageService.comfirm(pchPurchaseMessage);
 			   HashMap<String, Object> data = new HashMap<>();
 			   data.put("data", "完成");
 				return data;

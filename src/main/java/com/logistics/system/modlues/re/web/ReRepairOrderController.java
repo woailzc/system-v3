@@ -51,6 +51,11 @@ public class ReRepairOrderController {
 	public String save(Model model,ReRepairOrder reRepairOrder,String type){
 		
 		if (reRepairOrder !=null && reRepairOrder.getDelFlag().equals("0")) {
+			if(type.equals("1")){
+				AstFixedCapital astFixedCapital = astFixedCapitalService.getByName(reRepairOrder.getContex());
+				astFixedCapital.setRepairStatus("维修中");
+				astFixedCapitalService.updateRepairStatus(astFixedCapital);
+			}
 			reRepairOrderService.save(reRepairOrder);
 			String msg = "添加成功!";
 			model.addAttribute("msg", msg);
@@ -122,7 +127,7 @@ public class ReRepairOrderController {
 		return "moudlues/re/reRepairOrder_show";
 		
 	}
-//接受
+//接受和完成
 	@RequestMapping("/acceptAndFinish.do")
 	@ResponseBody
 	public Object accept(Model model,ReRepairOrder reRepairOrder){

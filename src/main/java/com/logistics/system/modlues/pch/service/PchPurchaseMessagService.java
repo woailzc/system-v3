@@ -61,6 +61,7 @@ public class PchPurchaseMessagService extends CrudService<PchPurchaseMessageDao,
 		astFixedCapital.setModel(pchPurchaseMessage2.getModel());
 		astFixedCapital.setSpecifications(pchPurchaseMessage2.getSpecifications());
 		astFixedCapital.setStatus("正常");
+		astFixedCapital.setRepairStatus("正常");
 		astFixedCapital.setCreateBy(pchPurchaseMessage2.getCreateBy());//采购人
 		astFixedCapital.setUnitPrice(pchPurchaseMessage2.getUnitPrice());
 		astFixedCapitalDao.insert(astFixedCapital);

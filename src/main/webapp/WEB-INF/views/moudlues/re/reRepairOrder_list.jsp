@@ -77,7 +77,10 @@
 					 <shiro:hasPermission name="re:reRepairOrder:accept"><a style="text-decoration:none" onClick="accept(this,'${reRepairOrder.id}')" href="javascript:;" title="接受">接受</a></shiro:hasPermission>
 					</c:if>
 					<c:if test="${reRepairOrder.status=='已接受'}">
-					 <shiro:hasPermission name="re:reRepairOrder:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id}')" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
+					 <shiro:hasPermission name="re:reRepairOrder:confirm"> <a style="text-decoration:none" onClick="confirm_finish(this,'${reRepairOrder.id},'${reRepairOrder.contex}'')" href="javascript:;" title="确认完成">确认完成</a></shiro:hasPermission>
+					</c:if>
+					<c:if test="${reRepairOrder.status=='已完成'&& reRepairOrder.applyer.id == currentUser.id}">
+					 <shiro:hasPermission name="re:reRepairOrder:evaluate"> <a style="text-decoration:none" onClick="evaluate(this,'${reRepairOrder.id}')" href="javascript:;" title="评价">评价</a></shiro:hasPermission>
 					</c:if>
 
 			
@@ -119,11 +122,11 @@ function member_show(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
 /*用户-完成*/
-function confirm_finish(obj,id){
+function confirm_finish(obj,id,context){
 	layer.confirm('确认要完成吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			data:{id:id,status:'已完成'},
+			data:{id:id,status:'已完成',contex:context},
 			url: '<%=basePath%>a/reRepairOrder/acceptAndFinish.do',
 			dataType: 'json',
 			success: function(data){

@@ -25,6 +25,8 @@ public class AstFixedCapital extends DataEntity<AstFixedCapital>{
 	
 	private WhWarehouse whWarehouse;//所属的仓库
 	
+	private String repairStatus;//维修状态
+	
 	public AstFixedCapital(){};
 	
 	public AstFixedCapital(String id){
@@ -110,6 +112,14 @@ public class AstFixedCapital extends DataEntity<AstFixedCapital>{
 
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	public String getRepairStatus() {
+		return repairStatus;
+	}
+
+	public void setRepairStatus(String repairStatus) {
+		this.repairStatus = repairStatus;
 	}
 
 }

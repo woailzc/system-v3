@@ -71,7 +71,7 @@
 				<td>${astFixedCapital.useWay}</td>
 				<td>${astFixedCapital.source}</td>
 				<td>${astFixedCapital.status}</td>
-				<td>${astFixedCapital.status}</td>
+				<td>${astFixedCapital.repairStatus}</td>
 				<%-- <td><fmt:formatDate value="${astFixedCapital.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${astFixedCapital.createBy.name}</td> --%>
 				<td class="td-manage">

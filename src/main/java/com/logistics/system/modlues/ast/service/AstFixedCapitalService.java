@@ -31,6 +31,15 @@ public class AstFixedCapitalService extends CrudService<AstFixedCapitalDao, AstF
 		
 	}
 	
+	public AstFixedCapital getByName(String name){
+		
+		return astFixedCapitalDao.getByName(name);
+		
+	}
+	
+	public void updateRepairStatus(AstFixedCapital astFixedCapital){
+		astFixedCapitalDao.updateRepairStatus(astFixedCapital);
+	}
 	
 
 }

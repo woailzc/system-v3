@@ -19,4 +19,9 @@ public interface AstFixedCapitalDao extends CrudDao<AstFixedCapital> {
 
 	public void updateWarehouse(AstFixedCapital astFixedCapital);
 
+	public AstFixedCapital getByName(String name);
+	
+	public void updateRepairStatus(AstFixedCapital astFixedCapital);
+	
+
 }
