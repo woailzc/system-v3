@@ -44,7 +44,7 @@
 		<thead>
 			<tr class="text-c">
 			    <th width="25"><input type="checkbox" name="" value=""></th>
-				<th width="100">标题</th>
+				<th width="100">名称</th>
 				<!-- <th width="100">创建时间</th>
 				<th width="40">创建人</th -->
 				<th width="70">状态</th>
@@ -96,7 +96,7 @@ $(function(){
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,5,5]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[0,2,2]}// 制定列不参与排序
 		]
 	});
 	

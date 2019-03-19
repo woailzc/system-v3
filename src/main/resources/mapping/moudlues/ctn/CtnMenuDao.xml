@@ -113,7 +113,7 @@
       name = #{name,jdbcType=VARCHAR},
       text = #{describe,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
-      photo = #{photo,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
